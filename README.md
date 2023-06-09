@@ -9,6 +9,7 @@ This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 Run your app in the development mode.
 
 ```
+npm i next@13.3.4 && npm install
 blitz dev
 ```
 
