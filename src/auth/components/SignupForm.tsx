@@ -11,7 +11,7 @@ type SignupFormProps = {
 export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
   return (
-    <div>
+    <div className="flex flex-col flex-center justify-center items-center">
       <h1>Create an Account</h1>
 
       <Form
