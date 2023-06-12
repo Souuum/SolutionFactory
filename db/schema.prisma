@@ -19,6 +19,10 @@ model User {
   phone          String      @unique
   hashedPassword String
   role           String      @default("USER")
+  name           String
+  firstName      String
+  gender         String
+  birthDate      DateTime
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
   subusers       SubUser[]
@@ -32,10 +36,6 @@ model SubUser {
   id         Int          @id @default(autoincrement())
   user       User         @relation(fields: [userId], references: [id])
   userId     Int
-  name       String
-  firstName  String
-  gender     String
-  birthDate  DateTime
   createdAt  DateTime     @default(now())
   updatedAt  DateTime     @updatedAt
   ordonnance Ordonnance[]
