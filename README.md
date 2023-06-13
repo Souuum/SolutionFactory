@@ -96,7 +96,7 @@ SolutionFactory
 │   │   │   ├── forgot-password.tsx
 │   │   │   ├── login.tsx
 │   │   │   ├── reset-password.tsx
-│   │   │   └── signup.tsx
+│   │   │   └── [role].tsx
 │   │   └── validations.ts
 │   ├── core/
 │   │   ├── components/
