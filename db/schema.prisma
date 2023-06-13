@@ -19,7 +19,7 @@ model User {
   phone          String      @unique
   hashedPassword String
   role           String      @default("USER")
-  name           String
+  lastname       String
   firstName      String
   gender         String
   birthDate      DateTime

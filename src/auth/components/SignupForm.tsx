@@ -4,21 +4,29 @@ import signup from "src/auth/mutations/signup"
 import { Signup } from "src/auth/schemas"
 import { useMutation } from "@blitzjs/rpc"
 import Page404 from "../../pages/404"
+import React from "react"
 
 type SignupFormProps = {
   onSuccess?: () => void
   role: string | string[] | undefined
 }
 
-export const Patient = (props: SignupFormProps) => {
+export const User = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
+  React.useEffect(() => {
+    console.log(signupMutation)
+  }, [signupMutation])
   return (
     <Form
       submitText="Create Account"
       schema={Signup}
       initialValues={{ email: "", password: "" }}
       onSubmit={async (values) => {
+        console.log("baznnr")
+        values.role = "PATIENT"
+        values.gender = "HOMME"
         try {
+          console.log(values)
           await signupMutation(values)
           props.onSuccess?.()
         } catch (error: any) {
@@ -33,15 +41,16 @@ export const Patient = (props: SignupFormProps) => {
     >
       <LabeledTextField name="firstname" label="Firstname" placeholder="Firstname" />
       <LabeledTextField name="lastname" label="Lastname" placeholder="Lastname" />
-      <LabeledTextField name="birthdate" label="Birthdate" type="date" />
+      <LabeledTextField name="birthDate" label="Birthdate" type="date" />
       <LabeledTextField name="email" label="Email" placeholder="Email" />
       <LabeledTextField
         name="phone"
         label="Phone number"
-        placeholder="0X-XX-XX-XX-XX"
+        placeholder="0XXXXXXXXX"
         type="tel"
-        pattern="[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}-[0-9]{2}"
+        pattern="[0-9]{10}"
       />
+      <LabeledTextField name="securityNumber" label="Social Security Number" placeholder="XXX" />
       <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
     </Form>
   )
@@ -115,31 +124,13 @@ export const Pharmacien = (props: SignupFormProps) => {
 }
 
 export const SignupForm = (props: SignupFormProps) => {
-  const [signupMutation] = useMutation(signup)
-
-  if (props.role == "pharmacien") {
-    return (
-      <>
-        <Patient role="patient" />
-        <Pharmacien role="pharmacien" />
-      </>
-    )
-  } else if (props.role == "medecin") {
-    return (
-      <>
-        <Patient role="patient" />
-        <Medecin role="medecin" />
-      </>
-    )
-  } else if (props.role == "patient") {
-    return (
-      <>
-        <Patient role="patient" />
-      </>
-    )
-  } else {
-    return <Page404 />
-  }
+  return (
+    <div>
+      <User role="patient" />
+      {props.role == "pharmacien" ? <Pharmacien role="pharmacien" /> : null}
+      {props.role == "medecin" ? <Medecin role="medecin" /> : null}
+    </div>
+  )
 }
 
 export default SignupForm
