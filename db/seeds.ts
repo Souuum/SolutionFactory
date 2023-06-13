@@ -13,7 +13,7 @@ const seed = async () => {
   //   await db.project.create({ data: { name: "Project " + i } })
   // }
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 100; i++) {
     // patients creation
     const gender = faker.person.sexType()
     const firstName = faker.person.firstName(gender)
@@ -49,12 +49,17 @@ const seed = async () => {
     })
     //Ajout de patient secondaire tous les 3 ajouts
     if (i % 3 == 0) {
-      const birthDate = faker.date.birthdate()
-      if (birthDate.getFullYear() < 2005) {
+      let securityNumber2
+      const birthDate2 = faker.date.birthdate()
+      if (birthDate2.getFullYear() < 2005) {
         //Si le nouveau patient est majeur, on créer un nouveau securityNumber
-        const securityNumber = faker.string.numeric({ length: 13 })
+        securityNumber2 = faker.string.numeric({ length: 13 })
+
+        console.log("membre créé pour le security number : " + securityNumber2)
       } else {
-        securityNumber = usr.securityNumber
+        securityNumber2 = usr.securityNumber
+
+        console.log("enfant créé pour le security number : " + securityNumber2)
       }
 
       const gender = faker.person.sexType()
@@ -67,7 +72,7 @@ const seed = async () => {
           firstName: firstName,
           name: lastName,
           userId: usr.id,
-          securityNumber: securityNumber,
+          securityNumber: securityNumber2,
         },
       })
     }
