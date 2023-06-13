@@ -19,7 +19,7 @@ model User {
   phone          String      @unique
   hashedPassword String
   role           String      @default("USER")
-  lastname       String
+  lastName       String
   firstName      String
   gender         String
   birthDate      DateTime
@@ -37,7 +37,7 @@ model Patient {
   user           User         @relation(fields: [userId], references: [id])
   securityNumber String
   userId         Int
-  name           String
+  lastName       String
   firstName      String
   gender         String
   createdAt      DateTime     @default(now())

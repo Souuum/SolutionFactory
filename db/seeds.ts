@@ -29,7 +29,7 @@ const seed = async () => {
       data: {
         gender: gender,
         firstName: firstName,
-        name: lastName,
+        lastName: lastName,
         email: email,
         securityNumber: securityNumber,
         hashedPassword: hashedPassword,
@@ -42,7 +42,7 @@ const seed = async () => {
       data: {
         gender: gender,
         firstName: firstName,
-        name: lastName,
+        lastName: lastName,
         userId: usr.id,
         securityNumber: usr.securityNumber,
       },
@@ -50,7 +50,7 @@ const seed = async () => {
     //Ajout de patient secondaire tous les 3 ajouts
     if (i % 3 == 0) {
       let securityNumber2
-      const birthDate2 = faker.date.birthdate()
+      const birthDate2 = faker.date.birthdate({ max: 30, mode: "age" })
       if (birthDate2.getFullYear() < 2005) {
         //Si le nouveau patient est majeur, on créer un nouveau securityNumber
         securityNumber2 = faker.string.numeric({ length: 13 })
@@ -70,7 +70,7 @@ const seed = async () => {
         data: {
           gender: gender,
           firstName: firstName,
-          name: lastName,
+          lastName: lastName,
           userId: usr.id,
           securityNumber: securityNumber2,
         },
