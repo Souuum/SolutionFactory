@@ -13,11 +13,11 @@ const SignupPage: BlitzPage = () => {
   useEffect(() => {
     setRole(roleParam)
   }, [roleParam])
+
   return (
     <Layout title="Sign Up">
-      <SignupForm onSuccess={() => router.push(Routes.Home())} role={role} />
+      <SignupForm role={role} />
     </Layout>
   )
 }
-
 export default SignupPage
