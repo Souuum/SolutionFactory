@@ -14,7 +14,6 @@ generator client {
 
 model User {
   id             Int         @id @default(autoincrement())
-  securityNumber String      @unique
   email          String      @unique
   phone          String      @unique
   hashedPassword String
@@ -33,21 +32,23 @@ model User {
 }
 
 model Patient {
-  id         Int          @id @default(autoincrement())
-  user       User         @relation(fields: [userId], references: [id])
-  userId     Int
-  name       String
-  firstName  String
-  gender     String
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  ordonnance Ordonnance[]
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  securityNumber String
+  userId         Int
+  name           String
+  firstName      String
+  gender         String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  ordonnance     Ordonnance[]
 }
 
 model Medecin {
   id          Int          @id @default(autoincrement())
   user        User         @relation(fields: [userId], references: [id])
   userId      Int          @unique
+  rpps        String       @unique
   cabinet     String
   specialty   String
   createdAt   DateTime     @default(now())
@@ -59,6 +60,7 @@ model Pharmacien {
   id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id])
   userId    Int      @unique
+  rpps      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
