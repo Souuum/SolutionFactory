@@ -44,10 +44,33 @@ const seed = async () => {
         firstName: firstName,
         name: lastName,
         userId: usr.id,
+        securityNumber: usr.securityNumber,
       },
     })
+    //Ajout de patient secondaire tous les 3 ajouts
+    if (i % 3 == 0) {
+      const birthDate = faker.date.birthdate()
+      if (birthDate.getFullYear() < 2005) {
+        //Si le nouveau patient est majeur, on créer un nouveau securityNumber
+        const securityNumber = faker.string.numeric({ length: 13 })
+      } else {
+        securityNumber = usr.securityNumber
+      }
 
-    console.log(patient)
+      const gender = faker.person.sexType()
+      const firstName = faker.person.firstName(gender)
+      const lastName = faker.person.lastName()
+
+      const patient2 = await db.patient.create({
+        data: {
+          gender: gender,
+          firstName: firstName,
+          name: lastName,
+          userId: usr.id,
+          securityNumber: securityNumber,
+        },
+      })
+    }
   }
 }
 
