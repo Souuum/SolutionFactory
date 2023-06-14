@@ -17,7 +17,7 @@ export const UserSignupForm = ({ onSelectChange }) => {
           onChange={handleChange}
           name="gender"
           id="gender"
-          className="block px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+          className="block px-3 py-2 border-b border-cyan-700 bg-sky-100 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
         >
           <option value="">Choisir une option</option>
           <option value="WOMAN">Femme</option>

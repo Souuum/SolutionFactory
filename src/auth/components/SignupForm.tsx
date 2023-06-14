@@ -27,8 +27,12 @@ export const SignupForm = (props: SignupFormProps) => {
   }
 
   return (
-    <div>
+    <div className="bg-sky-100 flex items-center justify-center">
+      <div className="w-1/2 p-4 mx-auto">
+        <h1 className="text-4xl text-center b"> Bienvenue </h1>
+      </div>
       <Form
+        className="w-1/2 p-4"
         submitText="Create Account"
         initialValues={{ email: "", password: "" }}
         onSubmit={async (values) => {
@@ -106,7 +110,7 @@ export const SignupForm = (props: SignupFormProps) => {
           }
         }}
       >
-        <h1>Create an Account</h1>
+        <h1 className="font-bold text-3xl my-3">Nouveau Compte</h1>
         <UserSignupForm onSelectChange={handleSelectChange} />
         {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
         {props.role == "medecin" ? <MedecinSignupForm /> : null}
