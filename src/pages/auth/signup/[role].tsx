@@ -16,7 +16,18 @@ const SignupPage: BlitzPage = () => {
 
   return (
     <Layout title="Sign Up">
-      <SignupForm role={role} />
+      <SignupForm
+        role={role}
+        onSuccess={() =>
+          roleParam === "pharmacist"
+            ? router.push(Routes.HomePharmacist())
+            : role === "medecin"
+            ? router.push(Routes.HomeMedecin())
+            : role === "patient"
+            ? router.push(Routes.HomePatient())
+            : null
+        }
+      />
     </Layout>
   )
 }
