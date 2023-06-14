@@ -1,7 +1,5 @@
-import { SecurePassword } from "@blitzjs/auth/secure-password"
 import { resolver } from "@blitzjs/rpc"
 import db from "db"
-import { Role } from "types"
 import * as z from "zod"
 
 const Patient = z.object({
