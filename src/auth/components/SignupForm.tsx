@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import UserSignupForm from "./SignupForm/User"
 import PharmacistSignupForm from "./SignupForm/Pharmacist"
 import MedecinSignupForm from "./SignupForm/Medecin"
@@ -19,6 +19,13 @@ export const SignupForm = (props: SignupFormProps) => {
   const [createPatientMutation] = useMutation(createPatient)
   const [createMedecinMutation] = useMutation(createMedecin)
   const [createPharmacistMutation] = useMutation(createPharmacist)
+
+  const [selectedValue, setSelectedValue] = useState("")
+
+  const handleSelectChange = (value) => {
+    setSelectedValue(value)
+  }
+
   return (
     <div>
       <Form
@@ -30,7 +37,7 @@ export const SignupForm = (props: SignupFormProps) => {
           } else {
             values.role = props.role?.toString().toUpperCase()
           }
-          values.gender = "MAN"
+          values.gender = selectedValue
           values.birthDate = new Date(values.birthDate)
           try {
             const user = await signupMutation(values)
@@ -100,7 +107,7 @@ export const SignupForm = (props: SignupFormProps) => {
         }}
       >
         <h1>Create an Account</h1>
-        <UserSignupForm />
+        <UserSignupForm onSelectChange={handleSelectChange} />
         {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
         {props.role == "medecin" ? <MedecinSignupForm /> : null}
       </Form>

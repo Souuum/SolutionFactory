@@ -1,11 +1,29 @@
 import { LabeledTextField } from "src/core/components/LabeledTextField"
-import React from "react"
+import React, { useState } from "react"
 
-export const UserSignupForm = (props) => {
+export const UserSignupForm = ({ onSelectChange }) => {
+  const handleChange = (e) => {
+    const selectedValue = e.target.value
+    onSelectChange(selectedValue)
+  }
+
   return (
     <div>
       <LabeledTextField name="firstName" label="Firstname" placeholder="Firstname" />
       <LabeledTextField name="lastName" label="Lastname" placeholder="Lastname" />
+      <label className="text-gray-700">
+        Genre
+        <select
+          onChange={handleChange}
+          name="gender"
+          id="gender"
+          className="block px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm w-52 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+        >
+          <option value="">Choisir une option</option>
+          <option value="WOMAN">Femme</option>
+          <option value="MAN">Homme</option>
+        </select>
+      </label>
       <LabeledTextField name="birthDate" label="Birthdate" type="date" />
       <LabeledTextField name="email" label="Email" placeholder="Email" />
       <LabeledTextField
