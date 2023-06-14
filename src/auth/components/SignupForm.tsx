@@ -29,7 +29,6 @@ export const SignupForm = (props: SignupFormProps) => {
             await signupMutation(values)
             if (props.role == "patient") {
               try {
-                console.log(signupMutation)
                 await createPatientMutation(values)
                 props.onSuccess?.()
               } catch (error: any) {
