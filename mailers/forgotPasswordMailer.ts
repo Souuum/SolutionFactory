@@ -16,8 +16,8 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: " ",
-      pass: " ", // naturally, replace both with your real credentials or an application-specific password
+      user: "numedic.efrei@gmail.com",
+      pass: "Efrei2023$", // naturally, replace both with your real credentials or an application-specific password
     },
   })
 
@@ -36,7 +36,7 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
 
   //schema de l'email
   const msg = {
-    from: "72secondes.noah@gmail.com",
+    from: "numedic.efrei@gmail.com",
     to,
     subject: "Vos instructions de changements de mot de passe",
     text: "message envoyé",
