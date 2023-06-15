@@ -7,7 +7,7 @@ import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 import styles from "src/styles/Home.module.css"
 import { OrdonnanceForm } from "src/medecin/components/ordonnanceForm"
-
+import { PrescriptionForm } from "src/medecin/components/prescriptionForm"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -30,7 +30,7 @@ const UserInfo = () => {
         </button>
         <div>
           Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
-          <OrdonnanceForm />
+          <PrescriptionForm />
           <br />
         </div>
       </>
