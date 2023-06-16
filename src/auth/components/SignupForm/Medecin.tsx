@@ -10,15 +10,11 @@ export const MedecinSignupForm = (props: MedecinSignupFormProps) => {
     <div>
       <LabeledTextField
         name="rpps"
-        label="Numero RPPS"
+        label="Numéro RPPS"
         placeholder="XXXXXXXXXXX"
         pattern="[0-9]{11}"
       />
-      <LabeledTextField
-        name="cabinet"
-        label="Doctor's Office"
-        placeholder="address, city, postal code"
-      />
+      <LabeledTextField name="cabinet" label="Cabinet" placeholder="Adresse, ville, code postal" />
       <LabeledTextField name="specialty" label="Spécialité" placeholder="Spécialité du médecin" />
     </div>
   )

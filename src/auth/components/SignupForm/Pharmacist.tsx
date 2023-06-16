@@ -9,7 +9,7 @@ export const PharmacistSignupForm = (props: PharmacistSignupFormProps) => {
   return (
     <LabeledTextField
       name="rpps"
-      label="Numero RPPS"
+      label="Numéro RPPS"
       placeholder="XXXXXXXXXXX"
       pattern="[0-9]{11}"
     />

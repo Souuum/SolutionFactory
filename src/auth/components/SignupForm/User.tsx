@@ -9,8 +9,8 @@ export const UserSignupForm = ({ onSelectChange }) => {
 
   return (
     <div>
-      <LabeledTextField name="firstName" label="Firstname" placeholder="Firstname" />
-      <LabeledTextField name="lastName" label="Lastname" placeholder="Lastname" />
+      <LabeledTextField name="firstName" label="Prénom" placeholder="Prénom" />
+      <LabeledTextField name="lastName" label="Nom" placeholder="Nom" />
       <label className="text-gray-700">
         Genre
         <select
@@ -24,22 +24,27 @@ export const UserSignupForm = ({ onSelectChange }) => {
           <option value="MAN">Homme</option>
         </select>
       </label>
-      <LabeledTextField name="birthDate" label="Birthdate" type="date" />
+      <LabeledTextField name="birthDate" label="Date de naissance" type="date" />
       <LabeledTextField name="email" label="Email" placeholder="Email" />
       <LabeledTextField
         name="phone"
-        label="Phone number"
+        label="Numéro de téléphone"
         placeholder="0XXXXXXXXX"
         type="tel"
         pattern="[0-9]{10}"
       />
       <LabeledTextField
         name="securityNumber"
-        label="Security number"
+        label="Numéro de Sécurité Sociale"
         placeholder="XXXXXXXXXXXXX"
         pattern="[0-9]{13}"
       />
-      <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
+      <LabeledTextField
+        name="password"
+        label="Mot de passe"
+        placeholder="Mot de passe"
+        type="password"
+      />
       <button type="submit" />
     </div>
   )
