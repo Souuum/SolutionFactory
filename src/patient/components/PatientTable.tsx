@@ -1,23 +1,23 @@
 import { ReactNode } from "react"
 // Update the Table component to accept the "prescriptions" prop
-export const PrescriptionTable = ({ prescriptions }) => {
+export const PatientTable = ({ patients }) => {
   return (
     <table className="min-w-full leading-normal">
       {/* Table header */}
       <thead>
         <tr>
-          <TableHead>Drug</TableHead>
-          <TableHead>Description</TableHead>
-          <TableHead>Edit</TableHead>
+          <TableHead>Nom</TableHead>
+          <TableHead>Prénom</TableHead>
+          <TableHead>Numéro de sécurité sociale</TableHead>
         </tr>
       </thead>
       {/* Table body */}
       <tbody>
-        {prescriptions.map((prescription, index) => (
+        {patients?.map((patient, index) => (
           <TableRow key={index}>
-            <TableCell>{prescription.drugId}</TableCell>
-            <TableCell>{prescription.description}</TableCell>
-            <TableCell>Edit</TableCell>
+            <TableCell>{patient.lastName}</TableCell>
+            <TableCell>{patient.firstName}</TableCell>
+            <TableCell>{patients.securityNumber}</TableCell>
           </TableRow>
         ))}
       </tbody>

@@ -5,6 +5,7 @@ import createPrescription from "src/medecin/mutations/createPrescription"
 //import { Table, TableRow, TableCell } from "src/core/components/Table"
 import LabeledTextField from "src/core/components/LabeledTextField"
 import { PrescriptionTable, TableCell, TableRow } from "./PrescriptionTable"
+import styles from "src/styles/Home.module.css"
 type PrescriptionFormProps = {
   role?: string | string[] | undefined
   onSuccess?: () => void
@@ -17,11 +18,9 @@ export const PrescriptionForm = (props: PrescriptionFormProps) => {
   const handleSuccess = async (values) => {
     console.log(values)
     let drugId = values.drugId
-    let patientId = values.patientId
     let description = values.description
 
     const prescription = {
-      patientId: patientId,
       drugId: drugId,
       description: description,
     }
@@ -31,19 +30,20 @@ export const PrescriptionForm = (props: PrescriptionFormProps) => {
   }
 
   return (
-    <div>
+    <div className="flex flex-row w-8/12 justify-evenly">
       <Form
         submitText="Add prescription"
-        initialValues={{ drugId: "", description: "", patientId: "" }}
+        initialValues={{ drugId: "", description: "" }}
         onSubmit={handleSuccess}
       >
-        <LabeledTextField name="patientId" label="Patient Id" placeholder="Patient Id" />
         <LabeledTextField name="drugId" label="Drug Id" placeholder="Drug Id" />
         <LabeledTextField name="description" label="Description" placeholder="Description" />
       </Form>
 
       {/* Display prescriptions in a table */}
-      <PrescriptionTable prescriptions={prescriptions} />
+      <div className="">
+        <PrescriptionTable prescriptions={prescriptions} />
+      </div>
     </div>
   )
 }

@@ -8,29 +8,40 @@ import { Routes, BlitzPage } from "@blitzjs/next"
 import styles from "src/styles/Home.module.css"
 import { OrdonnanceForm } from "src/medecin/components/ordonnanceForm"
 import { PrescriptionForm } from "src/medecin/components/prescriptionForm"
+import { PatientTable } from "src/patient/components/PatientTable"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
  */
 
-const UserInfo = () => {
+const StatusWrapper = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
 
   if (currentUser) {
     return (
       <>
-        <button
-          className={styles.button}
-          onClick={async () => {
-            await logoutMutation()
-          }}
-        >
-          Logout
-        </button>
-        <div>
-          Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
+        <div className="top-0 left-0 fixed">
+          <button
+            className={styles.button}
+            onClick={async () => {
+              await logoutMutation()
+            }}
+          >
+            Logout
+          </button>
+          <div>
+            Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
+          </div>
+        </div>
+        <div className="flex w-5/12 bottom-10">
+          <PatientTable />
+        </div>
+        <div className="flex">
           <PrescriptionForm />
+          <div className="">
+            <button className={styles.button}>Créer l'ordonnance</button>
+          </div>
           <br />
         </div>
       </>
@@ -52,11 +63,11 @@ const UserInfo = () => {
 const OrdonnancePage: BlitzPage = () => {
   return (
     <Layout title="Ordonnance">
-      <div className="flex flex-col justify-center items-center h-screen">
+      <div className="flex flex-col justify-center h-screen">
         <main>
           <div className="">
             <Suspense fallback="Loading...">
-              <UserInfo />
+              <StatusWrapper />
             </Suspense>
           </div>
         </main>
