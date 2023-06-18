@@ -40,13 +40,15 @@ export function Form<S extends z.ZodType<any, any>>({
           )}
 
           {submitText && (
-            <button
-              className="rounded p-2 bg-cyan-600 my-2 w-80"
-              type="submit"
-              disabled={submitting}
-            >
-              {submitText}
-            </button>
+            <div className="flex items-center justify-center">
+              <button
+                className="rounded p-2 text-center bg-cyan-600 my-2 w-80"
+                type="submit"
+                disabled={submitting}
+              >
+                {submitText}
+              </button>
+            </div>
           )}
 
           <style global jsx>{`
