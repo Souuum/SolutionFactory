@@ -32,12 +32,10 @@ export default function NavBar() {
 
   return (
     <>
-      <Navbar className="sticky inset-0 z-10 h-max  rounded-none py-2 px-4 lg:px-8 lg:py-4 bg-[#F4FEFF] border-b-0">
+      <Navbar className="sticky inset-0 z-10 h-max  rounded-none py-2 px-4 lg:px-8 lg:py-4 border-b-0">
         <div className="flex gap-x-10 items-center justify-between ">
-          <Typography as="a" href="#" className="mx-8 cursor-pointer py-1.5 font-medium text-2xl">
-            Material Tailwind
-          </Typography>
           <div className="flex items-center gap-4">
+            <img src="../../assets/numedic_logo_transparent.png" alt="logo-numedic" />
             <div className="mr-4 hidden lg:block">{navList}</div>
             <Link href={Routes.SignupPage()}>
               <Button
@@ -48,7 +46,6 @@ export default function NavBar() {
                 <span>Vous êtes médecin ou pharmacien ?</span>
               </Button>
             </Link>
-            2
             <Link href={Routes.LoginPage()}>
               <Button
                 variant="gradient"
