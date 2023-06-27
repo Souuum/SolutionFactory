@@ -10,6 +10,9 @@ import { Suspense } from "react"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentPatient } from "src/patient/hooks/useCurrentPatient"
 import { useEffect, useState } from "react"
+import TableDrugs from "src/drug/components/TableDrug"
+import { T } from "@blitzjs/auth/dist/index-cd820427"
+
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
@@ -17,10 +20,11 @@ const StatusWrapper = () => {
   const paramId = useParams("number")
 
   useEffect(() => {
+    console.log(paramId)
     setPatientId(paramId.id)
   }, [paramId])
 
-  const patient = useCurrentPatient(patientId)[0]
+  const patient = useCurrentPatient(patientId)
 
   if (currentUser) {
     return (
@@ -40,7 +44,7 @@ const StatusWrapper = () => {
         </div>
         <div className="flex max-w-80 justify-center ">
           <h1>Current Patient : {patient.lastName + " " + patient.firstName} </h1>
-          <PrescriptionForm />
+          <TableDrugs />
           <div className="">
             <button className={styles.button}>Créer l'ordonnance</button>
           </div>

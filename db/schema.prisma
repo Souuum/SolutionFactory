@@ -87,6 +87,8 @@ model Drug {
   euroAutorization String
   holder           String
   monitoring       Boolean
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
   prescriptions    Prescription[]
 }
 
