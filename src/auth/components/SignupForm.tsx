@@ -39,7 +39,7 @@ export const SignupForm = (props: SignupFormProps) => {
         </div>
         <Form
           className="w-1/2 p-4"
-          submitText="Create Account"
+          submitText="Créer un compte"
           initialValues={{ email: "", password: "" }}
           onSubmit={async (values) => {
             if (props.role?.toString().toUpperCase() == "PHARMACIEN") {
@@ -66,7 +66,7 @@ export const SignupForm = (props: SignupFormProps) => {
                 } catch (error: any) {
                   if (error.code === "P2002" && error.meta?.target?.includes("email")) {
                     // This error comes from Prisma
-                    return { email: "This email is already being used" }
+                    return { email: "L'adresse mail est déjà utilisé." }
                   } else {
                     return { [FORM_ERROR]: error.toString() }
                   }
@@ -84,7 +84,7 @@ export const SignupForm = (props: SignupFormProps) => {
                 } catch (error: any) {
                   if (error.code === "P2002" && error.meta?.target?.includes("email")) {
                     // This error comes from Prisma
-                    return { email: "This email is already being used" }
+                    return { email: "L'adresse mail est déjà utilisé." }
                   } else {
                     return { [FORM_ERROR]: error.toString() }
                   }
@@ -100,7 +100,7 @@ export const SignupForm = (props: SignupFormProps) => {
                 } catch (error: any) {
                   if (error.code === "P2002" && error.meta?.target?.includes("email")) {
                     // This error comes from Prisma
-                    return { email: "This email is already being used" }
+                    return { email: "L'adresse mail est déjà utilisé." }
                   } else {
                     return { [FORM_ERROR]: error.toString() }
                   }
@@ -109,7 +109,7 @@ export const SignupForm = (props: SignupFormProps) => {
             } catch (error: any) {
               if (error.code === "P2002" && error.meta?.target?.includes("email")) {
                 // This error comes from Prisma
-                return { email: "This email is already being used" }
+                return { email: "L'adresse mail est déjà utilisé." }
               } else {
                 return { [FORM_ERROR]: error.toString() }
               }

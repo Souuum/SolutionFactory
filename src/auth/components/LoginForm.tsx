@@ -26,7 +26,7 @@ export const LoginForm = (props: LoginFormProps) => {
         <div className="w-1/2 text-center p-4 mx-auto">
           <h1 className="text-5xl my-3.5">Connexion</h1>
           <Form
-            submitText="Login"
+            submitText="Connexion"
             schema={Login}
             initialValues={{ email: "", password: "" }}
             onSubmit={async (values) => {
@@ -35,7 +35,9 @@ export const LoginForm = (props: LoginFormProps) => {
                 props.onSuccess?.(user)
               } catch (error: any) {
                 if (error instanceof AuthenticationError) {
-                  return { [FORM_ERROR]: "Sorry, those credentials are invalid" }
+                  return {
+                    [FORM_ERROR]: "Votre identifiant et/ou votre mot de passe est incorrect.",
+                  }
                 } else {
                   return {
                     [FORM_ERROR]:
@@ -56,11 +58,11 @@ export const LoginForm = (props: LoginFormProps) => {
                 className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
                 name="password"
                 label="Password"
-                placeholder="Password"
+                placeholder="Mot de passe"
                 type="password"
               />
               <div>
-                <Link href={Routes.ForgotPasswordPage()}>Forgot your password?</Link>
+                <Link href={Routes.ForgotPasswordPage()}>Mot de passe oublié ?</Link>
               </div>
             </div>
           </Form>
@@ -68,7 +70,7 @@ export const LoginForm = (props: LoginFormProps) => {
         <div className="w-1/2 text-center">
           <h1 className="text-5xl my-3.5"> Pas encore inscrit ? </h1>
           <Link className="text-xl" href={Routes.SignupPage({ role: "patient" })}>
-            <button className="rounded p-2 bg-cyan-600 my-2 w-80">Sign Up</button>
+            <button className="rounded p-2 bg-cyan-600 my-2 w-80">Inscription</button>
           </Link>
         </div>
       </div>
