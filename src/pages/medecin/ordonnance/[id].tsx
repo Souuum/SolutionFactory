@@ -1,19 +1,13 @@
-import { Suspense } from "react"
+import { BlitzPage } from "@blitzjs/auth"
 import Link from "next/link"
-import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
-import { useMutation } from "@blitzjs/rpc"
-import { Routes, BlitzPage } from "@blitzjs/next"
-import styles from "src/styles/Home.module.css"
-import { OrdonnanceForm } from "src/medecin/components/ordonnanceForm"
 import { PrescriptionForm } from "src/medecin/components/prescriptionForm"
-import { PatientTable } from "src/patient/components/PatientTable"
-import TablePatient from "src/patient/components/TablePatient"
-/*
- * This file is just for a pleasant getting started page for your new app.
- * You can delete everything in here and start from scratch if you like.
- */
+import Layout from "src/core/layouts/Layout"
+import { Routes } from "@blitzjs/next"
+import styles from "src/styles/Home.module.css"
+import { Suspense } from "react"
+import { useMutation } from "@blitzjs/rpc"
 
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
@@ -36,7 +30,11 @@ const StatusWrapper = () => {
           </div>
         </div>
         <div className="flex max-w-80 justify-center ">
-          <TablePatient />
+          <PrescriptionForm />
+          <div className="">
+            <button className={styles.button}>Créer l'ordonnance</button>
+          </div>
+          <br />
         </div>
       </>
     )
@@ -54,7 +52,7 @@ const StatusWrapper = () => {
   }
 }
 
-const OrdonnancePage: BlitzPage = () => {
+const CreateOrdonnance: BlitzPage = () => {
   return (
     <Layout title="Ordonnance">
       <div className="flex flex-col justify-center h-screen max-w-80">
@@ -72,4 +70,4 @@ const OrdonnancePage: BlitzPage = () => {
   )
 }
 
-export default OrdonnancePage
+export default CreateOrdonnance

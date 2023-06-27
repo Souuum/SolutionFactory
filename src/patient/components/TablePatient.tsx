@@ -239,8 +239,8 @@ const TablePatient = () => {
               dropdown: [
                 {
                   type: "link",
-                  text: () => "Afficher",
-                  href: (item: any) => `/patient/${item.id}`,
+                  text: () => "Créer une ordonnance",
+                  href: (item: any) => `/medecin/ordonnance/${item.id}`,
                 },
               ],
             },
