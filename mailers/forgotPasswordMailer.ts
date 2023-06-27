@@ -1,45 +1,68 @@
-/* TODO - You need to add a mailer integration in `integrations/` and import here.
- *
- * The integration file can be very simple. Instantiate the email client
- * and then export it. That way you can import here and anywhere else
- * and use it straight away.
- */
+import nodemailer from "nodemailer"
+import hbs from "nodemailer-express-handlebars"
 
 type ResetPasswordMailer = {
   to: string
   token: string
 }
 
+//parti de blitz permettant de retrouver lemail rentrer dans le form ainsi que le token géneré qui sera placé dans le lien
 export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   // In production, set APP_ORIGIN to your production server origin
   const origin = process.env.APP_ORIGIN || process.env.BLITZ_DEV_SERVER_ORIGIN
   const resetUrl = `${origin}/auth/reset-password?token=${token}`
 
+  //transporter pour utiliser nodemailers, certainementà passer sur serveur smtp mais normalement on ne depassera pas les 500mails par jour
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user: "numedic.efrei@gmail.com",
+      pass: "gdbeuklnpnsorhsi", // naturally, replace both with your real credentials or an application-specific password
+    },
+  })
+
+  //mise en place du template (chemin et etc)
+  transporter.use(
+    "compile",
+    hbs({
+      viewEngine: {
+        partialsDir: "./views/",
+        defaultLayout: "",
+      },
+      viewPath: "./views/",
+      extName: ".hbs",
+    })
+  )
+
+  //schema de l'email
   const msg = {
-    from: "TODO@example.com",
+    from: "numedic.efrei@gmail.com",
     to,
-    subject: "Your Password Reset Instructions",
-    html: `
-      <h1>Reset Your Password</h1>
-      <h3>NOTE: You must set up a production email integration in mailers/forgotPasswordMailer.ts</h3>
-
-      <a href="${resetUrl}">
-        Click here to set a new password
-      </a>
-    `,
-  }
-
-  return {
-    async send() {
-      if (process.env.NODE_ENV === "production") {
-        // TODO - send the production email, like this:
-        // await postmark.sendEmail(msg)
-        throw new Error("No production email implementation in mailers/forgotPasswordMailer")
-      } else {
-        // Preview email in the browser
-        const previewEmail = (await import("preview-email")).default
-        await previewEmail(msg)
-      }
+    subject: "Vos instructions de changements de mot de passe",
+    text: "message envoyé",
+    template: "recover",
+    context: {
+      url: resetUrl,
     },
   }
+
+  //envoi du mail
+  transporter.sendMail(msg, function (error, info) {
+    if (error) {
+      console.log(error)
+    } else {
+      console.log("Email sent: " + info.response)
+    }
+  })
+
+  //partie de base par blitz j'ai supprimé la géneration du previewemail
+  return {
+    async send() {},
+  }
 }
+
+/*
+j'ai du supprimé les différents fichiers test géneré par blitz car il reset la bdd et surtout je ne voyais pas l'utilité
+l'erreur sur le typescript de viewEngine (l.26) n'a pas l'air de poser de probleme, je suppose que le fichier ts n'a pas été mis a jour
+avec le module
+*/

@@ -9,7 +9,18 @@ This is a [Blitz.js](https://github.com/blitz-js/blitz) app.
 Run your app in the development mode.
 
 ```
-npm i next@13.3.4 && npm install
+npm intsall blitz -g
+npm i next@13.3.4
+npm install
+```
+
+to populate the database :
+```
+blitz db seed
+```
+
+to run the project :
+```
 blitz dev
 ```
 
@@ -85,7 +96,7 @@ SolutionFactory
 │   │   │   ├── forgot-password.tsx
 │   │   │   ├── login.tsx
 │   │   │   ├── reset-password.tsx
-│   │   │   └── signup.tsx
+│   │   │   └── [role].tsx
 │   │   └── validations.ts
 │   ├── core/
 │   │   ├── components/

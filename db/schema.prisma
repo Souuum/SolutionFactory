@@ -14,37 +14,42 @@ generator client {
 
 model User {
   id             Int         @id @default(autoincrement())
-  securityNumber String      @unique
   email          String      @unique
+  securityNumber String      @unique
   phone          String      @unique
   hashedPassword String
   role           String      @default("USER")
+  lastName       String
+  firstName      String
+  gender         String
+  birthDate      DateTime
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
-  subusers       SubUser[]
+  patients       Patient[]
   tokens         Token[]
   sessions       Session[]
   medecin        Medecin?
   pharmacien     Pharmacien?
 }
 
-model SubUser {
-  id         Int          @id @default(autoincrement())
-  user       User         @relation(fields: [userId], references: [id])
-  userId     Int
-  name       String
-  firstName  String
-  gender     String
-  birthDate  DateTime
-  createdAt  DateTime     @default(now())
-  updatedAt  DateTime     @updatedAt
-  ordonnance Ordonnance[]
+model Patient {
+  id             Int          @id @default(autoincrement())
+  user           User         @relation(fields: [userId], references: [id])
+  securityNumber String
+  userId         Int
+  lastName       String
+  firstName      String
+  gender         String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  ordonnance     Ordonnance[]
 }
 
 model Medecin {
   id          Int          @id @default(autoincrement())
   user        User         @relation(fields: [userId], references: [id])
   userId      Int          @unique
+  rpps        String       @unique
   cabinet     String
   specialty   String
   createdAt   DateTime     @default(now())
@@ -56,13 +61,14 @@ model Pharmacien {
   id        Int      @id @default(autoincrement())
   user      User     @relation(fields: [userId], references: [id])
   userId    Int      @unique
+  rpps      String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Ordonnance {
   id            Int            @id @default(autoincrement())
-  patient       SubUser        @relation(fields: [patientId], references: [id])
+  patient       Patient        @relation(fields: [patientId], references: [id])
   patientId     Int
   medecin       Medecin        @relation(fields: [createdBy], references: [id])
   createdBy     Int
@@ -70,11 +76,18 @@ model Ordonnance {
 }
 
 model Drug {
-  id            Int            @id @default(autoincrement())
-  name          String
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  prescriptions Prescription[]
+  id               Int            @id
+  name             String
+  pharmaShape      String[]
+  ammStatus        String
+  ammProcType      String
+  commercial       String
+  ammDate          DateTime
+  bdmStatus        String
+  euroAutorization String
+  holder           String
+  monitoring       Boolean
+  prescriptions    Prescription[]
 }
 
 model Prescription {
