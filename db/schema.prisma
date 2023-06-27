@@ -76,11 +76,18 @@ model Ordonnance {
 }
 
 model Drug {
-  id            Int            @id @default(autoincrement())
-  name          String
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  prescriptions Prescription[]
+  id               Int            @id
+  name             String
+  pharmaShape      String[]
+  ammStatus        String
+  ammProcType      String
+  commercial       String
+  ammDate          DateTime
+  bdmStatus        String
+  euroAutorization String
+  holder           String
+  monitoring       Boolean
+  prescriptions    Prescription[]
 }
 
 model Prescription {
