@@ -3,6 +3,7 @@ import { Form as FinalForm, FormProps as FinalFormProps } from "react-final-form
 import { z } from "zod"
 import { validateZodSchema } from "blitz"
 export { FORM_ERROR } from "final-form"
+import styles from "src/styles/Home.module.css"
 
 export interface FormProps<S extends z.ZodType<any, any>>
   extends Omit<PropsWithoutRef<JSX.IntrinsicElements["form"]>, "onSubmit"> {
@@ -40,9 +41,15 @@ export function Form<S extends z.ZodType<any, any>>({
           )}
 
           {submitText && (
-            <button type="submit" disabled={submitting}>
-              {submitText}
-            </button>
+            <div className="flex items-center justify-center">
+              <button
+                className="rounded p-2 text-center bg-cyan-600 my-2 w-80"
+                type="submit"
+                disabled={submitting}
+              >
+                {submitText}
+              </button>
+            </div>
           )}
 
           <style global jsx>{`

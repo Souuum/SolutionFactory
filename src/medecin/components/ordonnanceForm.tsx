@@ -3,6 +3,8 @@ import { useMutation } from "@blitzjs/rpc"
 import createOrdonnance from "src/medecin/mutations/createOrdonnance"
 import createPrescription from "src/medecin/mutations/createPrescription"
 
+import PrescriptionForm from "src/medecin/components/prescriptionForm"
+
 type OrdonnanceFormProps = {
   role?: string | string[] | undefined
   onSuccess?: () => void

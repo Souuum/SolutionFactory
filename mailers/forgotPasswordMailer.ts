@@ -10,14 +10,14 @@ type ResetPasswordMailer = {
 export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
   // In production, set APP_ORIGIN to your production server origin
   const origin = process.env.APP_ORIGIN || process.env.BLITZ_DEV_SERVER_ORIGIN
-  const resetUrl = `${origin}/reset-password?token=${token}`
+  const resetUrl = `${origin}/auth/reset-password?token=${token}`
 
   //transporter pour utiliser nodemailers, certainementà passer sur serveur smtp mais normalement on ne depassera pas les 500mails par jour
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: " ",
-      pass: " ", // naturally, replace both with your real credentials or an application-specific password
+      user: "numedic.efrei@gmail.com",
+      pass: "gdbeuklnpnsorhsi", // naturally, replace both with your real credentials or an application-specific password
     },
   })
 
@@ -36,7 +36,7 @@ export function forgotPasswordMailer({ to, token }: ResetPasswordMailer) {
 
   //schema de l'email
   const msg = {
-    from: "72secondes.noah@gmail.com",
+    from: "numedic.efrei@gmail.com",
     to,
     subject: "Vos instructions de changements de mot de passe",
     text: "message envoyé",

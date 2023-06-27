@@ -1,7 +1,6 @@
 import { resolver } from "@blitzjs/rpc"
 import db from "db"
 import * as z from "zod"
-import createOrdonnance from "./createOrdonnance"
 
 const Prescription = z.object({
   ordonnanceId: z.number(),
