@@ -9,6 +9,7 @@ import styles from "src/styles/Home.module.css"
 import { OrdonnanceForm } from "src/medecin/components/ordonnanceForm"
 import { PrescriptionForm } from "src/medecin/components/prescriptionForm"
 import { PatientTable } from "src/patient/components/PatientTable"
+import TablePatient from "src/patient/components/TablePatient"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -34,16 +35,16 @@ const StatusWrapper = () => {
             Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
           </div>
         </div>
-        <div className="flex w-5/12 bottom-10">
-          <PatientTable />
+        <div className="flex max-w-80">
+          <TablePatient />
         </div>
-        <div className="flex">
+        {/* <div className="flex">
           <PrescriptionForm />
           <div className="">
             <button className={styles.button}>Créer l'ordonnance</button>
           </div>
           <br />
-        </div>
+        </div> */}
       </>
     )
   } else {
@@ -63,7 +64,7 @@ const StatusWrapper = () => {
 const OrdonnancePage: BlitzPage = () => {
   return (
     <Layout title="Ordonnance">
-      <div className="flex flex-col justify-center h-screen">
+      <div className="flex flex-col justify-center h-screen max-w-80">
         <main>
           <div className="">
             <Suspense fallback="Loading...">

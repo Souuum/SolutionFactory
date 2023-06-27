@@ -192,7 +192,7 @@ const Table = ({
   }
   return (
     <div className="mx-4 w-full flex">
-      <div className="py-8 flex flex-column w-full">
+      <div className=" flex flex-col w-full">
         <div className="flex flex-row mb-1 sm:mb-0 justify-between w-full">
           <h2 className="text-2xl leading-tight">{titre}</h2>
           <div className="text-end">
@@ -308,13 +308,13 @@ const Table = ({
           </div>
         ) : (
           <>
-            <div className={`flex flex-row w-full justify-content-between items-end`}>
+            <div className={`flex flex-row w-full justify-between items-end`}>
               {multiOptions && <ActionsDropdown {...multiOptions} />}
               <span></span>
               <TablePagination {...paginationTop} />
             </div>
-            <div className="flex flex-col -mx-4 sm:-mx-5 px-4 sm:px-8 py-12">
-              <div className="inline-block min-w-full rounded-lg min-h-10em">
+            <div className="flex flex-col ">
+              <div className=" min-w-full rounded-lg min-h-10em">
                 <table className="min-w-full leading-normal">
                   <thead>
                     <tr className={tableTheadTrClasses}>
