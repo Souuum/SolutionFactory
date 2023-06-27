@@ -1,4 +1,4 @@
-import { BlitzPage } from "@blitzjs/auth"
+import { BlitzPage, useParams } from "@blitzjs/next"
 import Link from "next/link"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
@@ -8,10 +8,19 @@ import { Routes } from "@blitzjs/next"
 import styles from "src/styles/Home.module.css"
 import { Suspense } from "react"
 import { useMutation } from "@blitzjs/rpc"
-
+import { useCurrentPatient } from "src/patient/hooks/useCurrentPatient"
+import { useEffect, useState } from "react"
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
+  const [patientId, setPatientId] = useState(1)
+  const paramId = useParams("number")
+
+  useEffect(() => {
+    setPatientId(paramId.id)
+  }, [paramId])
+
+  const patient = useCurrentPatient(patientId)[0]
 
   if (currentUser) {
     return (
@@ -30,6 +39,7 @@ const StatusWrapper = () => {
           </div>
         </div>
         <div className="flex max-w-80 justify-center ">
+          <h1>Current Patient : {patient.lastName + " " + patient.firstName} </h1>
           <PrescriptionForm />
           <div className="">
             <button className={styles.button}>Créer l'ordonnance</button>
