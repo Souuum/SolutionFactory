@@ -57,7 +57,7 @@ export const LoginForm = (props: LoginFormProps) => {
               <LabeledTextField
                 className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
                 name="password"
-                label="Password"
+                label="Mot de passe"
                 placeholder="Mot de passe"
                 type="password"
               />
