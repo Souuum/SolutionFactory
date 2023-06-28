@@ -2,7 +2,7 @@ import { useRouter } from "next/router"
 import Layout from "src/core/layouts/Layout"
 import { SignupForm } from "src/auth/components/SignupForm"
 import { BlitzPage, Routes, useParam } from "@blitzjs/next"
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, Suspense } from "react"
 
 const SignupPage: BlitzPage = () => {
   const router = useRouter()
@@ -16,18 +16,20 @@ const SignupPage: BlitzPage = () => {
 
   return (
     <Layout title="Sign Up">
-      <SignupForm
-        role={role}
-        onSuccess={() =>
-          roleParam == "pharmacist"
-            ? router.push(Routes.HomePharmacist())
-            : role == "medecin"
-            ? router.push(Routes.HomeMedecin())
-            : role == "patient"
-            ? router.push(Routes.HomePatient())
-            : null
-        }
-      />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SignupForm
+          role={role}
+          onSuccess={() =>
+            roleParam == "pharmacist"
+              ? router.push(Routes.HomePharmacist())
+              : role == "medecin"
+              ? router.push(Routes.HomeMedecin())
+              : role == "patient"
+              ? router.push(Routes.HomePatient())
+              : null
+          }
+        />
+      </Suspense>
     </Layout>
   )
 }
