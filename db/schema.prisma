@@ -25,7 +25,7 @@ model User {
   birthDate      DateTime
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
-  patients       Patient[]
+  patients       Patient?
   tokens         Token[]
   sessions       Session[]
   medecin        Medecin?
@@ -35,14 +35,24 @@ model User {
 model Patient {
   id             Int          @id @default(autoincrement())
   user           User         @relation(fields: [userId], references: [id])
+  userId         Int          @unique
+  groupe         Groupe       @relation(fields: [groupeId], references: [id])
+  groupeId       Int          @unique
   securityNumber String
-  userId         Int
   lastName       String
   firstName      String
   gender         String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   ordonnance     Ordonnance[]
+}
+
+model Groupe {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  patients  Patient[]
 }
 
 model Medecin {
