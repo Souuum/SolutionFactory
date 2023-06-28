@@ -10,33 +10,6 @@ const Patient = z.object({
     .min(13)
     .max(13)
     .transform((str) => str.trim()),
-  lastName: z
-    .string()
-    .min(2)
-    .max(100)
-    .transform((str) => str.trim()),
-  firstName: z
-    .string()
-    .min(2)
-    .max(100)
-    .transform((str) => str.trim()),
-  birthDate: z.date(),
-  email: z
-    .string()
-    .email()
-    .transform((str) => str.toLowerCase().trim()),
-  gender: z.enum(["MAN", "WOMAN"]),
-  phone: z
-    .string()
-    .min(10)
-    .max(10)
-    .transform((str) => str.trim()),
-  password: z
-    .string()
-    .min(10)
-    .max(100)
-    .transform((str) => str.trim()),
-  role: z.enum(["SUPERUSER", "USER"]),
   userId: z.number(),
   groupeId: z.number(),
 })
