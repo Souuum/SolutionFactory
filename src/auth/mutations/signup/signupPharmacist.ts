@@ -10,61 +10,21 @@ const Pharmacist = z.object({
     .min(11)
     .max(11)
     .transform((str) => str.trim()),
-  lastName: z
-    .string()
-    .min(2)
-    .max(100)
-    .transform((str) => str.trim()),
-  firstName: z
-    .string()
-    .min(2)
-    .max(100)
-    .transform((str) => str.trim()),
-  birthDate: z.date(),
-  email: z
-    .string()
-    .email()
-    .transform((str) => str.toLowerCase().trim()),
-  gender: z.enum(["MAN", "WOMAN"]),
-  phone: z
-    .string()
-    .min(10)
-    .max(10)
-    .transform((str) => str.trim()),
-  password: z
-    .string()
-    .min(10)
-    .max(100)
-    .transform((str) => str.trim()),
+  userId: z.number(),
 })
-export default resolver.pipe(
-  resolver.zod(Pharmacist),
-  async ({ email, phone, password, lastName, firstName, birthDate, gender, rpps }, ctx) => {
-    const hashedPassword = await SecurePassword.hash(password.trim())
-    const pharmacien = await db.pharmacien.create({
-      data: {
-        rpps,
-        lastName,
-        firstName,
-        birthDate,
-        email,
-        gender,
-        phone,
-        hashedPassword,
-      },
-      select: {
-        id: true,
-        rpps: true,
-        lastName: true,
-        firstName: true,
-        birthDate: true,
-        email: true,
-        gender: true,
-        phone: true,
-        hashedPassword: false,
-      },
-    })
-    await ctx.session.$create({ userId: pharmacien.id, role: "PHARMACIST" as Role })
-    return pharmacien
-  }
-)
+export default resolver.pipe(resolver.zod(Pharmacist), async ({ userId, rpps }, ctx) => {
+  const hashedPassword = await SecurePassword.hash(password.trim())
+  const pharmacien = await db.pharmacien.create({
+    data: {
+      rpps,
+      userId,
+    },
+    select: {
+      id: true,
+      rpps: true,
+      userId: true,
+    },
+  })
+  await ctx.session.$create({ userId: pharmacien.id, role: "PHARMACIST" as Role })
+  return pharmacien
+})

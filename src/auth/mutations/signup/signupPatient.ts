@@ -38,50 +38,23 @@ const Patient = z.object({
     .transform((str) => str.trim()),
   role: z.enum(["SUPERUSER", "USER"]),
   userId: z.number(),
+  groupeId: z.number(),
 })
 
 export default resolver.pipe(
   resolver.zod(Patient),
-  async (
-    {
-      userId,
-      email,
-      phone,
-      password,
-      lastName,
-      firstName,
-      birthDate,
-      gender,
-      securityNumber,
-      role,
-    },
-    ctx
-  ) => {
-    const hashedPassword = await SecurePassword.hash(password.trim())
+  async ({ userId, securityNumber, groupeId }, ctx) => {
     const patient = await db.patient.create({
       data: {
-        lastName,
-        firstName,
-        birthDate,
-        email,
         securityNumber,
-        role,
-        gender,
-        phone,
-        hashedPassword,
         userId,
+        groupeId,
       },
       select: {
         id: true,
         securityNumber: true,
-        lastName: true,
-        firstName: true,
-        gender: true,
-        birthDate: true,
-        role: true,
-        phone: true,
-        email: true,
         userId: true,
+        groupeId: true,
       },
     })
     await ctx.session.$create({ userId: patient.id, role: patient.role as Role })

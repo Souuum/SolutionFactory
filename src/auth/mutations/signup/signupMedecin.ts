@@ -20,52 +20,17 @@ const Medecin = z.object({
     .min(2)
     .max(100)
     .transform((str) => str.trim()),
-  lastName: z
-    .string()
-    .min(2)
-    .max(100)
-    .transform((str) => str.trim()),
-  firstName: z
-    .string()
-    .min(2)
-    .max(100)
-    .transform((str) => str.trim()),
-  birthDate: z.date(),
-  email: z
-    .string()
-    .email()
-    .transform((str) => str.toLowerCase().trim()),
-  gender: z.enum(["MAN", "WOMAN"]),
-  phone: z
-    .string()
-    .min(10)
-    .max(10)
-    .transform((str) => str.trim()),
-  password: z
-    .string()
-    .min(10)
-    .max(100)
-    .transform((str) => str.trim()),
+  userId: z.number(),
 })
 export default resolver.pipe(
   resolver.zod(Medecin),
-  async (
-    { email, phone, password, lastName, firstName, birthDate, gender, rpps, cabinet, specialty },
-    ctx
-  ) => {
-    const hashedPassword = await SecurePassword.hash(password.trim())
+  async ({ userId, rpps, cabinet, specialty }, ctx) => {
     const medecin = await db.medecin.create({
       data: {
         rpps,
         cabinet,
         specialty,
-        lastName,
-        firstName,
-        birthDate,
-        email,
-        gender,
-        phone,
-        hashedPassword,
+        userId,
       },
       select: {
         id: true,

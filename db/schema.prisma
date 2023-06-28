@@ -39,9 +39,6 @@ model Patient {
   groupe         Groupe       @relation(fields: [groupeId], references: [id])
   groupeId       Int          @unique
   securityNumber String
-  lastName       String
-  firstName      String
-  gender         String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   ordonnance     Ordonnance[]
@@ -49,7 +46,6 @@ model Patient {
 
 model Groupe {
   id        Int       @id @default(autoincrement())
-  name      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   patients  Patient[]

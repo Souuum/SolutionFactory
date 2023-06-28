@@ -9,6 +9,7 @@ import createPatient from "src/pages/patient/mutations/createPatient"
 import createMedecin from "src/pages/medecin/mutations/createMedecin"
 import createPharmacist from "src/pages/pharmacist/mutations/createPharmacist"
 import Navbar from "../../core/components/NavBar"
+import createGroupe from "src/groupe/mutations/createGroupe"
 
 type SignupFormProps = {
   role?: string | string[] | undefined
@@ -20,6 +21,7 @@ export const SignupForm = (props: SignupFormProps) => {
   const [createPatientMutation] = useMutation(createPatient)
   const [createMedecinMutation] = useMutation(createMedecin)
   const [createPharmacistMutation] = useMutation(createPharmacist)
+  const [createGroupeMutation] = useMutation(createGroupe)
 
   const [selectedValue, setSelectedValue] = useState("")
 
@@ -52,14 +54,12 @@ export const SignupForm = (props: SignupFormProps) => {
             try {
               const user = await signupMutation(values)
               if (props.role == "patient") {
+                const groupe = createGroupeMutation()
                 try {
                   const patient = {
                     userId: user.id,
                     securityNumber: values.securityNumber,
-                    phone: values.phone,
-                    lastName: values.lastName,
-                    firstName: values.firstName,
-                    gender: values.gender,
+                    groupeId: groupe.id,
                   }
                   await createPatientMutation(patient)
                   props.onSuccess?.()
