@@ -12,11 +12,8 @@ const Groupe = z.object({
     .transform((str) => str.trim()),
 })
 
-export default resolver.pipe(resolver.zod(Groupe), async ({ name }, ctx) => {
+export default resolver.pipe(resolver.zod(Groupe), async ({}, ctx) => {
   const groupe = await db.groupe.create({
-    data: {
-      name,
-    },
     select: {
       id: true,
     },

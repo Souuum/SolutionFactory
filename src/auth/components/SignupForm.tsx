@@ -52,7 +52,17 @@ export const SignupForm = (props: SignupFormProps) => {
             values.gender = selectedValue
             values.birthDate = new Date(values.birthDate)
             try {
-              const user = await signupMutation(values)
+              const userProperties = {
+                email: values.email,
+                phone: values.phone,
+                password: values.password,
+                role: values.role,
+                firstName: values.firstName,
+                lastName: values.lastName,
+                birthDate: values.birthDate,
+                gender: values.gender,
+              }
+              const user = await signupMutation(userProperties)
               if (props.role == "patient") {
                 const groupe = createGroupeMutation()
                 try {
