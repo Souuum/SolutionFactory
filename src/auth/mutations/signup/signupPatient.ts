@@ -30,7 +30,7 @@ export default resolver.pipe(
         groupeId: true,
       },
     })
-    await ctx.session.$create({ userId: patient.id, role: patient.role as Role })
+
     return patient
   }
 )

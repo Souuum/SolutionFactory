@@ -25,6 +25,6 @@ export default resolver.pipe(resolver.zod(Pharmacist), async ({ userId, rpps }, 
       userId: true,
     },
   })
-  await ctx.session.$create({ userId: pharmacien.id, role: "PHARMACIST" as Role })
+
   return pharmacien
 })

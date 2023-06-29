@@ -10,6 +10,7 @@ import createMedecin from "src/pages/medecin/mutations/createMedecin"
 import createPharmacist from "src/pages/pharmacist/mutations/createPharmacist"
 import Navbar from "../../core/components/NavBar"
 import createGroupe from "src/groupe/mutations/createGroupe"
+import LabeledTextField from "src/core/components/LabeledTextField"
 
 type SignupFormProps = {
   role?: string | string[] | undefined
@@ -69,7 +70,7 @@ export const SignupForm = (props: SignupFormProps) => {
                   const patient = {
                     userId: user.id,
                     securityNumber: values.securityNumber,
-                    groupeId: groupe.id,
+                    groupeId: groupe,
                   }
                   await createPatientMutation(patient)
                   props.onSuccess?.()
@@ -128,6 +129,14 @@ export const SignupForm = (props: SignupFormProps) => {
         >
           <h1 className="text-3xl my-3">Nouveau Compte</h1>
           <UserSignupForm onSelectChange={handleSelectChange} />
+          {props.role == "patient" ? (
+            <LabeledTextField
+              name="securityNumber"
+              label="Numéro de Sécurité Sociale"
+              placeholder="XXXXXXXXXXXXX"
+              pattern="[0-9]{13}"
+            />
+          ) : null}
           {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
           {props.role == "medecin" ? <MedecinSignupForm /> : null}
         </Form>

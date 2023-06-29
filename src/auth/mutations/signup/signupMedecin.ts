@@ -39,7 +39,7 @@ export default resolver.pipe(
         specialty: true,
       },
     })
-    await ctx.session.$create({ userId: medecin.id, role: "MEDECIN" as Role })
+
     return medecin
   }
 )
