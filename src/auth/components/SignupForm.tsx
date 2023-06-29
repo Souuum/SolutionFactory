@@ -5,9 +5,9 @@ import MedecinSignupForm from "./SignupForm/Medecin"
 import { Form, FORM_ERROR } from "src/core/components/Form"
 import signup from "src/auth/mutations/signup"
 import { useMutation } from "@blitzjs/rpc"
-import createPatient from "src/pages/patient/mutations/createPatient"
-import createMedecin from "src/pages/medecin/mutations/createMedecin"
-import createPharmacist from "src/pages/pharmacist/mutations/createPharmacist"
+import signupPatient from "src/auth/mutations/signup/signupPatient"
+import signupMedecin from "src/auth/mutations/signup/signupMedecin"
+import signupPharmacist from "src/auth/mutations/signup/signupPharmacist"
 import Navbar from "../../core/components/NavBar"
 import createGroupe from "src/groupe/mutations/createGroupe"
 import LabeledTextField from "src/core/components/LabeledTextField"
@@ -19,9 +19,9 @@ type SignupFormProps = {
 
 export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
-  const [createPatientMutation] = useMutation(createPatient)
-  const [createMedecinMutation] = useMutation(createMedecin)
-  const [createPharmacistMutation] = useMutation(createPharmacist)
+  const [createPatientMutation] = useMutation(signupPatient)
+  const [createMedecinMutation] = useMutation(signupMedecin)
+  const [createPharmacistMutation] = useMutation(signupPharmacist)
   const [createGroupeMutation] = useMutation(createGroupe)
 
   const [selectedValue, setSelectedValue] = useState("")
@@ -65,15 +65,26 @@ export const SignupForm = (props: SignupFormProps) => {
               }
               const user = await signupMutation(userProperties)
               if (props.role == "patient") {
-                const groupe = createGroupeMutation()
                 try {
-                  const patient = {
-                    userId: user.id,
-                    securityNumber: values.securityNumber,
-                    groupeId: groupe,
+                  const groupe = await createGroupeMutation({ userId: user.id })
+                  if (groupe) {
+                    try {
+                      const patient = {
+                        userId: user.id,
+                        securityNumber: values.securityNumber,
+                        groupeId: groupe.id,
+                      }
+                      await createPatientMutation(patient)
+                      props.onSuccess?.()
+                    } catch (error: any) {
+                      if (error.code === "P2002" && error.meta?.target?.includes("email")) {
+                        // This error comes from Prisma
+                        return { email: "L'adresse mail est déjà utilisé." }
+                      } else {
+                        return { [FORM_ERROR]: error.toString() }
+                      }
+                    }
                   }
-                  await createPatientMutation(patient)
-                  props.onSuccess?.()
                 } catch (error: any) {
                   if (error.code === "P2002" && error.meta?.target?.includes("email")) {
                     // This error comes from Prisma
