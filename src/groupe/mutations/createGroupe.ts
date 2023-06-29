@@ -4,13 +4,7 @@ import db from "db"
 import * as z from "zod"
 import { Role } from "types"
 
-const Groupe = z.object({
-  name: z
-    .string()
-    .min(13)
-    .max(13)
-    .transform((str) => str.trim()),
-})
+const Groupe = z.object({})
 
 export default resolver.pipe(resolver.zod(Groupe), async ({}, ctx) => {
   const groupe = await db.groupe.create({
