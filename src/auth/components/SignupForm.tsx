@@ -118,6 +118,7 @@ export const SignupForm = (props: SignupFormProps) => {
                   const pharmacist = {
                     userId: user.id,
                     rpps: values.rpps,
+                    pharmacy: values.pharmacy,
                   }
                   await createPharmacistMutation(pharmacist)
                   props.onSuccess?.()
