@@ -10,7 +10,7 @@ import Link from "next/link"
 import { assert } from "blitz"
 import NavBar from "../../core/components/NavBar"
 import Navbar from "../../core/components/NavBar"
-import React from "react"
+import React, { Suspense } from "react"
 
 const ResetPasswordPage: BlitzPage = () => {
   const router = useRouter()
@@ -21,7 +21,9 @@ const ResetPasswordPage: BlitzPage = () => {
     <div className="h-screen bg-sky-100">
       <div className="items-center justify-center">
         <div className="flex items-center justify-center">
-          <Navbar />
+          <Suspense fallback={<div>Loading...</div>}>
+            <Navbar />
+          </Suspense>
         </div>
         <div className="my-48">
           <h1 className="text-center text-4xl my-6">Set a New Password</h1>

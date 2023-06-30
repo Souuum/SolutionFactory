@@ -5,10 +5,12 @@ import MedecinSignupForm from "./SignupForm/Medecin"
 import { Form, FORM_ERROR } from "src/core/components/Form"
 import signup from "src/auth/mutations/signup"
 import { useMutation } from "@blitzjs/rpc"
-import createPatient from "src/pages/patient/mutations/createPatient"
-import createMedecin from "src/pages/medecin/mutations/createMedecin"
-import createPharmacist from "src/pages/pharmacist/mutations/createPharmacist"
+import signupPatient from "src/auth/mutations/signup/signupPatient"
+import signupMedecin from "src/auth/mutations/signup/signupMedecin"
+import signupPharmacist from "src/auth/mutations/signup/signupPharmacist"
 import Navbar from "../../core/components/NavBar"
+import createGroupe from "src/groupe/mutations/createGroupe"
+import LabeledTextField from "src/core/components/LabeledTextField"
 
 type SignupFormProps = {
   role?: string | string[] | undefined
@@ -17,9 +19,10 @@ type SignupFormProps = {
 
 export const SignupForm = (props: SignupFormProps) => {
   const [signupMutation] = useMutation(signup)
-  const [createPatientMutation] = useMutation(createPatient)
-  const [createMedecinMutation] = useMutation(createMedecin)
-  const [createPharmacistMutation] = useMutation(createPharmacist)
+  const [createPatientMutation] = useMutation(signupPatient)
+  const [createMedecinMutation] = useMutation(signupMedecin)
+  const [createPharmacistMutation] = useMutation(signupPharmacist)
+  const [createGroupeMutation] = useMutation(createGroupe)
 
   const [selectedValue, setSelectedValue] = useState("")
 
@@ -44,25 +47,46 @@ export const SignupForm = (props: SignupFormProps) => {
           onSubmit={async (values) => {
             if (props.role?.toString().toUpperCase() == "PHARMACIEN") {
               values.role = "PHARMACIST"
+            } else if (props.role?.toString().toUpperCase() == "PATIENT") {
+              values.role = "SUPERPATIENT"
             } else {
               values.role = props.role?.toString().toUpperCase()
             }
             values.gender = selectedValue
             values.birthDate = new Date(values.birthDate)
             try {
-              const user = await signupMutation(values)
+              const userProperties = {
+                email: values.email,
+                phone: values.phone,
+                password: values.password,
+                role: values.role,
+                firstName: values.firstName,
+                lastName: values.lastName,
+                birthDate: values.birthDate,
+                gender: values.gender,
+              }
+              const user = await signupMutation(userProperties)
               if (props.role == "patient") {
                 try {
-                  const patient = {
-                    userId: user.id,
-                    securityNumber: values.securityNumber,
-                    phone: values.phone,
-                    lastName: values.lastName,
-                    firstName: values.firstName,
-                    gender: values.gender,
+                  const groupe = await createGroupeMutation({ userId: user.id })
+                  if (groupe) {
+                    try {
+                      const patient = {
+                        userId: user.id,
+                        securityNumber: values.securityNumber,
+                        groupeId: groupe.id,
+                      }
+                      await createPatientMutation(patient)
+                      props.onSuccess?.()
+                    } catch (error: any) {
+                      if (error.code === "P2002" && error.meta?.target?.includes("email")) {
+                        // This error comes from Prisma
+                        return { email: "L'adresse mail est déjà utilisé." }
+                      } else {
+                        return { [FORM_ERROR]: error.toString() }
+                      }
+                    }
                   }
-                  await createPatientMutation(patient)
-                  props.onSuccess?.()
                 } catch (error: any) {
                   if (error.code === "P2002" && error.meta?.target?.includes("email")) {
                     // This error comes from Prisma
@@ -118,6 +142,14 @@ export const SignupForm = (props: SignupFormProps) => {
         >
           <h1 className="text-3xl my-3">Nouveau Compte</h1>
           <UserSignupForm onSelectChange={handleSelectChange} />
+          {props.role == "patient" ? (
+            <LabeledTextField
+              name="securityNumber"
+              label="Numéro de Sécurité Sociale"
+              placeholder="XXXXXXXXXXXXX"
+              pattern="[0-9]{13}"
+            />
+          ) : null}
           {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
           {props.role == "medecin" ? <MedecinSignupForm /> : null}
         </Form>

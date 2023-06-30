@@ -15,7 +15,6 @@ generator client {
 model User {
   id             Int         @id @default(autoincrement())
   email          String      @unique
-  securityNumber String      @unique
   phone          String      @unique
   hashedPassword String
   role           String      @default("USER")
@@ -25,7 +24,7 @@ model User {
   birthDate      DateTime
   createdAt      DateTime    @default(now())
   updatedAt      DateTime    @updatedAt
-  patients       Patient[]
+  patients       Patient?
   tokens         Token[]
   sessions       Session[]
   medecin        Medecin?
@@ -35,14 +34,21 @@ model User {
 model Patient {
   id             Int          @id @default(autoincrement())
   user           User         @relation(fields: [userId], references: [id])
+  userId         Int          @unique
+  groupe         Groupe       @relation(fields: [groupeId], references: [id])
+  groupeId       Int          @unique
   securityNumber String
-  userId         Int
-  lastName       String
-  firstName      String
-  gender         String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   ordonnance     Ordonnance[]
+}
+
+model Groupe {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  patients  Patient[]
 }
 
 model Medecin {
@@ -67,16 +73,36 @@ model Pharmacien {
 }
 
 model Ordonnance {
-  id            Int            @id @default(autoincrement())
-  patient       Patient        @relation(fields: [patientId], references: [id])
+  id            Int              @id @default(autoincrement())
+  patient       Patient          @relation(fields: [patientId], references: [id])
   patientId     Int
-  medecin       Medecin        @relation(fields: [createdBy], references: [id])
+  medecin       Medecin          @relation(fields: [createdBy], references: [id])
   createdBy     Int
   prescriptions Prescription[]
+  token         TokenOrdonnance?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+}
+
+model TokenOrdonnance {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  hashedToken String
+  type        String
+  // See note below about TokenType enum
+  // type        TokenType
+  expiresAt   DateTime
+  sentTo      String
+
+  ordonnance   Ordonnance? @relation(fields: [ordonnanceId], references: [id])
+  ordonnanceId Int?        @unique
+
+  @@unique([hashedToken, type])
 }
 
 model Drug {
-  id               Int            @id
+  id               Int            @id @default(autoincrement())
   name             String
   pharmaShape      String[]
   ammStatus        String

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Medecin" ADD COLUMN     "role" TEXT NOT NULL DEFAULT 'MEDECIN';
+
+-- AlterTable
+ALTER TABLE "Pharmacien" ADD COLUMN     "role" TEXT NOT NULL DEFAULT 'PHARMACIEN';

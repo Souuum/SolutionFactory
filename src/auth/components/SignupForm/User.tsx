@@ -34,12 +34,6 @@ export const UserSignupForm = ({ onSelectChange }) => {
         pattern="[0-9]{10}"
       />
       <LabeledTextField
-        name="securityNumber"
-        label="Numéro de Sécurité Sociale"
-        placeholder="XXXXXXXXXXXXX"
-        pattern="[0-9]{13}"
-      />
-      <LabeledTextField
         name="password"
         label="Mot de passe"
         placeholder="Mot de passe"

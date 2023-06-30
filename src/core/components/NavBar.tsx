@@ -1,10 +1,10 @@
-import React from "react"
+import React, { Suspense } from "react"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
 import Link from "next/link"
 import { Routes } from "@blitzjs/next"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 
-export default function NavBar() {
+export const NavBarComponent = () => {
   const [openNav, setOpenNav] = React.useState(false)
   const currentUser = useCurrentUser()
   console.log(currentUser)
@@ -142,3 +142,14 @@ export default function NavBar() {
     </>
   )
 }
+
+const NavBar = () => {
+  return (
+    <div>
+      <Suspense fallback="Loading...">
+        <NavBarComponent />
+      </Suspense>
+    </div>
+  )
+}
+export default NavBar
