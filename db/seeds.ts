@@ -19,7 +19,6 @@ const seed = async () => {
     const firstName = faker.person.firstName(gender)
     const lastName = faker.person.lastName()
     const email = faker.internet.email({ firstName, lastName })
-    const securityNumber = faker.string.numeric({ length: 13 })
     const password = faker.internet.password({ length: 10 })
     const hashedPassword = await SecurePassword.hash(password.trim())
     const phone = faker.phone.number()
@@ -27,56 +26,53 @@ const seed = async () => {
 
     const usr = await db.user.create({
       data: {
-        gender: gender,
-        firstName: firstName,
-        lastName: lastName,
         email: email,
-        securityNumber: securityNumber,
-        hashedPassword: hashedPassword,
         phone: phone,
+        hashedPassword: hashedPassword,
+        role: faker.helpers.arrayElement(["SUPERPATIENT", "MEDECIN", "PHARMACIST"]),
+        lastName: lastName,
+        firstName: firstName,
+        gender: gender,
         birthDate: birthDate,
       },
     })
 
-    const patient = await db.patient.create({
-      data: {
-        gender: gender,
-        firstName: firstName,
-        lastName: lastName,
-        userId: usr.id,
-        securityNumber: usr.securityNumber,
-      },
-    })
-    //Ajout de patient secondaire tous les 3 ajouts
-    if (i % 3 == 0) {
-      let securityNumber2
-      const birthDate2 = faker.date.birthdate({ max: 30, mode: "age" })
-      if (birthDate2.getFullYear() < 2005) {
-        //Si le nouveau patient est majeur, on créer un nouveau securityNumber
-        securityNumber2 = faker.string.numeric({ length: 13 })
-
-        console.log("membre créé pour le security number : " + securityNumber2)
-      } else {
-        securityNumber2 = usr.securityNumber
-
-        console.log("enfant créé pour le security number : " + securityNumber2)
-      }
-
-      const gender = faker.person.sexType()
-      const firstName = faker.person.firstName(gender)
-      const lastName = faker.person.lastName()
-
-      const patient2 = await db.patient.create({
+    if (usr.role === "SUPERPATIENT") {
+      const groupe = await db.groupe.create({
         data: {
-          gender: gender,
-          firstName: firstName,
-          lastName: lastName,
+          name: "Groupe" + usr.id,
+        },
+      })
+
+      const patient = await db.patient.create({
+        data: {
           userId: usr.id,
-          securityNumber: securityNumber2,
+          securityNumber: faker.string.numeric({ length: 13 }),
+          groupeId: groupe.id,
+        },
+      })
+    }
+
+    if (usr.role === "MEDECIN") {
+      const medecin = await db.medecin.create({
+        data: {
+          userId: usr.id,
+          specialty: faker.helpers.arrayElement(["GENERALISTE", "CARDIOLOGUE", "PNEUMOLOGUE"]),
+          rpps: faker.string.numeric({ length: 11 }),
+          cabinet: faker.address.streetAddress(),
+        },
+      })
+    }
+
+    if (usr.role === "PHARMACIST") {
+      const pharmacien = await db.pharmacien.create({
+        data: {
+          userId: usr.id,
+          rpps: faker.string.numeric({ length: 11 }),
+          pharmacy: faker.address.streetAddress(),
         },
       })
     }
   }
 }
-
 export default seed
