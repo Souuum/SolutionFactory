@@ -47,6 +47,8 @@ export const SignupForm = (props: SignupFormProps) => {
           onSubmit={async (values) => {
             if (props.role?.toString().toUpperCase() == "PHARMACIEN") {
               values.role = "PHARMACIST"
+            } else if (props.role?.toString().toUpperCase() == "PATIENT") {
+              values.role = "SUPERPATIENT"
             } else {
               values.role = props.role?.toString().toUpperCase()
             }
