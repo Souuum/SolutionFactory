@@ -31,7 +31,7 @@ export const Signup = z.object({
     .min(10)
     .max(100)
     .transform((str) => str.trim()),
-  role: z.enum(["PHARMACIST", "MEDECIN", "PATIENT"]),
+  role: z.enum(["PHARMACIST", "MEDECIN", "PATIENT", "SUPERPATIENT"]),
   lastname: z
     .string()
     .min(2)
