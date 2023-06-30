@@ -68,6 +68,7 @@ model Pharmacien {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int      @unique
   rpps      String   @unique
+  pharmacy  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -102,7 +103,7 @@ model TokenOrdonnance {
 }
 
 model Drug {
-  id               Int            @id @default(autoincrement())
+  id               Int      @id @default(autoincrement())
   name             String
   pharmaShape      String[]
   ammStatus        String
@@ -113,17 +114,15 @@ model Drug {
   euroAutorization String
   holder           String
   monitoring       Boolean
-  createdAt        DateTime       @default(now())
-  updatedAt        DateTime       @updatedAt
-  prescriptions    Prescription[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }
 
 model Prescription {
   id           Int        @id @default(autoincrement())
   ordonnance   Ordonnance @relation(fields: [ordonnanceId], references: [id])
   ordonnanceId Int
-  drug         Drug       @relation(fields: [drugId], references: [id])
-  drugId       Int
+  drug         String
   description  String
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
