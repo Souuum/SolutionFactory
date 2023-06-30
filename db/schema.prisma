@@ -80,6 +80,8 @@ model Ordonnance {
   createdBy     Int
   prescriptions Prescription[]
   token         TokenOrdonnance?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
 }
 
 model TokenOrdonnance {
@@ -100,7 +102,7 @@ model TokenOrdonnance {
 }
 
 model Drug {
-  id               Int            @id
+  id               Int            @id @default(autoincrement())
   name             String
   pharmaShape      String[]
   ammStatus        String
