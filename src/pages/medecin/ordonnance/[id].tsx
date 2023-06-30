@@ -20,7 +20,6 @@ const StatusWrapper = () => {
   const paramId = useParams("number")
 
   useEffect(() => {
-    console.log(paramId)
     setPatientId(paramId.id)
   }, [paramId])
 
@@ -44,7 +43,6 @@ const StatusWrapper = () => {
         </div>
         <div className="flex max-w-80 justify-center ">
           <h1>Current Patient : {patient.lastName + " " + patient.firstName} </h1>
-          <TableDrugs />
           <div className="">
             <button className={styles.button}>Créer l'ordonnance</button>
           </div>
