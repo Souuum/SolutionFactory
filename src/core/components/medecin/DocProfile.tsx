@@ -2,7 +2,8 @@ import { List, ListItem, Card, Typography } from "@material-tailwind/react"
 import { Form, FORM_ERROR } from "src/core/components/Form"
 import { LabeledTextField } from "src/core/components/LabeledTextField"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
-import updatePatient from "src/pages/patient/mutations/updateUser"
+import updateUser from "src/pages/patient/mutations/updateUser"
+import updateMedecin from "src/pages/medecin/mutations/updateMedecin"
 import React, { useState } from "react"
 import PersonIcon from "@mui/icons-material/Person"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
@@ -10,32 +11,39 @@ import LocalHospitalIcon from "@mui/icons-material/LocalHospital"
 import MailIcon from "@mui/icons-material/Mail"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import Man4Icon from "@mui/icons-material/Man4"
+import HomeIcon from "@mui/icons-material/Home"
 import { loadBlitzRpcResolverFilesWithInternalMechanism, useMutation, useQuery } from "@blitzjs/rpc"
 
-type UserProfileProps = {
+type DocProfileProps = {
   setCurrentUser: (user: any) => void
   currentUser: any
 }
 
-const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
+const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
   const [editing, setEditing] = useState(false)
-  const [updatePatientMutation] = useMutation(updatePatient)
+  const [updateUserMutation] = useMutation(updateUser)
+  const [updateMedecinMutation] = useMutation(updateMedecin)
   const birthdate = currentUser.birthDate
   const year = birthdate.getFullYear()
   const month = String(birthdate.getMonth() + 1).padStart(2, "0")
   const day = String(birthdate.getDate()).padStart(2, "0")
   const formattedDate = `${day}-${month}-${year}`
-
   const handleSubmit = async (values) => {
     if (currentUser) {
       try {
-        await updatePatientMutation({
+        await updateUserMutation({
           userId: currentUser.id,
           email: values.email,
           phone: values.phone,
           lastName: currentUser.lastName,
           firstName: currentUser.firstName,
           gender: currentUser.gender,
+        })
+        await updateMedecinMutation({
+          userId: currentUser.id,
+          rpps: currentUser.medecin.rpps,
+          cabinet: values.cabinet,
+          specialty: values.specialty,
         })
 
         setEditing(false)
@@ -78,9 +86,9 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
           <div className="flex items-center">
             <LocalHospitalIcon className="text-[#188CA5] mr-4 w-15 h-15" />
             <div>
-              <Typography className="text-[#979797]">Numéro de sécurité sociale</Typography>
+              <Typography className="text-[#979797]">RPPS</Typography>
               <Typography className="text-[#188CA5] text-2xl mb-5 ">
-                {currentUser.patients?.securityNumber}
+                {currentUser?.medecin.rpps}
               </Typography>
             </div>
           </div>
@@ -91,6 +99,8 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
           initialValues={{
             phone: currentUser.phone,
             email: currentUser.email,
+            cabinet: currentUser.medecin.cabinet,
+            specialty: currentUser.medecin.specialty,
           }}
           onSubmit={handleSubmit}
           className="ml-2"
@@ -120,6 +130,30 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
                 />
               </div>
             </div>
+            <div className="flex items-center">
+              <HomeIcon className="text-[#188CA5] mr-4 w-15 h-15" />
+              <div>
+                <LabeledTextField
+                  style={{ height: "32px" }}
+                  className="text-[#188CA5] text-2xl mb-5 "
+                  name="cabinet"
+                  label={<label className="text-[#979797]">Cabinet</label>}
+                  type="text"
+                />
+              </div>
+            </div>
+            <div className="flex items-center">
+              <Man4Icon className="text-[#188CA5] mr-4 w-15 h-15" />
+              <div>
+                <LabeledTextField
+                  style={{ height: "32px" }}
+                  className="text-[#188CA5] text-2xl mb-5 "
+                  name="specialty"
+                  label={<label className="text-[#979797]">Specialty</label>}
+                  type="text"
+                />
+              </div>
+            </div>
           </div>
 
           <div className="flex items-center gap-4 ml-14">
@@ -144,13 +178,35 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
               </div>
             </div>
           </ListItem>
-          <ListItem>
+          <ListItem className="mb-4">
             <div className="flex items-center">
               <MailIcon className="text-[#188CA5] mr-4 w-15 h-15" />
               <div>
                 <Typography className="text-[#979797]  ">Email</Typography>
                 <Typography className="text-[#188CA5] text-2xl mb-5  ">
                   {currentUser?.email}
+                </Typography>
+              </div>
+            </div>
+          </ListItem>
+          <ListItem className="mb-4">
+            <div className="flex items-center">
+              <HomeIcon className="text-[#188CA5] mr-4 w-15 h-15" />
+              <div>
+                <Typography className="text-[#979797]  ">Cabinet</Typography>
+                <Typography className="text-[#188CA5] text-2xl mb-5  ">
+                  {currentUser?.medecin.cabinet}
+                </Typography>
+              </div>
+            </div>
+          </ListItem>
+          <ListItem>
+            <div className="flex items-center">
+              <Man4Icon className="text-[#188CA5] mr-4 w-15 h-15" />
+              <div>
+                <Typography className="text-[#979797]  ">Specialty</Typography>
+                <Typography className="text-[#188CA5] text-2xl mb-5  ">
+                  {currentUser?.medecin.specialty}
                 </Typography>
               </div>
             </div>
@@ -165,4 +221,4 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
   )
 }
 
-export default UserProfile
+export default DocProfile

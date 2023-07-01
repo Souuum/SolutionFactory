@@ -39,12 +39,12 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   } else {
     navList = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
-        <Link href={Routes.Ordonnances()}>
+        <Link href={Routes.HomePatient()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
             <div className="flex items-center ">Mes ordonnances</div>
           </Typography>
         </Link>
-        <Link href={Routes.HomePatient()}>
+        <Link href={Routes.ProfilPatient()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
             <div className="flex items-center ">Mon compte</div>
           </Typography>

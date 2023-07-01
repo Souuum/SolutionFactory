@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react"
+import { Suspense } from "react"
 import Link from "next/link"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
@@ -7,24 +7,19 @@ import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 
 import NavBar from "src/core/components/NavBar"
-import DocProfile from "src/core/components/medecin/DocProfile"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
-import { User } from "@prisma/client"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
  */
 
-type DocInfoProps = {
-  setCurrentUser: (user: any) => void
-  currentUser: any
-}
-const DocInfo = ({ currentUser, setCurrentUser }: DocInfoProps) => {
+const UserInfo = () => {
+  const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
 
   if (currentUser) {
-    return <DocProfile currentUser={currentUser} setCurrentUser={setCurrentUser} />
+    return <></>
   } else {
     return (
       <>
@@ -44,17 +39,19 @@ const DocInfo = ({ currentUser, setCurrentUser }: DocInfoProps) => {
   }
 }
 
-const ProfilDoc: BlitzPage = () => {
-  var [currentUser, setCurrentUser] = useState<any>(null)
-
+const ProfilPharmacien: BlitzPage = () => {
   return (
     <div>
-      <NavBar setCurrentUser={setCurrentUser} />
+      <Suspense>
+        <NavBar />
+      </Suspense>
       <div>
-        <DocInfo currentUser={currentUser} setCurrentUser={setCurrentUser} />
+        <Suspense>
+          <UserProfile />
+        </Suspense>
       </div>
     </div>
   )
 }
 
-export default ProfilDoc
+export default ProfilPharmacien
