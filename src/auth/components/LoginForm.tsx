@@ -9,7 +9,7 @@ import { Routes } from "@blitzjs/next"
 import { set } from "zod"
 import NavBar from "../../core/components/NavBar"
 import Navbar from "../../core/components/NavBar"
-import React from "react"
+import React, { useEffect, useState } from "react"
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
@@ -17,10 +17,15 @@ type LoginFormProps = {
 
 export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
+  var [currentUser, setCurrentUser] = useState<any>(null)
+  useEffect(() => {
+    console.log("navbar", currentUser)
+  }, [currentUser])
+
   return (
     <div className="h-screen bg-sky-100">
       <div className="flex items-center justify-center">
-        <Navbar />
+        <Navbar setCurrentUser={setCurrentUser} />
       </div>
       <div className="flex items-center justify-center">
         <div className="w-1/2 text-center p-4 mx-auto">

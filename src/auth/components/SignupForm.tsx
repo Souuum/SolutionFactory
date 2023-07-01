@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import UserSignupForm from "./SignupForm/User"
 import PharmacistSignupForm from "./SignupForm/Pharmacist"
 import MedecinSignupForm from "./SignupForm/Medecin"
@@ -24,6 +24,10 @@ export const SignupForm = (props: SignupFormProps) => {
   const [createMedecinMutation] = useMutation(signupMedecin)
   const [createPharmacistMutation] = useMutation(signupPharmacist)
   const [createGroupeMutation] = useMutation(createGroupe)
+  var [currentUser, setCurrentUser] = useState<any>(null)
+  useEffect(() => {
+    console.log("navbar", currentUser)
+  }, [currentUser])
 
   const [selectedValue, setSelectedValue] = useState("")
 
@@ -33,10 +37,7 @@ export const SignupForm = (props: SignupFormProps) => {
 
   return (
     <>
-      <Suspense>
-        <Navbar />
-      </Suspense>
-
+      <Navbar setCurrentUser={setCurrentUser} />
       <div className="h-screen ">
         <div className="flex items-center justify-center">
           <div className="w-1/2 p-4 mx-auto">

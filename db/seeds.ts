@@ -1,79 +1,85 @@
 import db from "./index"
-import { fakerFR as faker } from "@faker-js/faker"
+import { faker } from "@faker-js/faker"
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 
-/*
- * This seed function is executed when you run `blitz db seed`.
- *
- * Probably you want to use a library like https://chancejs.com
- * to easily generate realistic data.
- */
 const seed = async () => {
-  // for (let i = 0; i < 5; i++) {
-  //   await db.project.create({ data: { name: "Project " + i } })
-  // }
-
-  for (let i = 0; i < 100; i++) {
-    // patients creation
-    const gender = faker.person.sexType()
+  for (let i = 1; i < 101; i++) {
+    const gender = faker.datatype.boolean() ? "male" : "female"
     const firstName = faker.person.firstName(gender)
     const lastName = faker.person.lastName()
     const email = faker.internet.email({ firstName, lastName })
-    const securityNumber = faker.string.numeric({ length: 13 })
-    const password = faker.internet.password({ length: 10 })
+    const securityNumber = faker.datatype
+      .number({ min: 1000000000000, max: 9999999999999 })
+      .toString()
+    const password = faker.internet.password()
     const hashedPassword = await SecurePassword.hash(password.trim())
     const phone = faker.phone.number()
-    const birthDate = faker.date.birthdate({ min: 18, mode: "age" })
+    const birthDate = faker.date.between({ from: "1950-01-01", to: "2005-12-31" })
 
-    const usr = await db.user.create({
+    const user = await db.user.create({
       data: {
-        gender: gender,
-        firstName: firstName,
-        lastName: lastName,
         email: email,
-        hashedPassword: hashedPassword,
         phone: phone,
+        hashedPassword: hashedPassword,
+        lastName: lastName,
+        firstName: firstName,
+        gender: gender,
         birthDate: birthDate,
+        role: "SUPERPATIENT",
+      },
+    })
+
+    const groupe = await db.groupe.create({
+      data: {
+        name: "Groupe" + i,
       },
     })
 
     const patient = await db.patient.create({
       data: {
-        gender: gender,
-        firstName: firstName,
-        lastName: lastName,
-        userId: usr.id,
+        userId: user.id,
+        groupeId: faker.datatype.number({ min: 1, max: i, precision: 1 }),
         securityNumber: securityNumber,
       },
     })
-    //Ajout de patient secondaire tous les 3 ajouts
-    if (i % 3 == 0) {
-      let securityNumber2
-      const birthDate2 = faker.date.birthdate({ max: 30, mode: "age" })
-      if (birthDate2.getFullYear() < 2005) {
-        //Si le nouveau patient est majeur, on créer un nouveau securityNumber
-        securityNumber2 = faker.string.numeric({ length: 13 })
 
-        console.log("membre créé pour le security number : " + securityNumber2)
-      } else {
-        securityNumber2 = usr.securityNumber
+    await db.patient.update({
+      where: { id: patient.id },
+      data: {
+        groupe: {
+          connect: { id: groupe.id },
+        },
+      },
+    })
 
-        console.log("enfant créé pour le security number : " + securityNumber2)
-      }
+    for (let j = 0; j < 5; j++) {
+      const medecin = await db.medecin.findFirst()
 
-      const gender = faker.person.sexType()
-      const firstName = faker.person.firstName(gender)
-      const lastName = faker.person.lastName()
-
-      const patient2 = await db.patient.create({
+      const ordonnance = await db.ordonnance.create({
         data: {
-          gender: gender,
-          firstName: firstName,
-          lastName: lastName,
-          userId: usr.id,
-          securityNumber: securityNumber2,
+          patient: {
+            connect: { id: patient.id },
+          },
+          medecin: {
+            connect: { id: medecin?.id },
+          },
         },
       })
+
+      for (let k = 0; k < 3; k++) {
+        const drug = faker.random.word()
+        const description = faker.lorem.sentence()
+
+        await db.prescription.create({
+          data: {
+            ordonnance: {
+              connect: { id: ordonnance.id },
+            },
+            drug: drug,
+            description: description,
+          },
+        })
+      }
     }
   }
 }
