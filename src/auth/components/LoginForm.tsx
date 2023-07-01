@@ -10,6 +10,7 @@ import { set } from "zod"
 import NavBar from "../../core/components/NavBar"
 import Navbar from "../../core/components/NavBar"
 import React, { useEffect, useState } from "react"
+import { Suspense } from "react"
 
 type LoginFormProps = {
   onSuccess?: (user: PromiseReturnType<typeof login>) => void
@@ -23,10 +24,10 @@ export const LoginForm = (props: LoginFormProps) => {
   }, [currentUser])
 
   return (
-    <div className="h-screen bg-sky-100">
-      <div className="flex items-center justify-center">
+    <div className="h-screen ">
+      <Suspense>
         <Navbar setCurrentUser={setCurrentUser} />
-      </div>
+      </Suspense>
       <div className="flex items-center justify-center">
         <div className="w-1/2 text-center p-4 mx-auto">
           <h1 className="text-5xl my-3.5">Connexion</h1>
@@ -54,13 +55,13 @@ export const LoginForm = (props: LoginFormProps) => {
           >
             <div className="flex flex-col items-center">
               <LabeledTextField
-                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
+                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700  w-1/2 border-solid appearance-none mt-2"
                 name="email"
                 label="Email"
                 placeholder="Email"
               />
               <LabeledTextField
-                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
+                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 w-1/2 border-solid appearance-none mt-2"
                 name="password"
                 label="Mot de passe"
                 placeholder="Mot de passe"
