@@ -55,6 +55,7 @@ CREATE TABLE "Pharmacien" (
     "id" SERIAL NOT NULL,
     "userId" INTEGER NOT NULL,
     "rpps" TEXT NOT NULL,
+    "pharmacy" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -66,6 +67,8 @@ CREATE TABLE "Ordonnance" (
     "id" SERIAL NOT NULL,
     "patientId" INTEGER NOT NULL,
     "createdBy" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Ordonnance_pkey" PRIMARY KEY ("id")
 );
@@ -86,7 +89,7 @@ CREATE TABLE "TokenOrdonnance" (
 
 -- CreateTable
 CREATE TABLE "Drug" (
-    "id" INTEGER NOT NULL,
+    "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
     "pharmaShape" TEXT[],
     "ammStatus" TEXT NOT NULL,
@@ -107,7 +110,7 @@ CREATE TABLE "Drug" (
 CREATE TABLE "Prescription" (
     "id" SERIAL NOT NULL,
     "ordonnanceId" INTEGER NOT NULL,
-    "drugId" INTEGER NOT NULL,
+    "drug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -207,9 +210,6 @@ ALTER TABLE "TokenOrdonnance" ADD CONSTRAINT "TokenOrdonnance_ordonnanceId_fkey"
 
 -- AddForeignKey
 ALTER TABLE "Prescription" ADD CONSTRAINT "Prescription_ordonnanceId_fkey" FOREIGN KEY ("ordonnanceId") REFERENCES "Ordonnance"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
-
--- AddForeignKey
-ALTER TABLE "Prescription" ADD CONSTRAINT "Prescription_drugId_fkey" FOREIGN KEY ("drugId") REFERENCES "Drug"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;

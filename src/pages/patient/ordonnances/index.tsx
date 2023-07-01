@@ -44,7 +44,7 @@ const UserOrd = () => {
   }
 }
 
-const HomePatient: BlitzPage = () => {
+const Ordonnances: BlitzPage = () => {
   var [currentUser, setCurrentUser] = useState<any>(null)
   useEffect(() => {
     console.log("navbar", currentUser)
@@ -82,4 +82,4 @@ const HomePatient: BlitzPage = () => {
   )
 }
 
-export default HomePatient
+export default Ordonnances

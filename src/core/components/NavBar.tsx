@@ -1,23 +1,26 @@
-import React from "react"
+import React, { Suspense } from "react"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
 import Link from "next/link"
 import { Routes } from "@blitzjs/next"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
+import { Medecin, Patient, Pharmacien, User } from "@prisma/client"
 
-export default function NavBar() {
+type NavBarCompProps = {
+  setCurrentUser: (user: any) => void
+}
+const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   const [logoutMutation] = useMutation(logout)
   const [openNav, setOpenNav] = React.useState(false)
-  const currentUser = useCurrentUser()
-  console.log(currentUser)
-
+  const currentUserQuerie = useCurrentUser()
   React.useEffect(() => {
+    setCurrentUser(currentUserQuerie)
     window.addEventListener("resize", () => window.innerWidth >= 960 && setOpenNav(false))
-  }, [])
+  }, [setCurrentUser, currentUserQuerie])
 
   let navList
-  if (currentUser?.role == "MEDECIN" || currentUser?.role == "PHARMACIEN") {
+  if (currentUserQuerie?.role == "MEDECIN" || currentUserQuerie?.role == "PHARMACIEN") {
     navList = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
         <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
@@ -41,7 +44,7 @@ export default function NavBar() {
             <div className="flex items-center ">Mes ordonnances</div>
           </Typography>
         </Link>
-        <Link href={Routes.ProfilPatient()}>
+        <Link href={Routes.HomePatient()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
             <div className="flex items-center ">Mon compte</div>
           </Typography>
@@ -51,7 +54,7 @@ export default function NavBar() {
   }
 
   let buttons
-  if (currentUser == null) {
+  if (currentUserQuerie == null) {
     buttons = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
         <Link href="">
@@ -134,3 +137,17 @@ export default function NavBar() {
     </div>
   )
 }
+
+type NavBarProps = {
+  setCurrentUser: (user: any) => void
+}
+const NavBar = ({ setCurrentUser }: NavBarProps) => {
+  return (
+    <div>
+      <Suspense>
+        <NavBarComponent setCurrentUser={setCurrentUser} />
+      </Suspense>
+    </div>
+  )
+}
+export default NavBar

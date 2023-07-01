@@ -4,7 +4,6 @@ import { LabeledTextField } from "src/core/components/LabeledTextField"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import updatePatient from "src/pages/patient/mutations/updateUser"
 import React, { useState } from "react"
-import "@fontsource/poppins"
 import PersonIcon from "@mui/icons-material/Person"
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone"
 import LocalHospitalIcon from "@mui/icons-material/LocalHospital"
@@ -13,9 +12,12 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import Man4Icon from "@mui/icons-material/Man4"
 import { loadBlitzRpcResolverFilesWithInternalMechanism, useMutation, useQuery } from "@blitzjs/rpc"
 
-export default function UserProfile() {
-  const currentUser = useCurrentUser()
+type UserProfileProps = {
+  setCurrentUser: (user: any) => void
+  currentUser: any
+}
 
+const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
   const [editing, setEditing] = useState(false)
   const [updatePatientMutation] = useMutation(updatePatient)
 
@@ -64,7 +66,7 @@ export default function UserProfile() {
             <div>
               <Typography className="text-[#979797]">Numéro de sécurité sociale</Typography>
               <Typography className="text-[#188CA5] text-2xl mb-5 ">
-                {currentUser?.patients.securityNumber}
+                {currentUser.patients?.securityNumber}
               </Typography>
             </div>
           </div>
@@ -159,3 +161,5 @@ export default function UserProfile() {
     </Card>
   )
 }
+
+export default UserProfile
