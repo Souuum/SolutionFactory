@@ -7,7 +7,7 @@ import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 
 import NavBar from "src/core/components/NavBar"
-import UserProfile from "src/core/components/UserProfile"
+import UserProfile from "src/core/components/patient/UserProfile"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
 import { User } from "@prisma/client"
 
