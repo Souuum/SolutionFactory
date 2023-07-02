@@ -48,7 +48,6 @@ const StatusWrapper = () => {
           <div className="flex justify-center w-screen">
             <div className="">
               <FormPrescription {...{ patientId, createdBy }} />
-              <button className={styles.button}>Créer l'ordonnance</button>
             </div>
             <br />
           </div>
