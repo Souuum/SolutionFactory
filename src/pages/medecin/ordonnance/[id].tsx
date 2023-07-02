@@ -10,11 +10,13 @@ import { Suspense } from "react"
 import { useMutation } from "@blitzjs/rpc"
 import { useCurrentPatient } from "src/patient/hooks/useCurrentPatient"
 import { useEffect, useState } from "react"
-import TableDrugs from "src/drug/components/TableDrug"
-import { T } from "@blitzjs/auth/dist/index-cd820427"
+import FormPrescription from "src/prescription/components/FormPrescription"
+import { useCurrentMedecin } from "src/medecin/hooks/useCurrentMedecin"
 
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
+  const currentMedecin = useCurrentMedecin()
+  const createdBy = currentMedecin?.id
   const [logoutMutation] = useMutation(logout)
   const [patientId, setPatientId] = useState(1)
   const paramId = useParams("number")
@@ -37,16 +39,19 @@ const StatusWrapper = () => {
           >
             Logout
           </button>
+        </div>
+        <div className="flex flex-col justify-center items-center w-screen">
           <div>
             Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
+            <h1>Current Patient : {patient.lastName + " " + patient.firstName} </h1>
           </div>
-        </div>
-        <div className="flex max-w-80 justify-center ">
-          <h1>Current Patient : {patient.lastName + " " + patient.firstName} </h1>
-          <div className="">
-            <button className={styles.button}>Créer l'ordonnance</button>
+          <div className="flex justify-center w-screen">
+            <div className="">
+              <FormPrescription {...{ patientId, createdBy }} />
+              <button className={styles.button}>Créer l'ordonnance</button>
+            </div>
+            <br />
           </div>
-          <br />
         </div>
       </>
     )

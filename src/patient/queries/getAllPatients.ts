@@ -9,19 +9,25 @@ export default resolver.pipe(
   resolver.authorize(),
   async ({ where, orderBy, skip = 0, take = 100 }: GetPatientsInput) => {
     const {
-      items: patients,
+      items: users,
       hasMore,
       nextPage,
       count,
     } = await paginate({
       skip,
       take,
-      count: () => db.patient.count({ where: {} }),
-      query: (paginateArgs) => db.patient.findMany({ ...paginateArgs, where, orderBy }),
+      count: () => db.user.count({ where: { role: "SUPERPATIENT" || "PATIENT" } }),
+      query: (paginateArgs) =>
+        db.user.findMany({
+          ...paginateArgs,
+          where: { role: "SUPERPATIENT" || "PATIENT" },
+          orderBy,
+          include: { patients: true },
+        }),
     })
 
     return {
-      patients,
+      users,
       nextPage,
       hasMore,
       count,

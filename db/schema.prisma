@@ -119,13 +119,20 @@ model Drug {
 }
 
 model Prescription {
-  id           Int        @id @default(autoincrement())
-  ordonnance   Ordonnance @relation(fields: [ordonnanceId], references: [id])
-  ordonnanceId Int
-  drug         String
-  description  String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id                Int        @id @default(autoincrement())
+  ordonnance        Ordonnance @relation(fields: [ordonnanceId], references: [id])
+  ordonnanceId      Int
+  drug              String
+  description       String
+  morning           Int
+  afternoon         Int
+  evening           Int
+  hasTakenMorning   Boolean    @default(false)
+  hasTakenAfternoon Boolean    @default(false)
+  hasTakenEvening   Boolean    @default(false)
+  expirationTime    DateTime
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
 model Session {
