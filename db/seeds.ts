@@ -51,36 +51,6 @@ const seed = async () => {
         },
       },
     })
-
-    for (let j = 0; j < 5; j++) {
-      const medecin = await db.medecin.findFirst()
-
-      const ordonnance = await db.ordonnance.create({
-        data: {
-          patient: {
-            connect: { id: patient.id },
-          },
-          medecin: {
-            connect: { id: medecin?.id },
-          },
-        },
-      })
-
-      for (let k = 0; k < 3; k++) {
-        const drug = faker.random.word()
-        const description = faker.lorem.sentence()
-
-        await db.prescription.create({
-          data: {
-            ordonnance: {
-              connect: { id: ordonnance.id },
-            },
-            drug: drug,
-            description: description,
-          },
-        })
-      }
-    }
   }
 }
 

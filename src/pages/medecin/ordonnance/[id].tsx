@@ -20,12 +20,33 @@ const StatusWrapper = () => {
   const [logoutMutation] = useMutation(logout)
   const [patientId, setPatientId] = useState(1)
   const paramId = useParams("number")
+  const ordonnanceTypes = [
+    { value: "delivrance", label: "Délivrance de médicaments" },
+    { value: "chronique", label: "maladie chronique" },
+    { value: "dispositif", label: "Dispositif médical" },
+    { value: "examen", label: "Prescription d'examen médical" },
+    { value: "orthophonie", label: "Orthophonie" },
+  ]
+  const [selectedOrdonnanceType, setSelectedOrdonnanceType] = useState("")
 
+  const calculateAge = (dateOfBirth) => {
+    const birthDate = new Date(dateOfBirth)
+    const currentDate = new Date()
+
+    let ageInMilliseconds = currentDate - birthDate
+
+    const millisecondsPerYear = 1000 * 60 * 60 * 24 * 365.25
+    const ageInYears = ageInMilliseconds / millisecondsPerYear
+    const age = Math.floor(ageInYears)
+
+    return age
+  }
   useEffect(() => {
     setPatientId(paramId.id)
   }, [paramId])
 
   const patient = useCurrentPatient(patientId)
+  const patientAge = calculateAge(patient.user.birthDate)
 
   if (currentUser) {
     return (
@@ -43,11 +64,23 @@ const StatusWrapper = () => {
         <div className="flex flex-col justify-center items-center w-screen">
           <div>
             Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
-            <h1>Current Patient : {patient.lastName + " " + patient.firstName} </h1>
+            <h1>Current Patient : {patient.user.lastName + " " + patient.user.firstName} </h1>
           </div>
           <div className="flex justify-center w-screen">
             <div className="">
-              <FormPrescription {...{ patientId, createdBy }} />
+              <h1> Sélectionnez le type d'ordonnance </h1>
+              <select
+                value={selectedOrdonnanceType}
+                onChange={(e) => setSelectedOrdonnanceType(e.target.value)}
+              >
+                <option value="">Select Ordonnance Type</option>
+                {ordonnanceTypes.map((type) => (
+                  <option key={type.value} value={type.value}>
+                    {type.label}
+                  </option>
+                ))}
+              </select>
+              <FormPrescription {...{ patientId, patientAge, createdBy, selectedOrdonnanceType }} />
             </div>
             <br />
           </div>

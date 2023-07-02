@@ -11,7 +11,9 @@ import createPrescription from "../mutations/createPrescription"
 
 type PrescriptionProps = {
   patientId?: number
+  patientAge?: number
   createdBy?: number
+  selectedOrdonnanceType?: string
 }
 
 const prescription = z.object({
@@ -25,6 +27,18 @@ const prescription = z.object({
   expirationTime: z.date(),
   drug: z.string(),
 })
+
+const expirationType = {
+  delivrance: 90,
+  chronique: 270,
+  dispositif: 365,
+  examen: {
+    16: 365,
+    42: 1825,
+    43: 1095,
+  },
+  orthophonie: 9999999,
+}
 
 const FormPrescription = (props: PrescriptionProps) => {
   const [prescriptions, setPrescriptions] = useState([
@@ -90,16 +104,35 @@ const FormPrescription = (props: PrescriptionProps) => {
   const handleSubmit = async (values) => {
     console.log("clicked")
     const createdPrescriptions = []
-
     try {
       if (prescriptions.some((prescription) => isEmptyPrescription(prescription))) {
         console.error("One or more prescriptions are empty.")
         return // Don't proceed with API call if any prescription is empty
       }
       console.log(props)
+      const ordonnancetype = props.selectedOrdonnanceType
+      console.log(ordonnancetype)
+      let ordonnanceExpiration = 0
+      if (ordonnancetype == "type4") {
+        const age = props.patientAge
+        ordonnanceExpiration =
+          age < 16
+            ? expirationType["type4"][16]
+            : age < 42
+            ? expirationType["type4"][42]
+            : expirationType["type4"][43]
+      } else {
+        ordonnanceExpiration = expirationType[props.selectedOrdonnanceType]
+      }
+      console.log(ordonnanceExpiration)
+      const ordonnanceExpirationDate = calculateExpirationTime(ordonnanceExpiration)
+      console.log(ordonnanceExpirationDate)
+
       const ordonnanceProps = {
         createdBy: props.createdBy,
         patientId: props.patientId,
+        category: props.selectedOrdonnanceType,
+        expiration: ordonnanceExpirationDate,
       }
       const ordonnance = await createOrdonnance(ordonnanceProps)
 
