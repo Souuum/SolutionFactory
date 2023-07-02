@@ -6,6 +6,8 @@ import logout from "src/auth/mutations/logout"
 import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 import styles from "src/styles/Home.module.css"
+import { useState } from "react"
+import { button } from "@material-tailwind/react"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
@@ -15,6 +17,15 @@ import styles from "src/styles/Home.module.css"
 const UserInfo = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
+  const [isOpen, setIsOpen] = useState(false)
+
+  const handleButtonClick = () => {
+    setIsOpen(true)
+  }
+
+  const handlePopupClose = () => {
+    setIsOpen(false)
+  }
 
   if (currentUser) {
     return (
@@ -32,6 +43,24 @@ const UserInfo = () => {
           <br />
           User role: <code>{currentUser.role}</code>
         </div>
+
+        <button className={styles.button} onClick={handleButtonClick}>
+          Rentrer une ordonnance
+        </button>
+        {isOpen && (
+          <div className="popup">
+            <div className="popup-content">
+              <form>
+                <label>
+                  Rentrer le code de l'ordonnance
+                  <input type="text" />
+                </label>
+              </form>
+
+              <button onClick={handlePopupClose}>Fermer</button>
+            </div>
+          </div>
+        )}
       </>
     )
   } else {
