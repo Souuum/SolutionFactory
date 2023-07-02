@@ -7,7 +7,7 @@ const Signup = z.object({
   email: z.string().email(),
   phone: z.string().min(10).max(10),
   password: z.string().min(10).max(20),
-  role: z.enum(["PHARMACIST", "MEDECIN", "SUPERPATIENT"]),
+  role: z.enum(["PHARMACIST", "MEDECIN", "SUPERPATIENT", "PATIENT"]),
   lastName: z.string().min(2).max(100),
   firstName: z.string().min(2).max(100),
   birthDate: z.date(),

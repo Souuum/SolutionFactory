@@ -5,7 +5,13 @@ export default async function getActualPrescriptionsByOrdonnances(_ = null, { se
   if (!session.userId) return null
 
   const prescriptions = await db.ordonnance.findMany({
-    where: { patientId: session.userId },
+    where: {
+      patient: {
+        user: {
+          id: session.userId,
+        },
+      },
+    },
     include: { prescriptions: true },
   })
 

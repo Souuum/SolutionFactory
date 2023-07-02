@@ -3,45 +3,226 @@ import { number } from "zod"
 import { Form, FORM_ERROR } from "src/core/components/Form"
 import LabeledTextField from "src/core/components/LabeledTextField"
 import { z } from "zod"
+import { useState } from "react"
+import styles from "src/styles/Home.module.css"
+import { useMutation } from "@tanstack/react-query"
+import createOrdonnance from "src/medecin/mutations/createOrdonnance"
+import createPrescription from "../mutations/createPrescription"
 
 type PrescriptionProps = {
-  drugs?: Drug | Drug[]
   patientId?: number
+  createdBy?: number
 }
 
 const prescription = z.object({
-  ordonnanceId: z.string(),
+  ordonnanceId: z.number(),
   patientId: z.number(),
-  drugId: z.number(),
   description: z.string().trim(),
-  drugName: z.string(),
+  morning: z.number().nonnegative(),
+  afternoon: z.number().nonnegative(),
+  evening: z.number().nonnegative(),
+  expiration: z.number().nonnegative(),
+  expirationTime: z.date(),
+  drug: z.string(),
 })
 
 const FormPrescription = (props: PrescriptionProps) => {
+  const [prescriptions, setPrescriptions] = useState([
+    {
+      drug: "",
+      description: "",
+      morning: 0,
+      afternoon: 0,
+      evening: 0,
+      expiration: 0,
+      expirationTime: new Date(),
+    }, // Initial prescription item
+  ])
+
+  const handleAddPrescription = () => {
+    setPrescriptions([
+      ...prescriptions,
+      {
+        drug: "",
+        description: "",
+        morning: 0,
+        afternoon: 0,
+        evening: 0,
+        expiration: 0,
+        expirationTime: new Date(),
+      },
+    ])
+  }
+
+  const handlePrescriptionChange = (index, field, value) => {
+    const updatedPrescriptions = prescriptions.map((prescription, i) => {
+      if (index === i) {
+        return { ...prescription, [field]: value }
+      }
+      return prescription
+    })
+    console.log(updatedPrescriptions)
+    setPrescriptions(updatedPrescriptions)
+  }
+
+  const handleRemovePrescription = (index) => {
+    const updatedPrescriptions = prescriptions.filter((_, i) => index !== i)
+    setPrescriptions(updatedPrescriptions)
+  }
+
+  const calculateExpirationTime = (expirationDays) => {
+    const expirationTime = new Date()
+    expirationTime.setDate(expirationTime.getDate() + parseInt(expirationDays))
+    return expirationTime
+  }
+
+  const isEmptyPrescription = (prescription) => {
+    return (
+      !prescription.drug ||
+      !prescription.description ||
+      prescription.morning === undefined ||
+      prescription.afternoon === undefined ||
+      prescription.evening === undefined ||
+      !prescription.expirationTime
+    )
+  }
+
+  const handleSubmit = async (values) => {
+    console.log("clicked")
+    const createdPrescriptions = []
+
+    try {
+      if (prescriptions.some((prescription) => isEmptyPrescription(prescription))) {
+        console.error("One or more prescriptions are empty.")
+        return // Don't proceed with API call if any prescription is empty
+      }
+      console.log(props)
+      const ordonnanceProps = {
+        createdBy: props.createdBy,
+        patientId: props.patientId,
+      }
+      const ordonnance = await createOrdonnance(ordonnanceProps)
+
+      for (const prescription of prescriptions) {
+        const props = {
+          ordonnanceId: ordonnance.id,
+          drug: prescription.drug,
+          description: prescription.description,
+          morning: parseInt(prescription.morning),
+          afternoon: parseInt(prescription.afternoon),
+          evening: parseInt(prescription.evening),
+          expirationTime: calculateExpirationTime(prescription.expiration),
+        }
+
+        const createdPrescription = await createPrescription(props)
+        createdPrescriptions.push(createdPrescription)
+      }
+
+      console.log(createdPrescriptions)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   return (
     <div>
       <Form
         submitText="Créer l'ordonnance"
         schema={prescription}
-        initialValues={{ drugName: "", description: "" }}
-        onSubmit={(values) => {
-          console.log(values)
+        initialValues={{
+          ordonnanceId: 0,
+          patientId: props.patientId || 0,
+          description: "",
+          morning: 0,
+          afternoon: 0,
+          evening: 0,
+          expiration: 0,
+          expirationTime: new Date(),
+          drug: "",
         }}
+        onSubmit={handleSubmit}
       >
-        <div className="flex flex-col items-center">
-          {props.drugs?.map((d) => (
-            <div key={d.name}>
-              <label className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2">
-                {d.name}
-              </label>
+        <div className="grid grid-cols-3">
+          {prescriptions.map((prescription, index) => (
+            <div key={index} className="flex flex-col bg-sky-200/20 p-4 m-1 rounded-lg ">
               <LabeledTextField
-                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
-                name="description"
+                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 max-w-xs border-solid appearance-none mt-2"
+                name={`drug-${index}`}
+                label="médicament"
+                placeholder="médicament"
+                value={prescription.drug}
+                onChange={(e) => handlePrescriptionChange(index, "drug", e.target.value)}
+              />
+              <LabeledTextField
+                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 max-w-xs border-solid appearance-none mt-2"
+                name={`description-${index}`}
                 label="description"
                 placeholder="description"
+                value={prescription.description}
+                onChange={(e) => handlePrescriptionChange(index, "description", e.target.value)}
               />
+              <div className="flex flex-row justify-between">
+                <LabeledTextField
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12  border-solid appearance-none mt-2"
+                  name={`morning-${index}`}
+                  label="morning"
+                  placeholder="morning"
+                  value={prescription.morning}
+                  onChange={(e) => handlePrescriptionChange(index, "morning", e.target.value)}
+                />
+                <LabeledTextField
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12 border-solid appearance-none mt-2"
+                  name={`afternoon-${index}`}
+                  label="afternoon"
+                  placeholder="afternoon"
+                  value={prescription.afternoon}
+                  onChange={(e) => handlePrescriptionChange(index, "afternoon", e.target.value)}
+                />
+                <LabeledTextField
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12 border-solid appearance-none mt-2"
+                  name={`evening-${index}`}
+                  label="evening"
+                  placeholder="evening"
+                  value={prescription.evening}
+                  onChange={(e) => handlePrescriptionChange(index, "evening", e.target.value)}
+                />
+              </div>
+              <div className="flex flex-row justify-between">
+                <LabeledTextField
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12 border-solid appearance-none mt-2"
+                  name={`expiration-${index}`}
+                  label="Durée du traitement en jour"
+                  placeholder="expiration"
+                  value={prescription.expiration}
+                  onChange={(e) => handlePrescriptionChange(index, "expiration", e.target.value)}
+                />
+                <button onClick={() => handleRemovePrescription(index)}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="24px"
+                    viewBox="0 0 24 24"
+                    width="24px"
+                    fill="#90A4AE"
+                  >
+                    <path d="M0 0h24v24H0V0z" fill="none" />
+                    <path d="M19 13H5v-2h14v2z" />
+                  </svg>
+                </button>
+              </div>
             </div>
           ))}
+          <button onClick={handleAddPrescription}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="24px"
+              viewBox="0 0 24 24"
+              width="24px"
+              fill="#90A4AE"
+            >
+              <path d="M0 0h24v24H0V0z" fill="none" />
+              <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+            </svg>
+          </button>
         </div>
       </Form>
     </div>

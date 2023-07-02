@@ -33,7 +33,7 @@ const UserInfo = () => {
   } else {
     return (
       <>
-        <Link href={Routes.SignupPage()} className={styles.button}>
+        <Link href={Routes.SignupPage("patient")} className={styles.button}>
           <strong>Sign Up</strong>
         </Link>
         <Link href={Routes.LoginPage()} className={styles.loginButton}>
@@ -47,9 +47,6 @@ const UserInfo = () => {
 const Home: BlitzPage = () => {
   return (
     <div>
-      <Suspense>
-        <NavBar />
-      </Suspense>
       <Layout title="Home">
         <div className={styles.globe} />
 

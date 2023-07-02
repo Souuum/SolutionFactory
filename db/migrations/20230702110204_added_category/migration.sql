@@ -67,6 +67,7 @@ CREATE TABLE "Ordonnance" (
     "id" SERIAL NOT NULL,
     "patientId" INTEGER NOT NULL,
     "createdBy" INTEGER NOT NULL,
+    "category" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -112,6 +113,13 @@ CREATE TABLE "Prescription" (
     "ordonnanceId" INTEGER NOT NULL,
     "drug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "morning" INTEGER NOT NULL,
+    "afternoon" INTEGER NOT NULL,
+    "evening" INTEGER NOT NULL,
+    "hasTakenMorning" BOOLEAN NOT NULL DEFAULT false,
+    "hasTakenAfternoon" BOOLEAN NOT NULL DEFAULT false,
+    "hasTakenEvening" BOOLEAN NOT NULL DEFAULT false,
+    "expirationTime" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -156,12 +164,6 @@ CREATE UNIQUE INDEX "User_phone_key" ON "User"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Patient_userId_key" ON "Patient"("userId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Patient_groupeId_key" ON "Patient"("groupeId");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Groupe_name_key" ON "Groupe"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Medecin_userId_key" ON "Medecin"("userId");
