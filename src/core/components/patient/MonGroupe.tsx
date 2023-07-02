@@ -18,7 +18,7 @@ import { Form, FORM_ERROR } from "src/core/components/Form"
 import LabeledTextField from "../LabeledTextField"
 import { ForgotPassword } from "src/auth/schemas"
 import createUser from "src/auth/mutations/createUser"
-
+import assignToNewGroupe from "src/pages/patient/mutations/assignToNewGroupe"
 type GroupeComponentProps = {
   getCurrentUser: (user: any) => void
   currentUser: any
@@ -28,17 +28,25 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
   const [showPopup, setShowPopup] = useState(false)
   const [groupeList, setGroupeList] = useState<any>([])
   const [groupe] = useQuery(getGroupeByPatient, null)
-  const [createUserMutation, { isSuccess }] = useMutation(createUser)
+  const [isSuccess, setIsSuccess] = useState(false)
+  const [deleteUser, setDeleteUser] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<any>()
+  const [createUserMutation] = useMutation(createUser)
+  const [assignToNewGroupeMutation] = useMutation(assignToNewGroupe)
   useEffect(() => {
     if (groupe) {
       setGroupeList(groupe.patients?.groupe.patients)
       console.log("groupe", groupe)
-    } else console.log("no groupe")
+    } else {
+      console.log("no groupe")
+    }
   }, [groupe])
 
-  const handlePrescriptionClick = (groupe) => {
-    //supprimer la prescription de la liste
-    console.log("Prescription clicked:", groupe)
+  const handleUserClick = (user) => {
+    // Afficher la popup de suppression de l'utilisateur
+    setSelectedUser(user)
+    console.log("User clicked:", user)
+    setDeleteUser(true)
   }
 
   const handleAddMemberClick = () => {
@@ -48,7 +56,22 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
 
   const handleClosePopup = () => {
     setShowPopup(false)
+    setIsSuccess(false)
   }
+
+  const handleConfirmDelete = async () => {
+    try {
+      // Logique de suppression de l'utilisateur ici
+      console.log(selectedUser)
+      await assignToNewGroupeMutation({ patientId: selectedUser.id!, userId: selectedUser.userId! })
+      setGroupeList((prevList) => prevList.filter((patient) => patient.id !== selectedUser.id))
+      setDeleteUser(false)
+    } catch (error) {
+      // Handle the error here
+      console.error(error)
+    }
+  }
+
   return (
     <div>
       <Swiper
@@ -77,7 +100,7 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                     justifyContent: "center",
                     height: "170px", // Taille ajustée en fonction du contenu
                   }}
-                  onClick={() => handlePrescriptionClick(patient)}
+                  onClick={() => handleUserClick(patient)}
                 >
                   <FontAwesomeIcon
                     icon={patient.user.gender === "male" ? faPerson : faPersonDress}
@@ -92,40 +115,42 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                   <div style={{ textAlign: "center" }}>
                     {patient.user.gender === "male" ? "Homme" : "Femme"}
                   </div>
-                  {patient.user.id == currentUser.id ? null : (
+                  {patient.user.id !== currentUser?.id && currentUser?.role === "SUPERPATIENT" ? (
                     <FontAwesomeIcon
                       icon={faUserSlash}
                       style={{ color: "#000000", fontSize: "20px" }}
                     />
-                  )}
+                  ) : null}
                 </div>
               </SwiperSlide>
             </ul>
           </div>
         ))}
         <SwiperSlide>
-          <div
-            style={{
-              border: "1px solid #B2D8FF",
-              borderRadius: "8px",
-              padding: "5px",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-              height: "170px",
-              width: "150px",
-              margin: "0 20px" /* Ajustez la marge selon vos besoins */,
-            }}
-            onClick={() => handleAddMemberClick()}
-          >
-            <p style={{ margin: 0, marginBottom: "10px", textAlign: "center" }}>
-              Ajouter un membre
-            </p>
-            <button style={{ border: "none", background: "none" }}>
-              <FontAwesomeIcon icon={faPlus} />
-            </button>
-          </div>
+          {currentUser?.role === "SUPERPATIENT" && (
+            <div
+              style={{
+                border: "1px solid #B2D8FF",
+                borderRadius: "8px",
+                padding: "5px",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                height: "170px",
+                width: "150px",
+                margin: "0 20px" /* Ajustez la marge selon vos besoins */,
+              }}
+              onClick={() => handleAddMemberClick()}
+            >
+              <p style={{ margin: 0, marginBottom: "10px", textAlign: "center" }}>
+                Ajouter un membre
+              </p>
+              <button style={{ border: "none", background: "none" }}>
+                <FontAwesomeIcon icon={faPlus} />
+              </button>
+            </div>
+          )}
         </SwiperSlide>
       </Swiper>
 
@@ -181,6 +206,7 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                     values = { ...values, groupe: parseInt(groupe.patients?.groupeId as any) }
                     try {
                       await createUserMutation(values)
+                      setIsSuccess(true)
                     } catch (error: any) {
                       return {
                         [FORM_ERROR]: "Sorry, we had an unexpected error. Please try again.",
@@ -200,6 +226,68 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                 </Form>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {deleteUser && currentUser?.role === "SUPERPATIENT" && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            background: "rgba(0, 0, 0, 0.5)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 9999,
+          }}
+        >
+          <div
+            style={{
+              background: "#fff",
+              borderRadius: "8px",
+              padding: "20px",
+              width: "300px",
+              position: "relative", // Add position relative to create a new stacking context
+            }}
+          >
+            <FontAwesomeIcon
+              icon={faTimes}
+              style={{
+                position: "absolute",
+                top: "10px",
+                right: "10px",
+                cursor: "pointer",
+              }}
+              onClick={() => setDeleteUser(false)}
+            />
+            <p>Etes-vous sûr de vouloir supprimer cet utilisateur de votre groupe ?</p>
+            <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
+              <button
+                style={{
+                  border: "none",
+                  background: "none",
+                  color: "green",
+                  marginRight: "10px",
+                }}
+                onClick={handleConfirmDelete}
+              >
+                Confirmer
+              </button>
+              <button
+                style={{
+                  border: "none",
+                  background: "none",
+                  color: "red",
+                }}
+                onClick={() => setDeleteUser(false)}
+              >
+                Annuler
+              </button>
+            </div>
           </div>
         </div>
       )}

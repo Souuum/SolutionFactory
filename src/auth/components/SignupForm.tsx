@@ -45,7 +45,7 @@ export const SignupForm = (props: SignupFormProps) => {
           </div>
           <Form
             className="w-1/2 p-4 "
-            submitText=<span className="text-white">Créer un compte</span>
+            submitText="Créer un compte"
             initialValues={{ email: "", password: "" }}
             onSubmit={async (values) => {
               if (props.role?.toString().toUpperCase() == "PHARMACIEN") {

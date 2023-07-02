@@ -9,7 +9,7 @@ import { Routes, BlitzPage } from "@blitzjs/next"
 import NavBar from "src/core/components/NavBar"
 import UserProfile from "src/core/components/patient/UserProfile"
 
-import Ordonnance from "src/core/components/Ordonnance"
+import Ordonnance from "src/core/components/patient/Ordonnance/ListOrdonnances"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
 
 /*

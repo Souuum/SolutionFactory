@@ -9,7 +9,7 @@ import { Routes, BlitzPage } from "@blitzjs/next"
 import NavBar from "src/core/components/NavBar"
 import UserProfile from "src/core/components/patient/UserProfile"
 
-import Ordonnance from "src/core/components/Ordonnance"
+import ListOrdonnances from "src/core/components/patient/Ordonnance/ListOrdonnances"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
 
 /*
@@ -24,7 +24,7 @@ const UserOrd = () => {
   if (currentUser) {
     return (
       <>
-        <Ordonnance />
+        <ListOrdonnances />
       </>
     )
   } else {
@@ -59,17 +59,6 @@ const Ordonnances: BlitzPage = () => {
             <Typography className="text-[#172048] text-3xl mb-5 font-bold ml-3 mt-5">
               Mes ordonnances
             </Typography>
-            <div className="flex flex-wrap mt-10 r w-720 bg-transparent tracking-wide  font-bold    inline-flex ">
-              <div className="m-3 w-[85px] text-[#172048]">
-                <a>Utilisé</a>
-              </div>
-              <div className="m-3 text-[#172048] w-[230px]">
-                <a>Date de prescription</a>
-              </div>
-              <div className="m-3 text-[#172048]">
-                <a>Médecin</a>
-              </div>
-            </div>
             <div>
               <Suspense>
                 <UserOrd />
