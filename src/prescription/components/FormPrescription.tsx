@@ -76,11 +76,26 @@ const FormPrescription = (props: PrescriptionProps) => {
     return expirationTime
   }
 
+  const isEmptyPrescription = (prescription) => {
+    return (
+      !prescription.drug ||
+      !prescription.description ||
+      prescription.morning === undefined ||
+      prescription.afternoon === undefined ||
+      prescription.evening === undefined ||
+      !prescription.expirationTime
+    )
+  }
+
   const handleSubmit = async (values) => {
     console.log("clicked")
     const createdPrescriptions = []
 
     try {
+      if (prescriptions.some((prescription) => isEmptyPrescription(prescription))) {
+        console.error("One or more prescriptions are empty.")
+        return // Don't proceed with API call if any prescription is empty
+      }
       console.log(props)
       const ordonnanceProps = {
         createdBy: props.createdBy,
