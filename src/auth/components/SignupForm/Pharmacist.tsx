@@ -7,12 +7,19 @@ type PharmacistSignupFormProps = {
 
 export const PharmacistSignupForm = (props: PharmacistSignupFormProps) => {
   return (
-    <LabeledTextField
-      name="rpps"
-      label="Numéro RPPS"
-      placeholder="XXXXXXXXXXX"
-      pattern="[0-9]{11}"
-    />
+    <div>
+      <LabeledTextField
+        name="rpps"
+        label="Numéro RPPS"
+        placeholder="XXXXXXXXXXX"
+        pattern="[0-9]{11}"
+      />
+      <LabeledTextField
+        name="pharmacy"
+        label="Pharmacy"
+        placeholder="Adresse, ville, code postal"
+      />
+    </div>
   )
 }
 

@@ -11,13 +11,18 @@ const Pharmacist = z.object({
     .max(11)
     .transform((str) => str.trim()),
   userId: z.number(),
+  pharmacy: z
+    .string()
+    .min(3)
+    .max(255)
+    .transform((str) => str.trim()),
 })
-export default resolver.pipe(resolver.zod(Pharmacist), async ({ userId, rpps }, ctx) => {
-  const hashedPassword = await SecurePassword.hash(password.trim())
+export default resolver.pipe(resolver.zod(Pharmacist), async ({ userId, rpps, pharmacy }, ctx) => {
   const pharmacien = await db.pharmacien.create({
     data: {
       rpps,
       userId,
+      pharmacy,
     },
     select: {
       id: true,
