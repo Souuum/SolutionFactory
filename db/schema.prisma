@@ -105,7 +105,9 @@ model TokenOrdonnance {
 model Drug {
   id               Int      @id @default(autoincrement())
   name             String
+  stock            String?
   pharmaShape      String[]
+  admWay           String
   ammStatus        String
   ammProcType      String
   commercial       String
@@ -113,9 +115,7 @@ model Drug {
   bdmStatus        String
   euroAutorization String
   holder           String
-  monitoring       Boolean
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  monitoring       String
 }
 
 model Prescription {
