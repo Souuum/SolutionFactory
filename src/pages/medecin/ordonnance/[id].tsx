@@ -12,6 +12,7 @@ import { useCurrentPatient } from "src/patient/hooks/useCurrentPatient"
 import { useEffect, useState } from "react"
 import FormPrescription from "src/prescription/components/FormPrescription"
 import { useCurrentMedecin } from "src/medecin/hooks/useCurrentMedecin"
+import { Navbar } from "@material-tailwind/react"
 
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
@@ -46,8 +47,7 @@ const StatusWrapper = () => {
   }, [paramId])
 
   const patient = useCurrentPatient(patientId)
-  const patientAge = calculateAge(patient.user.birthDate)
-
+  const patientAge = calculateAge(patient?.user.birthDate)
   if (currentUser) {
     return (
       <>
@@ -64,7 +64,7 @@ const StatusWrapper = () => {
         <div className="flex flex-col justify-center items-center w-screen">
           <div>
             Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
-            <h1>Current Patient : {patient.user.lastName + " " + patient.user.firstName} </h1>
+            <h1>Current Patient : {patient?.user.lastName + " " + patient?.user.firstName} </h1>
           </div>
           <div className="flex justify-center w-screen">
             <div className="">

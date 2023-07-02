@@ -99,7 +99,7 @@ const TablePatient = () => {
               thSpanClasses: "justify-content-between",
             },
             td: {
-              text: (item: any) => item.id,
+              text: (item: any) => item.patients.id,
             },
           },
           {
@@ -114,7 +114,7 @@ const TablePatient = () => {
               thSpanClasses: "justify-content-between",
             },
             td: {
-              text: (item: any) => item.userId,
+              text: (item: any) => item.id,
             },
           },
           {
@@ -240,7 +240,7 @@ const TablePatient = () => {
                 {
                   type: "link",
                   text: () => "Créer une ordonnance",
-                  href: (item: any) => `/medecin/ordonnance/${item.id}`,
+                  href: (item: any) => `/medecin/ordonnance/${item.patients.id}`,
                 },
               ],
             },
