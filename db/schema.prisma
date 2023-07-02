@@ -80,6 +80,7 @@ model Ordonnance {
   patientId     Int
   medecin       Medecin          @relation(fields: [createdBy], references: [id])
   createdBy     Int
+  category      String
   prescriptions Prescription[]
   token         TokenOrdonnance?
   createdAt     DateTime         @default(now())
@@ -106,7 +107,9 @@ model TokenOrdonnance {
 model Drug {
   id               Int      @id @default(autoincrement())
   name             String
+  stock            String?
   pharmaShape      String[]
+  admWay           String
   ammStatus        String
   ammProcType      String
   commercial       String
@@ -114,27 +117,32 @@ model Drug {
   bdmStatus        String
   euroAutorization String
   holder           String
-  monitoring       Boolean
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
+  monitoring       String
 }
 
 model Prescription {
-  id           Int        @id @default(autoincrement())
-  ordonnance   Ordonnance @relation(fields: [ordonnanceId], references: [id])
-  ordonnanceId Int
-  drug         String
-  description  String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id                Int        @id @default(autoincrement())
+  ordonnance        Ordonnance @relation(fields: [ordonnanceId], references: [id])
+  ordonnanceId      Int
+  drug              String
+  description       String
+  morning           Int
+  afternoon         Int
+  evening           Int
+  hasTakenMorning   Boolean    @default(false)
+  hasTakenAfternoon Boolean    @default(false)
+  hasTakenEvening   Boolean    @default(false)
+  expirationTime    DateTime
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
 model Session {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  expiresAt          DateTime?
-  handle             String    @unique
+  id                 Int      @id @default(autoincrement())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  expiresAt          DateTime
+  handle             String   @unique
   hashedSessionToken String?
   antiCSRFToken      String?
   publicData         String?
