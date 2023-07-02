@@ -247,6 +247,11 @@ const TablePatients = () => {
                   text: () => "Créer une ordonnance",
                   href: (item: any) => `/medecin/ordonnance/${item.id}`,
                 },
+                {
+                  type: "link",
+                  text: () => "Consultez les ordonnances créées",
+                  href: (item: any) => `/medecin/patients/${item.id}`,
+                },
               ],
             },
           },
