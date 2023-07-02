@@ -81,6 +81,7 @@ model Ordonnance {
   medecin       Medecin          @relation(fields: [createdBy], references: [id])
   createdBy     Int
   category      String
+  expiration    DateTime
   prescriptions Prescription[]
   token         TokenOrdonnance?
   createdAt     DateTime         @default(now())

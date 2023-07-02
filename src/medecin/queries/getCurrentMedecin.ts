@@ -10,6 +10,7 @@ export default async function getCurrentMedecin(_ = null, { session }: Ctx) {
     select: { id: true, user: true, rpps: true, cabinet: true, specialty: true },
   })
 
+  console.log("medecin")
   console.log(medecin)
   return medecin
 }

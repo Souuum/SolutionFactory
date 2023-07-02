@@ -51,36 +51,92 @@ const seed = async () => {
         },
       },
     })
+  }
 
-    for (let j = 0; j < 5; j++) {
-      const medecin = await db.medecin.findFirst()
+  for (let i = 1; i < 30; i++) {
+    //Création de Médecin
+    //Création du User lié au médecin
+    const gender = faker.datatype.boolean() ? "male" : "female"
+    const firstName = faker.person.firstName(gender)
+    const lastName = faker.person.lastName()
+    const email = faker.internet.email({ firstName, lastName })
 
-      const ordonnance = await db.ordonnance.create({
-        data: {
-          patient: {
-            connect: { id: patient.id },
-          },
-          medecin: {
-            connect: { id: medecin?.id },
-          },
-        },
-      })
+    const password = faker.internet.password()
+    const hashedPassword = await SecurePassword.hash(password.trim())
+    const phone = faker.phone.number()
+    const birthDate = faker.date.between({ from: "1950-01-01", to: "2005-12-31" })
+    const rpps = faker.datatype.number({ min: 10000000000, max: 99999999999 }).toString()
 
-      for (let k = 0; k < 3; k++) {
-        const drug = faker.random.word()
-        const description = faker.lorem.sentence()
+    const speciality = faker.lorem.word()
+    const address = faker.location.streetAddress()
 
-        await db.prescription.create({
-          data: {
-            ordonnance: {
-              connect: { id: ordonnance.id },
-            },
-            drug: drug,
-            description: description,
-          },
-        })
-      }
-    }
+    const user = await db.user.create({
+      data: {
+        email: email,
+        phone: phone,
+        hashedPassword: hashedPassword,
+        lastName: lastName,
+        firstName: firstName,
+        gender: gender,
+        birthDate: birthDate,
+        role: "MEDECIN",
+      },
+    })
+
+    const medecin = await db.medecin.create({
+      data: {
+        userId: user.id,
+        rpps: rpps,
+        cabinet: address,
+        specialty: speciality,
+      },
+    })
+
+    console.log(medecin)
+
+    //creation d'ordonnance
+
+    const category =
+      i % 1 == 0
+        ? "delivrance"
+        : i % 2 == 0
+        ? "chronique"
+        : i % 3 == 0
+        ? "dispositif"
+        : i % 4 == 0
+        ? "examen"
+        : "orthophonie"
+    const eo = faker.datatype.number({ min: 60, max: 3000 })
+    const expiration = faker.date.soon({ days: eo })
+    const ep = faker.datatype.number({ min: 7, max: 21 })
+    const expirationPre = faker.date.soon({ days: ep })
+
+    const prescriptionDrug = faker.lorem.word()
+    const prescriptionDesc = faker.lorem.lines({ min: 1, max: 2 })
+    const patientId = faker.datatype.number({ min: 4, max: 100 })
+
+    const ordonnance = await db.ordonnance.create({
+      data: {
+        createdBy: medecin.id,
+        patientId: patientId,
+        category: category,
+        expiration: expiration,
+      },
+    })
+
+    const prescription = await db.prescription.create({
+      data: {
+        ordonnanceId: ordonnance.id,
+        drug: prescriptionDrug,
+        description: prescriptionDesc,
+        morning: 1,
+        afternoon: 1,
+        evening: 1,
+        expirationTime: expirationPre,
+      },
+    })
+
+    console.log(prescription)
   }
 }
 
