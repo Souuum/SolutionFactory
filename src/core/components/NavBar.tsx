@@ -23,11 +23,11 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   if (currentUserQuerie?.role == "MEDECIN" || currentUserQuerie?.role == "PHARMACIEN") {
     navList = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
-        <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
-          <a href="#" className="flex items-center ">
-            Mes patients
-          </a>
-        </Typography>
+        <Link href={Routes.MedecinPatientPage()}>
+          <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
+            <div className="flex items-center ">Mes patients</div>
+          </Typography>
+        </Link>
 
         <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
           <a href="#" className="flex items-center ">
