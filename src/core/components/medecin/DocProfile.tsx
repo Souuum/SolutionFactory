@@ -58,7 +58,7 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
   }
 
   return (
-    <Card className="w-96 bg-transparent absolute ml-40 m5">
+    <Card className="w-96 shadow-none bg-transparent absolute ml-40 mt-20 m5">
       <Typography className="text-[#172048] text-3xl mb-5 font-bold ">Mon compte</Typography>
       <List>
         <ListItem className="mb-4">

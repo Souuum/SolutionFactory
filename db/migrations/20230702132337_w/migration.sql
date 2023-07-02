@@ -92,7 +92,9 @@ CREATE TABLE "TokenOrdonnance" (
 CREATE TABLE "Drug" (
     "id" SERIAL NOT NULL,
     "name" TEXT NOT NULL,
+    "stock" TEXT,
     "pharmaShape" TEXT[],
+    "admWay" TEXT NOT NULL,
     "ammStatus" TEXT NOT NULL,
     "ammProcType" TEXT NOT NULL,
     "commercial" TEXT NOT NULL,
@@ -100,9 +102,7 @@ CREATE TABLE "Drug" (
     "bdmStatus" TEXT NOT NULL,
     "euroAutorization" TEXT NOT NULL,
     "holder" TEXT NOT NULL,
-    "monitoring" BOOLEAN NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "monitoring" TEXT NOT NULL,
 
     CONSTRAINT "Drug_pkey" PRIMARY KEY ("id")
 );
@@ -131,7 +131,7 @@ CREATE TABLE "Session" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "expiresAt" TIMESTAMP(3),
+    "expiresAt" TIMESTAMP(3) NOT NULL,
     "handle" TEXT NOT NULL,
     "hashedSessionToken" TEXT,
     "antiCSRFToken" TEXT,
@@ -152,6 +152,7 @@ CREATE TABLE "Token" (
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "sentTo" TEXT NOT NULL,
     "userId" INTEGER,
+    "groupeId" INTEGER,
 
     CONSTRAINT "Token_pkey" PRIMARY KEY ("id")
 );
@@ -218,3 +219,6 @@ ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId"
 
 -- AddForeignKey
 ALTER TABLE "Token" ADD CONSTRAINT "Token_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Token" ADD CONSTRAINT "Token_groupeId_fkey" FOREIGN KEY ("groupeId") REFERENCES "Groupe"("id") ON DELETE SET NULL ON UPDATE CASCADE;

@@ -28,11 +28,11 @@ export const LoginForm = (props: LoginFormProps) => {
       <Suspense>
         <Navbar setCurrentUser={setCurrentUser} />
       </Suspense>
-      <div className="flex items-center justify-center">
+      <div className="flex items-center justify-center mt-8">
         <div className="w-1/2 text-center p-4 mx-auto">
           <h1 className="text-5xl my-3.5">Connexion</h1>
           <Form
-            submitText="Connexion"
+            submitText=<span className="text-white">Connexion</span>
             schema={Login}
             initialValues={{ email: "", password: "" }}
             onSubmit={async (values) => {
@@ -55,13 +55,13 @@ export const LoginForm = (props: LoginFormProps) => {
           >
             <div className="flex flex-col items-center">
               <LabeledTextField
-                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700  w-1/2 border-solid appearance-none mt-2"
+                className="w-96 text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none mt-2"
                 name="email"
                 label="Email"
                 placeholder="Email"
               />
               <LabeledTextField
-                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 w-1/2 border-solid appearance-none mt-2"
+                className="w-96 text-base py-1 px-2 bg-transparent border-b border-b-cyan-700 w-1/2 border-solid appearance-none mt-2"
                 name="password"
                 label="Mot de passe"
                 placeholder="Mot de passe"
@@ -76,7 +76,7 @@ export const LoginForm = (props: LoginFormProps) => {
         <div className="w-1/2 text-center">
           <h1 className="text-5xl my-3.5"> Pas encore inscrit ? </h1>
           <Link className="text-xl" href={Routes.SignupPage({ role: "patient" })}>
-            <button className="rounded p-2 bg-cyan-600 my-2 w-80">Inscription</button>
+            <button className="rounded p-2 bg-cyan-600 my-2 w-80 text-white">Inscription</button>
           </Link>
         </div>
       </div>

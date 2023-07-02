@@ -41,11 +41,11 @@ export const SignupForm = (props: SignupFormProps) => {
       <div className="h-screen ">
         <div className="flex items-center justify-center">
           <div className="w-1/2 p-4 mx-auto">
-            <h1 className="text-4xl text-center font-bold"> Bienvenue </h1>
+            <h1 className="text-4xl text-center text-[#172048] font-extra-bold"> Bienvenue </h1>
           </div>
           <Form
-            className="w-1/2 p-4"
-            submitText="Créer un compte"
+            className="w-1/2 p-4 "
+            submitText=<span className="text-white">Créer un compte</span>
             initialValues={{ email: "", password: "" }}
             onSubmit={async (values) => {
               if (props.role?.toString().toUpperCase() == "PHARMACIEN") {
@@ -144,18 +144,25 @@ export const SignupForm = (props: SignupFormProps) => {
               }
             }}
           >
-            <h1 className="text-3xl my-3">Nouveau Compte</h1>
-            <UserSignupForm onSelectChange={handleSelectChange} />
-            {props.role == "patient" ? (
-              <LabeledTextField
-                name="securityNumber"
-                label="Numéro de Sécurité Sociale"
-                placeholder="XXXXXXXXXXXXX"
-                pattern="[0-9]{13}"
-              />
-            ) : null}
-            {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
-            {props.role == "medecin" ? <MedecinSignupForm /> : null}
+            <div>
+              <h1 className="text-[#172048] text-center   text-3xl mb-5 font-bold mb-6 ">
+                Nouveau Compte
+              </h1>
+              <div>
+                <UserSignupForm onSelectChange={handleSelectChange} />
+                {props.role == "patient" ? (
+                  <LabeledTextField
+                    className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none mt-2"
+                    name="securityNumber"
+                    label="Numéro de Sécurité Sociale"
+                    placeholder="XXXXXXXXXXXXX"
+                    pattern="[0-9]{13}"
+                  />
+                ) : null}
+                {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
+                {props.role == "medecin" ? <MedecinSignupForm /> : null}
+              </div>
+            </div>
           </Form>
         </div>
       </div>
