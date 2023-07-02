@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useState } from "react"
+import { Suspense } from "react"
 import Link from "next/link"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
@@ -7,32 +7,24 @@ import { useMutation } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 
 import NavBar from "src/core/components/NavBar"
-import UserProfile from "src/core/components/patient/UserProfile"
-
-import Ordonnance from "src/core/components/Ordonnance"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
-import MesPrescriptions from "src/core/components/patient/MesPrescriptions"
-import MesOrdonnances from "src/core/components/patient/MesOrdonnances"
-import MonGroupe from "src/core/components/patient/MonGroupe"
 
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
  */
 
-const UserOrd = () => {
+const UserInfo = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
 
   if (currentUser) {
-    return (
-      <>
-        <Ordonnance />
-      </>
-    )
+    return <></>
   } else {
     return (
       <>
+        <Typography></Typography>
+
         <Link href={Routes.LoginPage()}>
           <Button
             variant="gradient"
@@ -47,22 +39,19 @@ const UserOrd = () => {
   }
 }
 
-const HomePatient: BlitzPage = () => {
-  var [currentUser, setCurrentUser] = useState<any>(null)
-  useEffect(() => {
-    console.log("navbar", currentUser)
-  }, [currentUser])
-
+const ProfilPharmacien: BlitzPage = () => {
   return (
     <div>
-      <NavBar setCurrentUser={setCurrentUser} />
+      <Suspense>
+        <NavBar />
+      </Suspense>
       <div>
-        <MesPrescriptions setCurrentUser={setCurrentUser} currentUser={currentUser} />
-        <MesOrdonnances setCurrentUser={setCurrentUser} currentUser={currentUser} />
-        <MonGroupe setCurrentUser={setCurrentUser} currentUser={currentUser} />
+        <Suspense>
+          <UserProfile />
+        </Suspense>
       </div>
     </div>
   )
 }
 
-export default HomePatient
+export default ProfilPharmacien

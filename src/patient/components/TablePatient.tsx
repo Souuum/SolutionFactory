@@ -32,14 +32,14 @@ const TablePatient = () => {
     }
   }
 
-  const [{ patients, count }, { refetch }] = usePaginatedQuery(getAllPatients, queryOptions)
+  const [{ users, count }, { refetch }] = usePaginatedQuery(getAllPatients, queryOptions)
 
   useEffect(() => {
-    console.log(patients)
+    console.log(users)
     console.log(keywords)
     console.log(currentOrder)
-    setItems(patients)
-  }, [patients, keywords, currentOrder])
+    setItems(users)
+  }, [users, keywords, currentOrder])
 
   return (
     <div className="flex">

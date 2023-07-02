@@ -36,7 +36,7 @@ model Patient {
   user           User         @relation(fields: [userId], references: [id])
   userId         Int          @unique
   groupe         Groupe       @relation(fields: [groupeId], references: [id])
-  groupeId       Int          @unique
+  groupeId       Int
   securityNumber String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
@@ -45,7 +45,7 @@ model Patient {
 
 model Groupe {
   id        Int       @id @default(autoincrement())
-  name      String    @unique
+  name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   patients  Patient[]
@@ -79,6 +79,7 @@ model Ordonnance {
   patientId     Int
   medecin       Medecin          @relation(fields: [createdBy], references: [id])
   createdBy     Int
+  category      String
   prescriptions Prescription[]
   token         TokenOrdonnance?
   createdAt     DateTime         @default(now())
@@ -119,21 +120,28 @@ model Drug {
 }
 
 model Prescription {
-  id           Int        @id @default(autoincrement())
-  ordonnance   Ordonnance @relation(fields: [ordonnanceId], references: [id])
-  ordonnanceId Int
-  drug         String
-  description  String
-  createdAt    DateTime   @default(now())
-  updatedAt    DateTime   @updatedAt
+  id                Int        @id @default(autoincrement())
+  ordonnance        Ordonnance @relation(fields: [ordonnanceId], references: [id])
+  ordonnanceId      Int
+  drug              String
+  description       String
+  morning           Int
+  afternoon         Int
+  evening           Int
+  hasTakenMorning   Boolean    @default(false)
+  hasTakenAfternoon Boolean    @default(false)
+  hasTakenEvening   Boolean    @default(false)
+  expirationTime    DateTime
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
 }
 
 model Session {
-  id                 Int       @id @default(autoincrement())
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
-  expiresAt          DateTime?
-  handle             String    @unique
+  id                 Int      @id @default(autoincrement())
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  expiresAt          DateTime
+  handle             String   @unique
   hashedSessionToken String?
   antiCSRFToken      String?
   publicData         String?

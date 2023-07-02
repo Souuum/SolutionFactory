@@ -6,18 +6,20 @@ import forgotPassword from "src/auth/mutations/forgotPassword"
 import { useMutation } from "@blitzjs/rpc"
 import { BlitzPage } from "@blitzjs/next"
 import Navbar from "../../core/components/NavBar"
-import React, { Suspense } from "react"
+import React, { useEffect, useState } from "react"
 
 const ForgotPasswordPage: BlitzPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword)
+  var [currentUser, setCurrentUser] = useState<any>(null)
+  useEffect(() => {
+    console.log("navbar", currentUser)
+  }, [currentUser])
 
   return (
     <div className="h-screen bg-sky-100">
       <div className="items-center justify-center">
         <div className="flex items-center justify-center">
-          <Suspense fallback={<div>Loading...</div>}>
-            <Navbar />
-          </Suspense>
+          <Navbar setCurrentUser={setCurrentUser} />
         </div>
         <div className="my-48">
           <div className="items-center justify-center">
