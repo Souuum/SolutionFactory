@@ -16,7 +16,7 @@ const LoginPage: BlitzPage = () => {
               ? router.push(Routes.HomePharmacist())
               : _user.role.toLowerCase() == "medecin"
               ? router.push(Routes.HomeMedecin())
-              : _user.role.toLowerCase() == "patient"
+              : _user.role.toLowerCase() == "patient" || _user.role.toLowerCase() == "superpatient"
               ? router.push(Routes.HomePatient())
               : console.log(_user.role.toLowerCase())
           }

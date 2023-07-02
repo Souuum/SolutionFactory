@@ -95,7 +95,7 @@ const MesPrescriptions = ({ setCurrentUser, currentUser }: PrescriptionProps) =>
   return (
     <div>
       <Typography className="text-[#172048] text-3xl mb-5 font-bold mb-10">
-        Mes prescriptions en cours
+        Mes prescriptions à prendre
       </Typography>
       <Suspense fallback="Loading...">
         <PrescriptionsComponents currentUser={currentUser} getCurrentUser={setCurrentUser} />

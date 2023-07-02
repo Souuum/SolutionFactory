@@ -47,9 +47,6 @@ const UserInfo = () => {
 const Home: BlitzPage = () => {
   return (
     <div>
-      <Suspense>
-        <NavBar />
-      </Suspense>
       <Layout title="Home">
         <div className={styles.globe} />
 
