@@ -23,12 +23,12 @@ export default function OrdonnanceDetails(data: any) {
       <table className="w-full mt-10 bg-white rounded shadow-md">
         <thead className="bg-gray-100">
           <tr>
-            <th className="py-4 px-6 font-bold">Drug</th>
+            <th className="py-4 px-6 font-bold">Médicament</th>
             <th className="py-4 px-6 font-bold">Description</th>
-            <th className="py-4 px-6 font-bold">Expiration Time</th>
-            <th className="py-4 px-6 font-bold">Morning</th>
-            <th className="py-4 px-6 font-bold">Afternoon</th>
-            <th className="py-4 px-6 font-bold">Evening</th>
+            <th className="py-4 px-6 font-bold">Fin de la prescription</th>
+            <th className="py-4 px-6 font-bold">Matin</th>
+            <th className="py-4 px-6 font-bold">Midi</th>
+            <th className="py-4 px-6 font-bold">Soir</th>
           </tr>
         </thead>
         <tbody>
