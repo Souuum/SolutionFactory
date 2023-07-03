@@ -38,13 +38,13 @@ export const SignupForm = (props: SignupFormProps) => {
   return (
     <>
       <Navbar setCurrentUser={setCurrentUser} />
-      <div className="h-screen ">
-        <div className="flex items-center justify-center">
-          <div className="w-1/2 p-4 mx-auto">
-            <h1 className="text-4xl text-center font-bold"> Bienvenue </h1>
+      <div className="h-full bg-blue-300 flex flex-col justify-center">
+        <div className="flex flex-col items-center justify-center sm:flex-row">
+          <div className="w-full sm:w-1/2 p-4 mx-auto">
+            <h1 className="text-6xl text-center font-bold order-first sm:order-last">Bienvenue</h1>
           </div>
           <Form
-            className="w-1/2 p-4"
+            className="w-full sm:w-1/2 p-4"
             submitText="Créer un compte"
             initialValues={{ email: "", password: "" }}
             onSubmit={async (values) => {
@@ -144,18 +144,20 @@ export const SignupForm = (props: SignupFormProps) => {
               }
             }}
           >
-            <h1 className="text-3xl my-3">Nouveau Compte</h1>
-            <UserSignupForm onSelectChange={handleSelectChange} />
-            {props.role == "patient" ? (
-              <LabeledTextField
-                name="securityNumber"
-                label="Numéro de Sécurité Sociale"
-                placeholder="XXXXXXXXXXXXX"
-                pattern="[0-9]{13}"
-              />
-            ) : null}
-            {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
-            {props.role == "medecin" ? <MedecinSignupForm /> : null}
+            <h1 className="text-3xl my-3 mt-2">Nouveau Compte</h1>
+            <div className="h-[33rem] overflow-y-scroll">
+              <UserSignupForm onSelectChange={handleSelectChange} />
+              {props.role == "patient" ? (
+                <LabeledTextField
+                  name="securityNumber"
+                  label="Numéro de Sécurité Sociale"
+                  placeholder="XXXXXXXXXXXXX"
+                  pattern="[0-9]{13}"
+                />
+              ) : null}
+              {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
+              {props.role == "medecin" ? <MedecinSignupForm /> : null}
+            </div>
           </Form>
         </div>
       </div>

@@ -108,11 +108,8 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   }
   return (
     <div>
-      <Navbar className="sticky inset-0 z-10 h-max  rounded-none py-2 px-4 lg:px-8 lg:py-4 bg-[#F4FEFF] border-b-0">
-        <div className="flex gap-x-10 items-center justify-between ">
-          <Typography as="a" href="#" className="mx-8 cursor-pointer py-1.5 font-medium text-base">
-            Material Tailwind
-          </Typography>
+      <Navbar className="sticky inset-0 z-10 h-max rounded-none py-2 px-4 lg:px-8 lg:py-4 bg-[#F4FEFF] border-b-0">
+        <div className="flex gap-x-10 items-center justify-end ">
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="mr-4 hidden lg:block">{buttons}</div>
