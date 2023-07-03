@@ -7,7 +7,7 @@ import React, { useState } from "react"
 import { loadBlitzRpcResolverFilesWithInternalMechanism, useMutation, useQuery } from "@blitzjs/rpc"
 import PrintIcon from "@mui/icons-material/Print"
 import DownloadIcon from "@mui/icons-material/Download"
-
+import OrdonnanceDetails from "./OrdonnanceDetails"
 interface Ordonnance {
   id: number
   patientId: number
@@ -27,12 +27,21 @@ function formatDateToDDMMYYYY(date) {
 
 export default function OrdonnanceView(data: any) {
   console.log(data.ordonnances)
+  const [openOrdonnanceId, setOpenOrdonnanceId] = useState(null)
+
+  const handleOrdonnanceClick = (ordonnanceId) => {
+    setOpenOrdonnanceId((prevId) => (prevId === ordonnanceId ? null : ordonnanceId))
+    console.log("ordonnanceid")
+    console.log(openOrdonnanceId)
+  }
+
   return (
     <>
       {data.ordonnances.map((ordonnance) => (
         <div
-          key={ordonnance.id} // Assuming each ordonnance has a unique "id" property, use it as the key
-          className="flex flex-wrap mt-10 justify-center w-content bg-white font-bold rounded shadow-md py-2 px-6 items-center"
+          key={ordonnance.id}
+          onClick={() => handleOrdonnanceClick(ordonnance)}
+          className="flex flex-wrap mt-10 justify-center w-[1000px] bg-white font-bold rounded shadow-md py-2 px-6 items-center"
         >
           <div className="m-3 w-[75px] flex-none">
             <a>x</a>
@@ -52,6 +61,13 @@ export default function OrdonnanceView(data: any) {
           <div className="flex-none w-[75px]">
             <DownloadIcon className="text-[#188CA5] mr-4 w-15 h-15" />
           </div>
+          {openOrdonnanceId === ordonnance && (
+            <OrdonnanceDetails
+              ordonnance={ordonnance}
+              onClose={() => handleOrdonnanceClick(ordonnance.id)}
+              style={{ position: "absolute", top: 0, left: 0 }} // Adjust the style as needed
+            />
+          )}
         </div>
       ))}
     </>

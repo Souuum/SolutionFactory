@@ -36,6 +36,7 @@ export default async function getPatientOrdonnances(input, { session }: Ctx) {
           user: true,
         },
       },
+      prescriptions: true,
     },
   })
 

@@ -26,6 +26,7 @@ export default async function getActualOrdonnances(_ = null, { session }: Ctx) {
           user: true,
         },
       },
+      prescriptions: true,
     },
   })
 
