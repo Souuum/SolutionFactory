@@ -18,27 +18,12 @@ import { useEffect, useState } from "react"
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
-  const medecin = useCurrentMedecin()
 
   if (currentUser) {
     return (
       <>
-        <div className="top-0 left-0 fixed">
-          <button
-            className={styles.button}
-            onClick={async () => {
-              await logoutMutation()
-            }}
-          >
-            Logout
-          </button>
-          <div>
-            Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
-          </div>
-        </div>
-        <div className="flex max-w-80 justify-center ">
-          <TablePatients />
-        </div>
+        <div className="top-0 left-0 fixed"></div>
+        <div className="flex max-w-80 justify-center "></div>
       </>
     )
   } else {
@@ -55,7 +40,7 @@ const StatusWrapper = () => {
   }
 }
 
-const MedecinPatientPage: BlitzPage = () => {
+const ReadOrdonnance: BlitzPage = () => {
   var [currentUser, setCurrentUser] = useState<any>(null)
   useEffect(() => {
     console.log("navbar", currentUser)
@@ -78,4 +63,4 @@ const MedecinPatientPage: BlitzPage = () => {
   )
 }
 
-export default MedecinPatientPage
+export default ReadOrdonnance

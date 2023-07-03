@@ -12,6 +12,8 @@ import { useEffect, useState } from "react"
 import { useCurrentMedecin } from "src/medecin/hooks/useCurrentMedecin"
 import { usePatientOrdonnances } from "src/ordonnances/hooks/usePatientOrdonnances"
 import OrdonnanceView from "src/ordonnances/components/OrdonnanceView"
+import { Typography } from "@mui/material"
+import NavBar from "src/core/components/NavBar"
 
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
@@ -34,23 +36,26 @@ const StatusWrapper = () => {
   if (currentUser) {
     return (
       <>
-        <div className="top-0 left-0 fixed">
-          <button
-            className={styles.button}
-            onClick={async () => {
-              await logoutMutation()
-            }}
-          >
-            Logout
-          </button>
-        </div>
+        <div className="top-0 left-0 fixed"></div>
         <div className="flex flex-col justify-center items-center w-screen">
-          <div>
-            Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
-            <h1>Current Patient : {patient.user.lastName + " " + patient.user.firstName} </h1>
-          </div>
+          <div></div>
           <div className="flex justify-center w-screen">
             <div className="">
+              <Typography className="text-[#172048] text-3xl mb-5 font-bold ml-3 mt-5">
+                Ordonnances
+              </Typography>
+              <div className="flex flex-wrap mt-10 r w-720 bg-transparent tracking-wide  font-bold    inline-flex ">
+                <div className="m-3 w-[85px] text-[#172048]">
+                  <a>Utilisé</a>
+                </div>
+                <div className="m-3 text-[#172048] w-[230px]">
+                  <a>Date de prescription</a>
+                </div>
+                <div className="m-3 text-[#172048]">
+                  <a>Médecin</a>
+                </div>
+              </div>
+
               <OrdonnanceView ordonnances={ordonnances} />
             </div>
             <br />
@@ -73,8 +78,13 @@ const StatusWrapper = () => {
 }
 
 const PatientOrdonnance: BlitzPage = () => {
+  var [currentUser, setCurrentUser] = useState<any>(null)
+  useEffect(() => {
+    console.log("navbar", currentUser)
+  }, [currentUser])
   return (
     <Layout title="Ordonnance">
+      <NavBar setCurrentUser={setCurrentUser} />
       <div className="flex flex-col justify-center h-screen max-w-80">
         <main>
           <div className="">

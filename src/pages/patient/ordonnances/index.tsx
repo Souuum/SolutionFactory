@@ -62,14 +62,20 @@ const Ordonnances: BlitzPage = () => {
               Mes ordonnances
             </Typography>
             <div className="flex flex-wrap mt-10 r w-720 bg-transparent tracking-wide  font-bold    inline-flex ">
-              <div className="m-3 w-[85px] text-[#172048]">
-                <a>Utilisé</a>
-              </div>
-              <div className="m-3 text-[#172048] w-[230px]">
+              <div className="mt-3 ml-6 text-[#172048] w-[230px]">
                 <a>Date de prescription</a>
               </div>
-              <div className="m-3 text-[#172048]">
+              <div className="mt-3 ml-9 text-[#172048] w-[230px]">
+                <a>Date d'expiration</a>
+              </div>
+              <div className="mt-3 mr-10 text-[#172048]">
                 <a>Médecin</a>
+              </div>
+              <div className="mt-3 ml-24 text-[#172048]">
+                <a>Exporter</a>
+              </div>
+              <div className="mt-3 ml-10 text-[#172048]">
+                <a>Télécharger</a>
               </div>
             </div>
             <div>
