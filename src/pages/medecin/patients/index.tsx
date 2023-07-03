@@ -8,6 +8,8 @@ import { Routes, BlitzPage } from "@blitzjs/next"
 import styles from "src/styles/Home.module.css"
 import TablePatients from "src/medecin/components/TablePatients"
 import { useCurrentMedecin } from "src/medecin/hooks/useCurrentMedecin"
+import NavBar from "src/core/components/NavBar"
+import { useEffect, useState } from "react"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -54,8 +56,13 @@ const StatusWrapper = () => {
 }
 
 const MedecinPatientPage: BlitzPage = () => {
+  var [currentUser, setCurrentUser] = useState<any>(null)
+  useEffect(() => {
+    console.log("navbar", currentUser)
+  }, [currentUser])
   return (
     <Layout title="Ordonnance">
+      <NavBar setCurrentUser={setCurrentUser} />
       <div className="flex flex-col justify-center h-screen max-w-80">
         <main>
           <div className="">
