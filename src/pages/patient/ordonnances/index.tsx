@@ -3,7 +3,7 @@ import Link from "next/link"
 import Layout from "src/core/layouts/Layout"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
 import logout from "src/auth/mutations/logout"
-import { useMutation } from "@blitzjs/rpc"
+import { useMutation, useQuery } from "@blitzjs/rpc"
 import { Routes, BlitzPage } from "@blitzjs/next"
 
 import NavBar from "src/core/components/NavBar"
@@ -11,7 +11,8 @@ import UserProfile from "src/core/components/patient/UserProfile"
 
 import Ordonnance from "src/core/components/Ordonnance"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
-
+import OrdonnanceView from "src/ordonnances/components/OrdonnanceView"
+import { useActualOrdonnances } from "src/ordonnances/hooks/useActualOrdonnances"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -20,11 +21,12 @@ import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@materi
 const UserOrd = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
+  const ordonnances = useActualOrdonnances()
 
   if (currentUser) {
     return (
       <>
-        <Ordonnance />
+        <OrdonnanceView ordonnances={ordonnances} />
       </>
     )
   } else {

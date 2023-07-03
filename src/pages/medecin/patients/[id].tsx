@@ -10,13 +10,15 @@ import { useMutation } from "@blitzjs/rpc"
 import { useCurrentPatient } from "src/patient/hooks/useCurrentPatient"
 import { useEffect, useState } from "react"
 import { useCurrentMedecin } from "src/medecin/hooks/useCurrentMedecin"
+import { usePatientOrdonnances } from "src/ordonnances/hooks/usePatientOrdonnances"
+import OrdonnanceView from "src/ordonnances/components/OrdonnanceView"
 
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
   const currentMedecin = useCurrentMedecin()
   const createdBy = currentMedecin?.id
   const [logoutMutation] = useMutation(logout)
-  const [patientId, setPatientId] = useState(1)
+  const [patientId, setPatientId] = useState(null)
 
   const paramId = useParams("number")
 
@@ -26,7 +28,8 @@ const StatusWrapper = () => {
     setPatientId(paramId.id)
   }, [paramId])
 
-  const patient = useCurrentPatient(patientId)
+  const patient = useCurrentPatient(paramId.id)
+  const ordonnances = usePatientOrdonnances(paramId.id)
 
   if (currentUser) {
     return (
@@ -47,7 +50,9 @@ const StatusWrapper = () => {
             <h1>Current Patient : {patient.user.lastName + " " + patient.user.firstName} </h1>
           </div>
           <div className="flex justify-center w-screen">
-            <div className=""></div>
+            <div className="">
+              <OrdonnanceView ordonnances={ordonnances} />
+            </div>
             <br />
           </div>
         </div>
