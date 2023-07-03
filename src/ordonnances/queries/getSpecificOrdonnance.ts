@@ -15,6 +15,7 @@ export default async function getSpecificOrdonnance(token: string, { session }: 
       },
     },
     include: {
+      token: true,
       medecin: {
         include: {
           user: true,
@@ -30,6 +31,11 @@ export default async function getSpecificOrdonnance(token: string, { session }: 
 
   // Check if the token has expired
   console.log(ordonnance)
+  const currentDateTime = new Date()
+  const tokenExpirationDateTime = ordonnance.token?.expiresAt
+  if (!tokenExpirationDateTime || currentDateTime >= tokenExpirationDateTime) {
+    throw new Error("Token has expired")
+  }
 
   return ordonnance
 }
