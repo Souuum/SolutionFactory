@@ -27,6 +27,30 @@ export const MedecinSignupForm = (props: MedecinSignupFormProps) => {
         placeholder="Spécialité du médecin"
         className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none  mt-3 mb-4"
       />
+      <LabeledTextField
+        name="numRue"
+        label="Numéro de rue"
+        placeholder="Numéro de rue"
+        className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none  mt-3 mb-4"
+      />
+      <LabeledTextField
+        name="nomRue"
+        label="Rue"
+        placeholder="Rue"
+        className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none  mt-3 mb-4"
+      />
+      <LabeledTextField
+        name="codePostal"
+        label="Code postal"
+        placeholder="Code postal"
+        className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none  mt-3 mb-4"
+      />
+      <LabeledTextField
+        name="ville"
+        label="Ville"
+        placeholder="Ville"
+        className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none  mt-3 mb-4"
+      />
     </div>
   )
 }

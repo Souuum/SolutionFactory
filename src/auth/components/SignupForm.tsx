@@ -105,6 +105,10 @@ export const SignupForm = (props: SignupFormProps) => {
                       rpps: values.rpps,
                       cabinet: values.cabinet,
                       specialty: values.specialty,
+                      numRue: values.numRue,
+                      nomRue: values.nomRue,
+                      codePostal: values.codePostal,
+                      ville: values.ville,
                     }
                     await createMedecinMutation(medecin)
                     props.onSuccess?.()

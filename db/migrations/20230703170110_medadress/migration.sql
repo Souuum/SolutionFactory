@@ -43,6 +43,9 @@ CREATE TABLE "Medecin" (
     "userId" INTEGER NOT NULL,
     "rpps" TEXT NOT NULL,
     "cabinet" TEXT NOT NULL,
+    "numRue" INTEGER NOT NULL,
+    "nomRue" TEXT NOT NULL,
+    "ville" TEXT NOT NULL,
     "specialty" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
@@ -68,6 +71,7 @@ CREATE TABLE "Ordonnance" (
     "patientId" INTEGER NOT NULL,
     "createdBy" INTEGER NOT NULL,
     "category" TEXT NOT NULL,
+    "expiration" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
