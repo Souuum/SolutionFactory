@@ -71,16 +71,6 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   if (currentUserQuerie == null) {
     buttons = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
-        <Link href="">
-          <Button
-            variant="gradient"
-            size="sm"
-            className="drop-shadow-lg hidden lg:inline-block bg-transparent border-2 border-[#188CA5] rounded-full text-[#188CA5] font-Poppins text-base"
-          >
-            <span>Vous êtes médecin ou pharmacien ?</span>
-          </Button>
-        </Link>
-
         <Link href={Routes.LoginPage()}>
           <Button
             variant="gradient"
