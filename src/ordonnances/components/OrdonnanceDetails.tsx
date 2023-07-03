@@ -20,32 +20,32 @@ export default function OrdonnanceDetails(data: any) {
   console.log(data.ordonnance.prescriptions)
   return (
     <>
-      {data.ordonnance.prescriptions.map((prescription) => (
-        <div
-          key={prescription.id}
-          className="flex flex-wrap mt-10 justify-center w-content bg-white font-bold rounded shadow-md py-2 items-center"
-        >
-          <div className="m-3 w-[75px] flex-none">
-            <a>{prescription.drug}</a>
-          </div>
-          <div className="m-3 w-[300px] flex-none">
-            <a>{prescription.description}</a>
-          </div>
-
-          <div className="flex-none text-[#188CA5] w-[250px]">
-            <a>{formatDateToDDMMYYYY(prescription.expirationTime)}</a>
-          </div>
-          <div className="flex-none text-[#188CA5] w-[75px]">
-            <a>{prescription.morning}</a>
-          </div>
-          <div className="flex-none mr-6 text-[#188CA5] w-[75px]">
-            <a>{prescription.afternoon}</a>
-          </div>
-          <div className="flex-none mr-6 text-[#188CA5] w-[75px]">
-            <a>{prescription.afternoon}</a>
-          </div>
-        </div>
-      ))}
+      <table className="w-full mt-10 bg-white rounded shadow-md">
+        <thead className="bg-gray-100">
+          <tr>
+            <th className="py-4 px-6 font-bold">Drug</th>
+            <th className="py-4 px-6 font-bold">Description</th>
+            <th className="py-4 px-6 font-bold">Expiration Time</th>
+            <th className="py-4 px-6 font-bold">Morning</th>
+            <th className="py-4 px-6 font-bold">Afternoon</th>
+            <th className="py-4 px-6 font-bold">Evening</th>
+          </tr>
+        </thead>
+        <tbody>
+          {data.ordonnance.prescriptions.map((prescription) => (
+            <tr key={prescription.id}>
+              <td className="py-4 px-6 text-center">{prescription.drug}</td>
+              <td className="py-4 px-6 text-center">{prescription.description}</td>
+              <td className="py-4 px-6 text-center">
+                {formatDateToDDMMYYYY(prescription.expirationTime)}
+              </td>
+              <td className="py-4 px-6 text-center">{prescription.morning}</td>
+              <td className="py-4 px-6 text-center">{prescription.afternoon}</td>
+              <td className="py-4 px-6 text-center">{prescription.evening}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   )
 }
