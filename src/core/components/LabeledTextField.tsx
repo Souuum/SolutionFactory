@@ -34,7 +34,7 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
         <label className="flex flex-col items-start text-base my-2" {...labelProps}>
           {label}
           <input
-            className="text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
+            className="text-base py-1 px-2 rounded bg-sky-100 w-1/2 appearance-none mt-2"
             {...input}
             disabled={submitting}
             {...props}

@@ -68,6 +68,7 @@ CREATE TABLE "Ordonnance" (
     "patientId" INTEGER NOT NULL,
     "createdBy" INTEGER NOT NULL,
     "category" TEXT NOT NULL,
+    "expiration" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -79,7 +80,7 @@ CREATE TABLE "TokenOrdonnance" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
-    "hashedToken" TEXT NOT NULL,
+    "token" TEXT NOT NULL,
     "type" TEXT NOT NULL,
     "expiresAt" TIMESTAMP(3) NOT NULL,
     "sentTo" TEXT NOT NULL,
@@ -182,7 +183,7 @@ CREATE UNIQUE INDEX "Pharmacien_rpps_key" ON "Pharmacien"("rpps");
 CREATE UNIQUE INDEX "TokenOrdonnance_ordonnanceId_key" ON "TokenOrdonnance"("ordonnanceId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "TokenOrdonnance_hashedToken_type_key" ON "TokenOrdonnance"("hashedToken", "type");
+CREATE UNIQUE INDEX "TokenOrdonnance_token_type_key" ON "TokenOrdonnance"("token", "type");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_handle_key" ON "Session"("handle");

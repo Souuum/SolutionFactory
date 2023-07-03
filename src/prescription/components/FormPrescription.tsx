@@ -92,6 +92,7 @@ const FormPrescription = (props: PrescriptionProps) => {
 
   const isEmptyPrescription = (prescription) => {
     return (
+      !props.selectedOrdonnanceType ||
       !prescription.drug ||
       !prescription.description ||
       prescription.morning === undefined ||
@@ -106,7 +107,7 @@ const FormPrescription = (props: PrescriptionProps) => {
     const createdPrescriptions = []
     try {
       if (prescriptions.some((prescription) => isEmptyPrescription(prescription))) {
-        console.error("One or more prescriptions are empty.")
+        console.error("One or more prescriptions are empty or prescription type is missing")
         return // Don't proceed with API call if any prescription is empty
       }
       console.log(props)

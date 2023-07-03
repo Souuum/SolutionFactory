@@ -9,7 +9,7 @@ import { Routes, BlitzPage } from "@blitzjs/next"
 import NavBar from "src/core/components/NavBar"
 import UserProfile from "src/core/components/patient/UserProfile"
 
-import Ordonnance from "src/core/components/patient/Ordonnance/ListOrdonnances"
+import Ordonnance from "src/core/components/Ordonnance"
 import { Navbar, MobileNav, Typography, Button, IconButton, Card } from "@material-tailwind/react"
 import MesPrescriptions from "src/core/components/patient/MesPrescriptions"
 import MesOrdonnances from "src/core/components/patient/MesOrdonnances"
@@ -57,11 +57,9 @@ const HomePatient: BlitzPage = () => {
     <div>
       <NavBar setCurrentUser={setCurrentUser} />
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
-          <MesPrescriptions setCurrentUser={setCurrentUser} currentUser={currentUser} />
-          <MesOrdonnances setCurrentUser={setCurrentUser} currentUser={currentUser} />
-          <MonGroupe setCurrentUser={setCurrentUser} currentUser={currentUser} />
-        </Suspense>
+        <MesPrescriptions setCurrentUser={setCurrentUser} currentUser={currentUser} />
+        <MesOrdonnances setCurrentUser={setCurrentUser} currentUser={currentUser} />
+        <MonGroupe setCurrentUser={setCurrentUser} currentUser={currentUser} />
       </div>
     </div>
   )

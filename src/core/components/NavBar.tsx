@@ -20,7 +20,7 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   }, [setCurrentUser, currentUserQuerie])
 
   let navList
-  if (currentUserQuerie?.role == "MEDECIN" || currentUserQuerie?.role == "PHARMACIEN") {
+  if (currentUserQuerie?.role == "MEDECIN") {
     navList = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
         <Link href={Routes.MedecinPatientPage()}>
@@ -28,12 +28,26 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
             <div className="flex items-center ">Mes patients</div>
           </Typography>
         </Link>
-
-        <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
-          <a href="#" className="flex items-center ">
-            Mon compte
-          </a>
-        </Typography>
+        <Link href={Routes.ProfilDoc()}>
+          <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
+            <div className="flex items-center ">Mon compte</div>
+          </Typography>
+        </Link>
+      </ul>
+    )
+  } else if (currentUserQuerie?.role == "PHARMACIST") {
+    navList = (
+      <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
+        <Link href={Routes.DrugPage()}>
+          <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
+            <div className="flex items-center ">Médicaments</div>
+          </Typography>
+        </Link>
+        <Link href={Routes.ProfilPharmacist()}>
+          <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
+            <div className="flex items-center ">Mon compte</div>
+          </Typography>
+        </Link>
       </ul>
     )
   } else {
@@ -94,11 +108,8 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   }
   return (
     <div>
-      <Navbar className="sticky inset-0 z-10 h-max  rounded-none py-2 px-4 lg:px-8 lg:py-4 bg-[#F4FEFF] border-b-0">
-        <div className="flex gap-x-10 items-center justify-between ">
-          <Typography as="a" href="#" className="mx-8 cursor-pointer py-1.5 font-medium text-base">
-            Material Tailwind
-          </Typography>
+      <Navbar className="sticky inset-0 z-10 h-max rounded-none py-2 px-4 lg:px-8 lg:py-4 bg-[#F4FEFF] border-b-0">
+        <div className="flex gap-x-10 items-center justify-end ">
           <div className="flex items-center gap-4">
             <div className="mr-4 hidden lg:block">{navList}</div>
             <div className="mr-4 hidden lg:block">{buttons}</div>

@@ -16,50 +16,53 @@ const ForgotPasswordPage: BlitzPage = () => {
   }, [currentUser])
 
   return (
-    <div className="h-screen bg-sky-100">
-      <div className="items-center justify-center">
-        <div className="flex items-center justify-center">
-          <Navbar setCurrentUser={setCurrentUser} />
-        </div>
-        <div className="my-48">
-          <div className="items-center justify-center">
-            <h1 className="text-center text-4xl">Forgot your password?</h1>
-            <div className=" flex items-center justify-center">
+    <div className="bg-blue-300 items-center justify-center">
+      <Navbar setCurrentUser={setCurrentUser} />
+      <div className="flex items-center h-screen">
+        <div className="mx-auto justify-center">
+          {isSuccess ? (
+            <>
+              <h1 className="text-center text-4xl">Email envoyé</h1>
               <Layout title="Forgot Your Password?">
-                {isSuccess ? (
-                  <div>
-                    <h2>Request Submitted</h2>
-                    <p>
-                      If your email is in our system, you will receive instructions to reset your
-                      password shortly.
-                    </p>
-                  </div>
-                ) : (
-                  <Form
-                    submitText="Send Reset Password Instructions"
-                    schema={ForgotPassword}
-                    initialValues={{ email: "" }}
-                    onSubmit={async (values) => {
-                      try {
-                        await forgotPasswordMutation(values)
-                      } catch (error: any) {
-                        return {
-                          [FORM_ERROR]: "Sorry, we had an unexpected error. Please try again.",
-                        }
+                <div className="items-center justify-center my-6">
+                  <p className="text-center">
+                    Si votre email est dans notre base de données, vous allez recevoir un mail qui
+                    vous indiquera les étapes
+                    <br /> à suivre pour modifier votre mot de passe.
+                  </p>
+                </div>
+              </Layout>
+            </>
+          ) : (
+            <>
+              <h1 className="text-center text-4xl">Mot de passe oublié</h1>
+              <Layout title="Forgot Your Password?">
+                <Form
+                  submitText="Valider"
+                  schema={ForgotPassword}
+                  initialValues={{ email: "" }}
+                  onSubmit={async (values) => {
+                    try {
+                      await forgotPasswordMutation(values)
+                    } catch (error: any) {
+                      return {
+                        [FORM_ERROR]: "Sorry, we had an unexpected error. Please try again.",
                       }
-                    }}
-                  >
+                    }
+                  }}
+                >
+                  <div className="flex justify-center">
                     <LabeledTextField
-                      className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
+                      className="w-[20rem] sm:w-96 text-base py-1 px-2 rounded bg-sky-100 appearance-none mt-2"
                       name="email"
                       label="Email"
                       placeholder="Email"
                     />
-                  </Form>
-                )}
+                  </div>
+                </Form>
               </Layout>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </div>
     </div>

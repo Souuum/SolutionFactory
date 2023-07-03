@@ -89,20 +89,20 @@ model Ordonnance {
 }
 
 model TokenOrdonnance {
-  id          Int      @id @default(autoincrement())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  hashedToken String
-  type        String
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  token     String
+  type      String
   // See note below about TokenType enum
   // type        TokenType
-  expiresAt   DateTime
-  sentTo      String
+  expiresAt DateTime
+  sentTo    String
 
   ordonnance   Ordonnance? @relation(fields: [ordonnanceId], references: [id])
   ordonnanceId Int?        @unique
 
-  @@unique([hashedToken, type])
+  @@unique([token, type])
 }
 
 model Drug {

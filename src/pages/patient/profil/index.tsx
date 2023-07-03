@@ -34,7 +34,7 @@ const UserInfo = ({ currentUser, setCurrentUser }: UserInfoProps) => {
           <Button
             variant="gradient"
             size="sm"
-            className="drop-shadow-lg hidden lg:inline-block bg-[#188CA5] rounded-full text-white font-Poppins text-2xl"
+            className="drop-shadow-lg hidden lg:inline-block bg-red-500 rounded-full text-white font-Poppins text-2xl"
           >
             <span>Se connecter</span>
           </Button>
