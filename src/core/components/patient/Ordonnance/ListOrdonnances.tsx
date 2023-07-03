@@ -1,63 +1,60 @@
-import { List, ListItem, Card, Typography } from "@material-tailwind/react"
-import { Form, FORM_ERROR } from "src/core/components/Form"
-import { LabeledTextField } from "src/core/components/LabeledTextField"
 import { useCurrentUser } from "src/users/hooks/useCurrentUser"
-import updatePatient from "src/pages/patient/mutations/updateUser"
-import React, { Suspense, useState } from "react"
-import { loadBlitzRpcResolverFilesWithInternalMechanism, useMutation, useQuery } from "@blitzjs/rpc"
-import PrintIcon from "@mui/icons-material/Print"
-import DownloadIcon from "@mui/icons-material/Download"
+import React, { Suspense, useEffect, useRef, useState } from "react"
+import { useQuery } from "@blitzjs/rpc"
 import getOrdonnances from "src/ordonnances/queries/getOrdonnancesByUser"
-
-const OrdonnanceComp = () => {
-  const currentUser = useCurrentUser()
+import CategoriesSelect from "./CategoriesSelect"
+import DateCalendar from "./Calendar"
+import AutocompleteText from "./Autocomplete"
+const OrdonnanceComp: React.FC = () => {
+  var [text, setText] = React.useState<any>("")
+  const [selectedCategories, setSelectedCategories] = useState<any>([])
+  const [selectedDate, setSelectedDate] = useState(null)
+  const [selectedRange, setSelectedRange] = useState([null, null])
   const [ordonnances] = useQuery(getOrdonnances, null)
+  const calendarRef = useRef(null)
 
-  console.log("ordonnances component", ordonnances)
-  if (!currentUser) {
-    return null
-  } else {
-    return (
-      <div>
-        <div className="flex flex-wrap mt-10 r w-720 bg-transparent tracking-wide  font-bold    inline-flex ">
-          <div className="m-3 w-[85px] text-[#172048]">
-            <a>Utilisé</a>
-          </div>
-          <div className="m-3 text-[#172048] w-[230px]">
-            <a>Date de prescription</a>
-          </div>
-          <div className="m-3 text-[#172048]">
-            <a>Médecin</a>
-          </div>
-        </div>
-        {ordonnances?.map((ordonnance) => (
-          <div
-            key={ordonnance.id}
-            className="flex flex-wrap mt-10 justify-center w-[975px] bg-white font-bold rounded shadow-md py-2 px-6 inline-flex items-center"
-          >
-            <div className="m-3 w-[75px]  flex-none">
-              <a>x</a>
-            </div>
-            <div className=" flex-none text-[#188CA5] w-[250px] ">
-              <a>{ordonnance.createdAt.toLocaleDateString("fr-FR")}</a>
-            </div>
-            <div className=" flex-none text-[#188CA5] w-[200px]">
-              <a>Dr.{ordonnance.medecin.user.lastName}</a>
-            </div>
-            <div className=" flex-none mr-6 text-[#979797] w-[200px]">
-              <a>{ordonnance.prescriptionFile}</a>
-            </div>
-            <div className=" flex-none w-[75px]">
-              <PrintIcon className="text-[#188CA5] mr-4 w-15 h-15" />
-            </div>
-            <div className=" flex-none w-[75px]">
-              <DownloadIcon className="text-[#188CA5] mr-4 w-15 h-15" />
-            </div>
-          </div>
-        ))}
-      </div>
-    )
+  const handleDateChange = (date, range) => {
+    setSelectedDate(date)
+    setSelectedRange(range)
+    console.log(date, range)
   }
+
+  const selectedText = (value) => {
+    setText((text = value))
+  }
+
+  const onChangeText = () => {
+    setText((text = null))
+  }
+
+  const sendResearch = () => {}
+
+  return (
+    <div className="flex flex-row">
+      <div className="mr-5">
+        <Suspense fallback="Loading...">
+          <CategoriesSelect onCategoriesChange={setSelectedCategories} />
+        </Suspense>
+      </div>
+      <div className="mr-24 static">
+        <div ref={calendarRef}>
+          <DateCalendar onDateChange={handleDateChange} />
+        </div>
+      </div>
+      <div className="mr-24">
+        <AutocompleteText
+          items={ordonnances!.map((ordonnance: { name: string }) => ({
+            name: ordonnance.medecin.user.lastName,
+          }))}
+          text={text}
+          setText={setText}
+          sendResearch={sendResearch}
+          onChangeText={onChangeText}
+          selectedText={selectedText}
+        />
+      </div>
+    </div>
+  )
 }
 
 const OrdonnanceResult = () => {
@@ -68,4 +65,4 @@ const OrdonnanceResult = () => {
   )
 }
 
-export default OrdonnanceComp
+export default OrdonnanceResult

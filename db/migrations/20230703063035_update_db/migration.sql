@@ -68,6 +68,7 @@ CREATE TABLE "Ordonnance" (
     "patientId" INTEGER NOT NULL,
     "createdBy" INTEGER NOT NULL,
     "category" TEXT NOT NULL,
+    "expiration" TIMESTAMP(3) NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
