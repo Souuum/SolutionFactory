@@ -34,8 +34,7 @@ export const UserSignupForm = ({ onSelectChange }) => {
           <option value="MAN">Homme</option>
         </select>
       </label>
-      <LabeledTextField name="birthDate" label="Date de naissance" type="date" />
-      <LabeledTextField name="email" label="Email" placeholder="Email" />
+
       <LabeledTextField
         className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  border-solid appearance-none mt-3 mb-4"
         name="birthDate"
