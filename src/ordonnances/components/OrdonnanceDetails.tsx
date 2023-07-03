@@ -7,7 +7,7 @@ import React, { useState } from "react"
 import { loadBlitzRpcResolverFilesWithInternalMechanism, useMutation, useQuery } from "@blitzjs/rpc"
 import PrintIcon from "@mui/icons-material/Print"
 import DownloadIcon from "@mui/icons-material/Download"
-
+import { useSpecificOrdonnance } from "../hooks/useSpecificOrdonnance"
 function formatDateToDDMMYYYY(date) {
   const day = date.getDate().toString().padStart(2, "0")
   const month = (date.getMonth() + 1).toString().padStart(2, "0")
@@ -17,7 +17,15 @@ function formatDateToDDMMYYYY(date) {
 
 export default function OrdonnanceDetails(data: any) {
   console.log(data)
-  console.log(data.ordonnance.prescriptions)
+  var ordonnance = null
+  if (!data.ordonnance) {
+    console.log("in")
+    console.log(data.token)
+    ordonnance = useSpecificOrdonnance({ token: data.token })
+    console.log(ordonnance)
+  } else {
+    ordonnance = data.ordonnance
+  }
   return (
     <>
       <table className="w-full mt-10 bg-white rounded shadow-md">
@@ -32,7 +40,7 @@ export default function OrdonnanceDetails(data: any) {
           </tr>
         </thead>
         <tbody>
-          {data.ordonnance.prescriptions.map((prescription) => (
+          {ordonnance.prescriptions.map((prescription) => (
             <tr key={prescription.id}>
               <td className="py-4 px-6 text-center">{prescription.drug}</td>
               <td className="py-4 px-6 text-center">{prescription.description}</td>

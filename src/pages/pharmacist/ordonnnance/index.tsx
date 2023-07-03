@@ -10,6 +10,10 @@ import TablePatients from "src/medecin/components/TablePatients"
 import { useCurrentMedecin } from "src/medecin/hooks/useCurrentMedecin"
 import NavBar from "src/core/components/NavBar"
 import { useEffect, useState } from "react"
+import { useSpecificOrdonnance } from "src/ordonnances/hooks/useSpecificOrdonnance"
+import OrdonnanceDetails from "src/ordonnances/components/OrdonnanceDetails"
+import getSpecificOrdonnance from "src/ordonnances/queries/getSpecificOrdonnance"
+import { useQuery } from "@blitzjs/rpc"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -18,11 +22,30 @@ import { useEffect, useState } from "react"
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
   const [logoutMutation] = useMutation(logout)
+  const [token, setToken] = useState("")
+  const [showOrdonnanceDetails, setShowOrdonnanceDetails] = useState(false)
+  const [ordonnanceData, setOrdonnanceData] = useState(null)
+
+  const handleClick = async () => {
+    setShowOrdonnanceDetails(true)
+  }
 
   if (currentUser) {
     return (
       <>
         <div className="top-0 left-0 fixed"></div>
+
+        <input
+          type="text"
+          value={token}
+          onChange={(e) => setToken(e.target.value)}
+          placeholder="Enter the token value"
+          className="p-2 border border-gray-400 rounded"
+        />
+        <button onClick={handleClick} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded">
+          Fetch Ordonnance
+        </button>
+        {showOrdonnanceDetails && <OrdonnanceDetails token={token} />}
         <div className="flex max-w-80 justify-center "></div>
       </>
     )

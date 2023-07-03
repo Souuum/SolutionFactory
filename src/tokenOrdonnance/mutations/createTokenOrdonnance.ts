@@ -4,7 +4,7 @@ import db from "db"
 import { forgotPasswordMailer } from "mailers/forgotPasswordMailer"
 import { z } from "zod"
 
-const RESET_PASSWORD_TOKEN_EXPIRATION_IN_MIN = 10
+const RESET_PASSWORD_TOKEN_EXPIRATION_IN_MIN = 3600
 const ForgotPassword = z.object({
   token: z
     .string()
