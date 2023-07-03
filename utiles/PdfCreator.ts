@@ -2,17 +2,17 @@ import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
 import fs from "fs"
 
 export default async function generateInvoicePDF(
-  buyerName,
+  patientName,
   purchaseDate,
-  baseAddress,
-  facturationAddress,
-  products
+  medecin,
+  patient,
+  prescription
 ) {
-  console.log("buyerName", buyerName)
+  console.log("buyerName", patientName)
   console.log("purchaseDate", purchaseDate)
-  console.log("baseAddress", baseAddress)
-  console.log("facturationAddress", facturationAddress)
-  console.log("products", products)
+  console.log("baseAddress", medecin)
+  console.log("facturationAddress", patient)
+  console.log("products", prescription)
 
   // Création d'un nouveau document PDF
   const pdfDoc = await PDFDocument.create()
@@ -26,18 +26,13 @@ export default async function generateInvoicePDF(
     page.drawRectangle({ x, y, width, height, color: rgb(0.9, 0.9, 0.9) })
   }
 
-  const drawBaseAddressInfo = (x, y, address, page) => {
-    console.log("addressBasePDF", address)
+  const drawMedecinInfo = (x, y, medecin, page) => {
+    console.log("medecinPDF", medecin)
     const lineHeight = 15
     const fields = [
-      { label: "Nom:", value: `${buyerName}` },
-      { label: "Numéro:", value: `${address.number.toString()}` },
-      { label: "Rue:", value: address.road },
-      { label: "Ville:", value: address.city },
-      { label: "Département:", value: address.department },
-      { label: "Pays:", value: address.country },
-      { label: "Code postal:", value: `${address.postcode.toString()}` },
-      { label: "Complémentaire:", value: address.complimentary },
+      { label: "Docteur:", value: `${medecin.name}` },
+      { label: "Cabinet:", value: `${medecin.cabinet}` },
+      { label: "speciality:", value: `${medecin.speciality}` },
     ]
 
     console.log("fieldsBase", fields)
@@ -55,19 +50,13 @@ export default async function generateInvoicePDF(
     })
   }
 
-  const drawFactAddressInfo = (x, y, address, page) => {
-    console.log("addressFactPDF", address)
+  const drawOrdoInfo = (x, y, patient, prescription, page) => {
+    console.log("addressFactPDF", patient, prescription)
     const lineHeight = 15
     const fields = [
-      { label: "Nom:", value: `${address.first_name} ${address.last_name}` },
-      { label: "Mail:", value: `${address.email}` },
-      { label: "Numéro:", value: `${address.number.toString()}` },
-      { label: "Rue:", value: `${address.road}` },
-      { label: "Ville:", value: `${address.city}` },
-      { label: "Département:", value: `${address.department}` },
-      { label: "Pays:", value: `${address.country}` },
-      { label: "Code postal:", value: `${address.postcode.toString()}` },
-      { label: "Complémentaire:", value: `${address.complimentary}` },
+      { label: "Nom:", value: `${patient.name}` },
+      { label: "Date:", value: `${prescription.date}` },
+      { label: "Date d'expiration:", value: `${prescription.expirationDate}` },
     ]
     console.log("fieldsFact", fields)
     let currentY = y
@@ -88,88 +77,102 @@ export default async function generateInvoicePDF(
     const lineHeight = 15
     const pageHeight = 700 // Hauteur maximale d'une page
     let currentY = y
-    var totalPriceFinale = 0
+    // var totalPriceFinale = 0
 
-    const drawProductRow = (page, product) => {
-      console.log("product pdf", product)
-      const totalPrice = product.quantity * product.product.price
-      totalPriceFinale = totalPriceFinale + totalPrice
-      page.drawText(product.product.name, { x, y: currentY, font, size: 12, color: rgb(0, 0, 0) })
-      page.drawText(product.quantity.toString(), {
+    const drawProductRow = (page, prescription) => {
+      console.log("product pdf", prescription)
+      const fields = [
+        { label: "Nom:", value: `${prescription.drugs}` },
+        { label: "Date:", value: `${prescription.description}` },
+      ]
+      page.drawText(prescription.prescription.drugs, {
+        x,
+        y: currentY,
+        font,
+        size: 12,
+        color: rgb(0, 0, 0),
+      })
+      page.drawText(prescription.description, {
         x: x + 200,
         y: currentY,
         font,
         size: 12,
         color: rgb(0, 0, 0),
       })
-      page.drawText(product.product.price.toString(), {
-        x: x + 300,
-        y: currentY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
-      })
-      page.drawText(totalPrice.toString(), {
-        x: x + 400,
-        y: currentY,
-        font,
-        size: 12,
-        color: rgb(0, 0, 0),
-      })
+      // page.drawText(pres.product.price.toString(), {
+      // x: x + 300,
+      // y: currentY,
+      // font,
+      // size: 12,
+      // color: rgb(0, 0, 0),
+      // })
+      // page.drawText(totalPrice.toString(), {
+      // x: x + 400,
+      // y: currentY,
+      // font,
+      // size: 12,
+      // color: rgb(0, 0, 0),
+      // })
       currentY -= lineHeight
     }
 
-    products.forEach((product) => {
+    products.forEach((prescription) => {
       if (currentY <= lineHeight) {
         // Créer une nouvelle page si la hauteur est atteinte
         page = pdfDoc.addPage()
         currentY = pageHeight - lineHeight
       }
-      drawProductRow(page, product)
+      drawProductRow(page, prescription)
     })
-    console.log("totalPriceFinale", totalPriceFinale)
-    page.drawText("Prix Total (€)", {
-      x: 50,
-      y: currentY - 10,
-      font,
-      size: 12,
-      color: rgb(0, 0, 0),
-    })
-    page.drawText(totalPriceFinale.toString(), {
-      x: 450,
-      y: currentY - 10,
-      font,
-      size: 12,
-      color: rgb(0, 0, 0),
-    })
+    // console.log("totalPriceFinale", totalPriceFinale)
+    // page.drawText("Prix Total (€)", {
+    // x: 50,
+    // y: currentY - 10,
+    // font,
+    // size: 12,
+    // color: rgb(0, 0, 0),
+    // })
+    // page.drawText(totalPriceFinale.toString(), {
+    // x: 450,
+    // y: currentY - 10,
+    // font,
+    // size: 12,
+    // color: rgb(0, 0, 0),
+    // })
   }
 
   // Affichage des informations de l'acheteur
   const page = pdfDoc.addPage()
-  const buyerInfo = `Nom de l'acheteur: ${buyerName}`
-  const purchaseInfo = `Date de l'achat: ${purchaseDate.toLocaleDateString("fr-FR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-  })}`
-  drawRectangle(50, 750, 400, 30, buyerInfo, page)
-  drawRectangle(420, 750, 200, 30, purchaseInfo, page)
+  const patientInfo = `Ordonnance pour: ${patientName}`
+  // const purchaseInfo = `Date de l'achat: ${purchaseDate.toLocaleDateString("fr-FR", {
+  //   day: "2-digit",
+  //   month: "2-digit",
+  //   year: "numeric",
+  // })}`
+  drawRectangle(50, 750, 400, 30, patientInfo, page)
+  //drawRectangle(420, 750, 200, 30, purchaseInfo, page)
 
   // Affichage de l'adresse de base
-  page.drawText(`Adresse Livraison`, { x: 340, y: 700, font, size: 15, color: rgb(0, 0, 0) })
-  drawBaseAddressInfo(340, 670, baseAddress, page)
+  page.drawText(`Information Medecin`, { x: 340, y: 700, font, size: 15, color: rgb(0, 0, 0) })
+  drawMedecinInfo(340, 670, medecin, page)
 
   // Affichage de l'adresse de facturation
-  page.drawText(`Adresse Facturation`, { x: 50, y: 700, font, size: 15, color: rgb(0, 0, 0) })
-  drawFactAddressInfo(50, 670, facturationAddress, page)
+  page.drawText(`Adresse Patient et ordonnace`, {
+    x: 50,
+    y: 700,
+    font,
+    size: 15,
+    color: rgb(0, 0, 0),
+  })
+  drawOrdoInfo(50, 670, patient, prescription, page)
 
   // Affichage de la liste des produits
   page.drawText(`Produits`, { x: 50, y: 515, font, size: 15, color: rgb(0, 0, 0) })
   page.drawText(`Nom`, { x: 50, y: 490, font, size: 13, color: rgb(0, 0, 0) })
-  page.drawText(`Quantité`, { x: 250, y: 490, font, size: 13, color: rgb(0, 0, 0) })
-  page.drawText(`Prix unitaire (€)`, { x: 350, y: 490, font, size: 13, color: rgb(0, 0, 0) })
-  page.drawText(`Prix total (€)`, { x: 450, y: 490, font, size: 13, color: rgb(0, 0, 0) })
-  drawProductList(50, 470, products, page)
+  page.drawText(`description`, { x: 250, y: 490, font, size: 13, color: rgb(0, 0, 0) })
+  // page.drawText(`Prix unitaire (€)`, { x: 350, y: 490, font, size: 13, color: rgb(0, 0, 0) })
+  //page.drawText(`Prix total (€)`, { x: 450, y: 490, font, size: 13, color: rgb(0, 0, 0) })
+  drawProductList(50, 470, prescription, page)
 
   // Génération du document PDF en bytes
   const pdfBytes = await pdfDoc.save()
