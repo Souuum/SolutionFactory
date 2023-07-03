@@ -10,6 +10,8 @@ import { OrdonnanceForm } from "src/medecin/components/ordonnanceForm"
 import { PrescriptionForm } from "src/medecin/components/prescriptionForm"
 import { PatientTable } from "src/patient/components/PatientTable"
 import TablePatient from "src/patient/components/TablePatient"
+import { useEffect, useState } from "react"
+import NavBar from "src/core/components/NavBar"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -55,8 +57,13 @@ const StatusWrapper = () => {
 }
 
 const OrdonnancePage: BlitzPage = () => {
+  var [currentUser, setCurrentUser] = useState<any>(null)
+  useEffect(() => {
+    console.log("navbar", currentUser)
+  }, [currentUser])
   return (
     <Layout title="Ordonnance">
+      <NavBar setCurrentUser={setCurrentUser} />
       <div className="flex flex-col justify-center h-screen max-w-80">
         <main>
           <div className="">
