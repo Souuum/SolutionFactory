@@ -21,13 +21,12 @@ const ResetPasswordPage: BlitzPage = () => {
   }, [currentUser])
 
   return (
-    <div className="h-screen bg-sky-100">
+    <div className="h-screen bg-blue-300">
       <div className="items-center justify-center">
-        <div className="flex items-center justify-center">
-          <NavBar setCurrentUser={setCurrentUser} />
-        </div>
+        <NavBar setCurrentUser={setCurrentUser} />
+
         <div className="my-48">
-          <h1 className="text-center text-4xl my-6">Set a New Password</h1>
+          <h1 className="text-center text-4xl my-6">Veuillez rentrer un nouveau mot de passe</h1>
           <div className="flex items-center justify-center">
             {isSuccess ? (
               <div>
@@ -64,13 +63,13 @@ const ResetPasswordPage: BlitzPage = () => {
               >
                 <div className="items-center justify-center">
                   <LabeledTextField
-                    className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
+                    className="w-[20rem] sm:w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
                     name="password"
                     label="Nouveau Mot de Passe"
                     type="password"
                   />
                   <LabeledTextField
-                    className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
+                    className="w-[20rem] sm:w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
                     name="passwordConfirmation"
                     label="Confirmation du Mot de Passe"
                     type="password"
