@@ -20,7 +20,7 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   }, [setCurrentUser, currentUserQuerie])
 
   let navList
-  if (currentUserQuerie?.role == "MEDECIN" || currentUserQuerie?.role == "PHARMACIEN") {
+  if (currentUserQuerie?.role == "MEDECIN") {
     navList = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
         <Link href={Routes.MedecinPatientPage()}>
@@ -29,6 +29,21 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
           </Typography>
         </Link>
         <Link href={Routes.ProfilDoc()}>
+          <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
+            <div className="flex items-center ">Mon compte</div>
+          </Typography>
+        </Link>
+      </ul>
+    )
+  } else if (currentUserQuerie?.role == "PHARMACIST") {
+    navList = (
+      <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
+        <Link href={Routes.DrugPage()}>
+          <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
+            <div className="flex items-center ">Médicaments</div>
+          </Typography>
+        </Link>
+        <Link href={Routes.ProfilPharmacist()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
             <div className="flex items-center ">Mon compte</div>
           </Typography>
