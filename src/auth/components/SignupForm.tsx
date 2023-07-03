@@ -44,7 +44,7 @@ export const SignupForm = (props: SignupFormProps) => {
             <h1 className="text-4xl text-center text-[#172048] font-extra-bold"> Bienvenue </h1>
           </div>
           <Form
-            className="w-1/2 p-4 "
+            className="w-1/2 p-4 flex flex-col litems-center justify-center mt-8 h-full"
             submitText=<span className="text-white">Créer un compte</span>
             initialValues={{ email: "", password: "" }}
             onSubmit={async (values) => {
@@ -149,22 +149,43 @@ export const SignupForm = (props: SignupFormProps) => {
             }}
           >
             <div>
-              <h1 className="text-[#172048] text-center   text-3xl mb-5 font-bold mb-6 ">
+              <h1 className="text-[#172048] text-center text-3xl mb-5 font-bold mb-6 ">
                 Nouveau Compte
               </h1>
-              <div>
-                <UserSignupForm onSelectChange={handleSelectChange} />
-                {props.role == "patient" ? (
-                  <LabeledTextField
-                    className=" text-base py-1 px-2 bg-transparent border-b border-b-cyan-700  w-1/2 border-solid appearance-none mt-2"
-                    name="securityNumber"
-                    label="Numéro de Sécurité Sociale"
-                    placeholder="XXXXXXXXXXXXX"
-                    pattern="[0-9]{13}"
-                  />
-                ) : null}
-                {props.role == "pharmacien" ? <PharmacistSignupForm /> : null}
-                {props.role == "medecin" ? <MedecinSignupForm /> : null}
+              <div className="flex flex-row space-x-4">
+                {" "}
+                {/* Flex container */}
+                {props.role !== "patient" && (
+                  <div className="flex-1 mt-3.5">
+                    {" "}
+                    {/* Left column */}
+                    {props.role === "pharmacien" ? <PharmacistSignupForm /> : null}
+                    {props.role === "medecin" ? <MedecinSignupForm /> : null}
+                  </div>
+                )}
+                <div
+                  className={`${
+                    props.role === "patient" ? "flex-1 justify-center items-center" : "flex-1"
+                  }`}
+                >
+                  {/* Right column */}
+                  <div
+                    className={`${
+                      props.role === "patient" ? "flex flex-col justify-center items-center" : ""
+                    }`}
+                  >
+                    <UserSignupForm onSelectChange={handleSelectChange} />
+                    {props.role === "patient" ? (
+                      <LabeledTextField
+                        className="text-base py-1 px-2 bg-transparent border-b border-b-cyan-700 w-1/2 border-solid appearance-none mt-2"
+                        name="securityNumber"
+                        label="Numéro de Sécurité Sociale"
+                        placeholder="XXXXXXXXXXXXX"
+                        pattern="[0-9]{13}"
+                      />
+                    ) : null}
+                  </div>
+                </div>
               </div>
             </div>
           </Form>
