@@ -21,9 +21,9 @@ const SignupPage: BlitzPage = () => {
           role={role}
           onSuccess={() =>
             role == "pharmacien"
-              ? router.push(Routes.HomePharmacist())
+              ? router.push(Routes.ProfilPharmatien())
               : role == "medecin"
-              ? router.push(Routes.HomeMedecin())
+              ? router.push(Routes.ProfilDoc())
               : role == "patient"
               ? router.push(Routes.HomePatient())
               : null

@@ -17,8 +17,8 @@ web_modules/
 *.sqlite-journal
 .now
 .blitz**
-blitz-log.log
-
+blitz-log.
+./db/migrations/
 # misc
 .DS_Store
 
