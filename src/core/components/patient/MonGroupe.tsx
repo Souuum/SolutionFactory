@@ -80,7 +80,7 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                   onClick={() => handlePrescriptionClick(patient)}
                 >
                   <FontAwesomeIcon
-                    icon={patient.user.gender === "male" ? faPerson : faPersonDress}
+                    icon={patient.user.gender === "MAN" ? faPerson : faPersonDress}
                     style={{ color: "#000", fontSize: "24px", marginBottom: "10px" }}
                   />
                   <div style={{ textAlign: "center" }}>
@@ -90,7 +90,7 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                     {patient.user.birthDate.toLocaleDateString()}
                   </div>
                   <div style={{ textAlign: "center" }}>
-                    {patient.user.gender === "male" ? "Homme" : "Femme"}
+                    {patient.user.gender === "MAN" ? "Homme" : "Femme"}
                   </div>
                   {patient.user.id == currentUser.id ? null : (
                     <FontAwesomeIcon
