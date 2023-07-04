@@ -29,7 +29,7 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
   const handleSubmit = async (values) => {
     if (currentUser) {
       try {
-        await updatePatientMutation({
+        const updatedPatient = await updatePatientMutation({
           userId: currentUser.id,
           email: values.email,
           phone: values.phone,
@@ -37,6 +37,11 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
           firstName: currentUser.firstName,
           gender: currentUser.gender,
         })
+        setCurrentUser((prevState) => ({
+          ...prevState,
+          ...values,
+          currentUser: updatedPatient,
+        }))
 
         setEditing(false)
       } catch (error) {
@@ -50,7 +55,7 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
   }
 
   return (
-    <Card className="w-96 bg-transparent absolute ml-40 m5">
+    <Card className="w-96 bg-transparent shadow-none mt-8 absolute ml-40 m5">
       <Typography className="text-[#172048] text-3xl mb-5 font-bold ">Mon compte</Typography>
       <List>
         <ListItem className="mb-4">
@@ -109,7 +114,7 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
               </div>
             </div>
             <div className="flex items-center">
-              <MailIcon className="text-[#188CA5] mr-4 w-15 h-15" />
+              <MailIcon className="text-[#188CA5] mr-4 mt-3 w-15 h-15" />
               <div>
                 <LabeledTextField
                   style={{ height: "32px" }}

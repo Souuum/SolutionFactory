@@ -68,7 +68,11 @@ const seed = async () => {
     const rpps = faker.datatype.number({ min: 10000000000, max: 99999999999 }).toString()
 
     const speciality = faker.lorem.word()
-    const address = faker.location.streetAddress()
+    const cabinet = faker.location.streetAddress()
+    const numRue = faker.datatype.number({ min: 1, max: 999 }).toString()
+    const nomRue = faker.address.streetName()
+    const codePostal = faker.address.zipCode()
+    const ville = faker.address.city()
 
     const user = await db.user.create({
       data: {
@@ -87,8 +91,12 @@ const seed = async () => {
       data: {
         userId: user.id,
         rpps: rpps,
-        cabinet: address,
+        cabinet: cabinet,
         specialty: speciality,
+        numRue: numRue,
+        nomRue: nomRue,
+        codePostal: codePostal,
+        ville: ville,
       },
     })
 

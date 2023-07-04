@@ -17,7 +17,12 @@ export default resolver.pipe(
       skip,
       take,
       count: () => db.drug.count({ where: {} }),
-      query: (paginateArgs) => db.drug.findMany({ ...paginateArgs, where, orderBy }),
+      query: (paginateArgs) =>
+        db.drug.findMany({
+          ...paginateArgs,
+          where,
+          orderBy,
+        }),
     })
 
     return {

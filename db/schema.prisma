@@ -58,6 +58,10 @@ model Medecin {
   userId      Int          @unique
   rpps        String       @unique
   cabinet     String
+  numRue      String
+  nomRue      String
+  codePostal  String
+  ville       String
   specialty   String
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt

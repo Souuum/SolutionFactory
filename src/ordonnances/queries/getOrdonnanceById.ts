@@ -1,23 +1,16 @@
 import { Ctx } from "blitz"
 import db from "db"
 
-export default async function getActualOrdonnances(_ = null, { session }: Ctx) {
+export default async function getActualOrdonnances(id: number, { session }: Ctx) {
   if (!session.userId) return null
 
   const currentDate = new Date()
   const threeMonthsAgo = new Date()
   threeMonthsAgo.setMonth(currentDate.getMonth() - 3)
 
-  const ordonnances = await db.ordonnance.findMany({
+  const ordonnances = await db.ordonnance.findUnique({
     where: {
-      patient: {
-        user: {
-          id: session.userId,
-        },
-      },
-      expiration: {
-        gt: currentDate,
-      },
+      id,
     },
     include: {
       medecin: {
