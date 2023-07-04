@@ -28,7 +28,7 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
             <div className="flex items-center ">Mes patients</div>
           </Typography>
         </Link>
-        <Link href={Routes.ProfilDoc()}>
+        <Link href={Routes.HomeMedecin()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
             <div className="flex items-center ">Mon compte</div>
           </Typography>
@@ -71,16 +71,6 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   if (currentUserQuerie == null) {
     buttons = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 ">
-        <Link href="">
-          <Button
-            variant="gradient"
-            size="sm"
-            className="drop-shadow-lg hidden lg:inline-block bg-transparent border-2 border-[#188CA5] rounded-full text-[#188CA5] font-Poppins text-base"
-          >
-            <span>Vous êtes médecin ou pharmacien ?</span>
-          </Button>
-        </Link>
-
         <Link href={Routes.LoginPage()}>
           <Button
             variant="gradient"

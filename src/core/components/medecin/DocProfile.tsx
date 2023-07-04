@@ -14,6 +14,7 @@ import MailIcon from "@mui/icons-material/Mail"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth"
 import Man4Icon from "@mui/icons-material/Man4"
 import HomeIcon from "@mui/icons-material/Home"
+import LocationOnIcon from "@mui/icons-material/LocationOn"
 import { loadBlitzRpcResolverFilesWithInternalMechanism, useMutation, useQuery } from "@blitzjs/rpc"
 
 type DocProfileProps = {
@@ -30,6 +31,7 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
   const month = String(birthdate.getMonth() + 1).padStart(2, "0")
   const day = String(birthdate.getDate()).padStart(2, "0")
   const formattedDate = `${day}-${month}-${year}`
+
   const handleSubmit = async (values) => {
     if (currentUser) {
       try {
@@ -41,12 +43,21 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
           firstName: currentUser.firstName,
           gender: currentUser.gender,
         })
-        await updateMedecinMutation({
+        const updatedMedecin = await updateMedecinMutation({
           userId: currentUser.id,
           rpps: currentUser.medecin.rpps,
           cabinet: values.cabinet,
           specialty: values.specialty,
+          numRue: values.numRue,
+          nomRue: values.nomRue,
+          codePostal: values.codePostal,
+          ville: values.ville,
         })
+        setCurrentUser((prevState) => ({
+          ...prevState,
+          ...values, // here it's assumed that `values` contains the updated user info
+          medecin: updatedMedecin,
+        }))
 
         setEditing(false)
       } catch (error) {
@@ -61,7 +72,7 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
 
   return (
     <div className="flex flex-col">
-      <Card className="w-96 bg-transparent absolute ml-40 m5">
+      <Card className="w-96 bg-transparent shadow-none absolute ml-40 m5">
         <Typography className="text-[#172048] text-3xl mb-5 font-bold ">Mon compte</Typography>
         <List>
           <ListItem className="mb-4">
@@ -104,6 +115,10 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
               email: currentUser.email,
               cabinet: currentUser.medecin.cabinet,
               specialty: currentUser.medecin.specialty,
+              numRue: currentUser.medecin.numRue,
+              nomRue: currentUser.medecin.nomRue,
+              codePostal: currentUser.medecin.codePostal,
+              ville: currentUser.medecin.ville,
             }}
             onSubmit={handleSubmit}
             className="ml-2"
@@ -153,6 +168,54 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
                     className="text-[#188CA5] text-2xl mb-5 "
                     name="specialty"
                     label={<label className="text-[#979797]">Specialty</label>}
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center">
+                <LocationOnIcon className="text-[#188CA5] mr-4 w-15 h-15" />
+                <div>
+                  <LabeledTextField
+                    style={{ height: "32px" }}
+                    className="text-[#188CA5] text-2xl mb-5 "
+                    name="numRue"
+                    label={<label className="text-[#979797]">Numéro de rue</label>}
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center">
+                <LocationOnIcon className="text-[#188CA5] mr-4 w-15 h-15" />
+                <div>
+                  <LabeledTextField
+                    style={{ height: "32px" }}
+                    className="text-[#188CA5] text-2xl mb-5 "
+                    name="nomRue"
+                    label={<label className="text-[#979797]">Rue</label>}
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center">
+                <LocationOnIcon className="text-[#188CA5] mr-4 w-15 h-15" />
+                <div>
+                  <LabeledTextField
+                    style={{ height: "32px" }}
+                    className="text-[#188CA5] text-2xl mb-5 "
+                    name="codePostal"
+                    label={<label className="text-[#979797]">Code postal</label>}
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div className="flex items-center">
+                <LocationOnIcon className="text-[#188CA5] mr-4 w-15 h-15" />
+                <div>
+                  <LabeledTextField
+                    style={{ height: "32px" }}
+                    className="text-[#188CA5] text-2xl mb-5 "
+                    name="ville"
+                    label={<label className="text-[#979797]">Ville</label>}
                     type="text"
                   />
                 </div>
@@ -210,6 +273,18 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
                   <Typography className="text-[#979797]  ">Specialty</Typography>
                   <Typography className="text-[#188CA5] text-2xl mb-5  ">
                     {currentUser?.medecin.specialty}
+                  </Typography>
+                </div>
+              </div>
+            </ListItem>
+            <ListItem>
+              <div className="flex items-center">
+                <Man4Icon className="text-[#188CA5] mr-4 w-15 h-15" />
+                <div>
+                  <Typography className="text-[#979797]  ">Adresse</Typography>
+                  <Typography className="text-[#188CA5] text-2xl mb-5  ">
+                    {currentUser?.medecin.numRue} rue {currentUser?.medecin.nomRue},{" "}
+                    {currentUser?.medecin.codePostal} {currentUser?.medecin.ville}
                   </Typography>
                 </div>
               </div>
