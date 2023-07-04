@@ -28,7 +28,7 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
             <div className="flex items-center ">Mes patients</div>
           </Typography>
         </Link>
-        <Link href={Routes.ProfilDoc()}>
+        <Link href={Routes.HomeMedecin()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
             <div className="flex items-center ">Mon compte</div>
           </Typography>
