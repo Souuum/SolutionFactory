@@ -44,7 +44,7 @@ const DocInfo = ({ currentUser, setCurrentUser }: DocInfoProps) => {
   }
 }
 
-const HomeMedecin: BlitzPage = () => {
+const ProfilDoc: BlitzPage = () => {
   var [currentUser, setCurrentUser] = useState<any>(null)
 
   return (
@@ -57,4 +57,4 @@ const HomeMedecin: BlitzPage = () => {
   )
 }
 
-export default HomeMedecin
+export default ProfilDoc

@@ -41,12 +41,16 @@ const PharmacistProfile = ({ setCurrentUser, currentUser }: PharmacistProfilePro
           firstName: currentUser.firstName,
           gender: currentUser.gender,
         })
-        await updatePharmacistMutation({
+        const updatedPharmacien = await updatePharmacistMutation({
           userId: currentUser.id,
           rpps: currentUser.pharmacien.rpps,
           pharmacy: values.pharmacy,
         })
-
+        setCurrentUser((prevState) => ({
+          ...prevState,
+          ...values,
+          pharmacien: updatedPharmacien,
+        }))
         setEditing(false)
       } catch (error) {
         return { [FORM_ERROR]: error.toString() }

@@ -28,7 +28,7 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
             <div className="flex items-center ">Mes patients</div>
           </Typography>
         </Link>
-        <Link href={Routes.HomeMedecin()}>
+        <Link href={Routes.ProfilDoc()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
             <div className="flex items-center ">Mon compte</div>
           </Typography>
@@ -84,16 +84,18 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
     )
   } else {
     buttons = (
-      <Button
-        onClick={async () => {
-          await logoutMutation()
-        }}
-        variant="gradient"
-        size="sm"
-        className="drop-shadow-lg hidden lg:inline-block bg-[#188CA5] rounded-full text-white font-Poppins text-base"
-      >
-        <span>Deconnexion</span>
-      </Button>
+      <Link href={Routes.LoginPage()}>
+        <Button
+          onClick={async () => {
+            await logoutMutation()
+          }}
+          variant="gradient"
+          size="sm"
+          className="drop-shadow-lg hidden lg:inline-block bg-[#188CA5] rounded-full text-white font-Poppins text-base"
+        >
+          <span>Deconnexion</span>
+        </Button>
+      </Link>
     )
   }
   return (

@@ -29,7 +29,7 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
   const handleSubmit = async (values) => {
     if (currentUser) {
       try {
-        await updatePatientMutation({
+        const updatedPatient = await updatePatientMutation({
           userId: currentUser.id,
           email: values.email,
           phone: values.phone,
@@ -37,6 +37,11 @@ const UserProfile = ({ setCurrentUser, currentUser }: UserProfileProps) => {
           firstName: currentUser.firstName,
           gender: currentUser.gender,
         })
+        setCurrentUser((prevState) => ({
+          ...prevState,
+          ...values,
+          currentUser: updatedPatient,
+        }))
 
         setEditing(false)
       } catch (error) {

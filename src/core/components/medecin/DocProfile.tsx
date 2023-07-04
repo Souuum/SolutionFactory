@@ -55,7 +55,7 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
         })
         setCurrentUser((prevState) => ({
           ...prevState,
-          ...values, // here it's assumed that `values` contains the updated user info
+          ...values,
           medecin: updatedMedecin,
         }))
 
@@ -279,7 +279,7 @@ const DocProfile = ({ setCurrentUser, currentUser }: DocProfileProps) => {
             </ListItem>
             <ListItem>
               <div className="flex items-center">
-                <Man4Icon className="text-[#188CA5] mr-4 w-15 h-15" />
+                <LocationOnIcon className="text-[#188CA5] mr-4 w-15 h-15" />
                 <div>
                   <Typography className="text-[#979797]  ">Adresse</Typography>
                   <Typography className="text-[#188CA5] text-2xl mb-5  ">
