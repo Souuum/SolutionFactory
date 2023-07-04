@@ -13,7 +13,7 @@ const LoginPage: BlitzPage = () => {
         <LoginForm
           onSuccess={(_user) =>
             _user.role.toLowerCase() == "pharmacist"
-              ? router.push(Routes.HomePharmacist())
+              ? router.push(Routes.ProfilPharmacien())
               : _user.role.toLowerCase() == "medecin"
               ? router.push(Routes.ProfilDoc())
               : _user.role.toLowerCase() == "patient" || _user.role.toLowerCase() == "superpatient"

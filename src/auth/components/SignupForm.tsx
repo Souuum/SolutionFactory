@@ -48,7 +48,7 @@ export const SignupForm = (props: SignupFormProps) => {
             submitText=<span className="text-white">Créer un compte</span>
             initialValues={{ email: "", password: "" }}
             onSubmit={async (values) => {
-              if (props.role?.toString().toUpperCase() == "PHARMACIEN") {
+              if (props.role?.toString().toUpperCase() == "PHARMACIST") {
                 values.role = "PHARMACIST"
               } else if (props.role?.toString().toUpperCase() == "PATIENT") {
                 values.role = "SUPERPATIENT"
@@ -120,7 +120,7 @@ export const SignupForm = (props: SignupFormProps) => {
                       return { [FORM_ERROR]: error.toString() }
                     }
                   }
-                } else if (props.role == "pharmacien") {
+                } else if (props.role == "pharmacist") {
                   try {
                     const pharmacist = {
                       userId: user.id,
@@ -182,7 +182,7 @@ export const SignupForm = (props: SignupFormProps) => {
                   <div className="flex-1 mt-3.5">
                     {" "}
                     {/* Left column */}
-                    {props.role === "pharmacien" ? <PharmacistSignupForm /> : null}
+                    {props.role === "pharmacist" ? <PharmacistSignupForm /> : null}
                     {props.role === "medecin" ? <MedecinSignupForm /> : null}
                   </div>
                 )}

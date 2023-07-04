@@ -16,6 +16,11 @@ export default async function getSpecificOrdonnance(token: string, { session }: 
     },
     include: {
       token: true,
+      patient: {
+        include: {
+          user: true,
+        },
+      },
       medecin: {
         include: {
           user: true,

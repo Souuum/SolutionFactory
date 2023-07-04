@@ -60,9 +60,15 @@ export default function OrdonnanceView(data: any) {
     console.log("Clic sur l'icône d'impression :", ordonnance)
   }
 
-  const handleDownloadClick = (ordonnance, event) => {
-    event.stopPropagation() // Arrêter la propagation de l'événement
-    console.log("Clic sur l'icône de téléchargement :", ordonnance)
+  const handleDownloadClick = async (ordonnance, event) => {
+    event.stopPropagation()
+    // Arrêter la propagation de l'événement
+    try {
+      console.log("Clic sur l'icône de téléchargement :", ordonnance)
+    } catch (error) {
+      // Gestion des erreurs ici
+      console.error(error)
+    }
   }
 
   const handleCloseClick = () => {

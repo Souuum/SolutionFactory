@@ -92,7 +92,7 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                   <div style={{ textAlign: "center" }}>
                     {patient.user.gender === "MAN" ? "Homme" : "Femme"}
                   </div>
-                  {patient.user.id == currentUser.id ? null : (
+                  {patient.user?.id == currentUser?.id ? null : (
                     <FontAwesomeIcon
                       icon={faUserSlash}
                       style={{ color: "#000000", fontSize: "20px" }}

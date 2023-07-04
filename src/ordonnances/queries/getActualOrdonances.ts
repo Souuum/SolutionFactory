@@ -20,6 +20,11 @@ export default async function getActualOrdonnances(_ = null, { session }: Ctx) {
       },
     },
     include: {
+      patient: {
+        include: {
+          user: true,
+        },
+      },
       medecin: {
         include: {
           user: true,

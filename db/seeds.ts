@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker"
 import { SecurePassword } from "@blitzjs/auth/secure-password"
 
 const seed = async () => {
-  for (let i = 1; i < 101; i++) {
+  for (let i = 101; i < 101; i++) {
     const gender = faker.datatype.boolean() ? "male" : "female"
     const firstName = faker.person.firstName(gender)
     const lastName = faker.person.lastName()
@@ -68,11 +68,11 @@ const seed = async () => {
     const rpps = faker.datatype.number({ min: 10000000000, max: 99999999999 }).toString()
 
     const speciality = faker.lorem.word()
-    const cabinet = faker.location.streetAddress()
+    const cabinet = faker.location.street()
     const numRue = faker.datatype.number({ min: 1, max: 999 }).toString()
-    const nomRue = faker.address.streetName()
-    const codePostal = faker.address.zipCode()
-    const ville = faker.address.city()
+    const nomRue = faker.location.streetName()
+    const codePostal = faker.location.zipCode()
+    const ville = faker.location.city()
 
     const user = await db.user.create({
       data: {

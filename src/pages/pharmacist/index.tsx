@@ -43,7 +43,7 @@ const PharmacienInfo = ({ currentUser, setCurrentUser }: DocInfoProps) => {
   }
 }
 
-const ProfilPharmatien: BlitzPage = () => {
+const ProfilPharmacien: BlitzPage = () => {
   var [currentUser, setCurrentUser] = useState<any>(null)
 
   return (
@@ -56,4 +56,4 @@ const ProfilPharmatien: BlitzPage = () => {
   )
 }
 
-export default ProfilPharmatien
+export default ProfilPharmacien

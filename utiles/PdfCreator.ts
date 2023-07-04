@@ -1,14 +1,8 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
 import fs from "fs"
 
-export default async function generateInvoicePDF(
-  patientName,
-  purchaseDate,
-  medecin,
-  patient,
-  prescription
-) {
-  console.log("buyerName", patientName)
+export default async function generateInvoicePDF(medecin, patient, prescription) {
+  console.log("buyerName", patient.name)
   console.log("purchaseDate", purchaseDate)
   console.log("baseAddress", medecin)
   console.log("facturationAddress", patient)
@@ -143,7 +137,7 @@ export default async function generateInvoicePDF(
 
   // Affichage des informations de l'acheteur
   const page = pdfDoc.addPage()
-  const patientInfo = `Ordonnance pour: ${patientName}`
+  const patientInfo = `Ordonnance pour: ${patient.name}`
   // const purchaseInfo = `Date de l'achat: ${purchaseDate.toLocaleDateString("fr-FR", {
   //   day: "2-digit",
   //   month: "2-digit",

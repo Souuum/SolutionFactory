@@ -20,8 +20,8 @@ const SignupPage: BlitzPage = () => {
         <SignupForm
           role={role}
           onSuccess={() =>
-            role == "pharmacien"
-              ? router.push(Routes.ProfilPharmatien())
+            role == "pharmacist"
+              ? router.push(Routes.ProfilPharmacien())
               : role == "medecin"
               ? router.push(Routes.ProfilDoc())
               : role == "patient"

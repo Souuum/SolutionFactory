@@ -24,19 +24,7 @@ const StatusWrapper = () => {
   if (currentUser) {
     return (
       <>
-        <div className="top-0 left-0 fixed">
-          <button
-            className={styles.button}
-            onClick={async () => {
-              await logoutMutation()
-            }}
-          >
-            Logout
-          </button>
-          <div>
-            Connecté en tant que : <code>{currentUser.lastName + " " + currentUser.firstName}</code>
-          </div>
-        </div>
+        <div className="top-0 left-0 fixed"></div>
         <div className="flex max-w-80 justify-center ">
           <TablePatient />
         </div>
