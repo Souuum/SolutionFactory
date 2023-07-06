@@ -1,5 +1,4 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
-//import fs from "fs"
 
 export default async function generateInvoicePDF(ordonnance) {
   const pdfDoc = await PDFDocument.create()
@@ -17,6 +16,7 @@ export default async function generateInvoicePDF(ordonnance) {
     console.log(fields)
     fields.forEach(({ label, value }) => {
       console.log(value)
+      console.log(typeof value)
       drawText(page, label, x, currentY)
       drawText(page, value.toString(), x + 120, currentY)
       currentY -= lineHeight
@@ -40,12 +40,9 @@ export default async function generateInvoicePDF(ordonnance) {
       currentY -= lineHeight
       currentY -= lineHeight
 
-      drawText(page, `Matin: ${morning === 0 ? "Oui" : "Non"}`, x, currentY, rgb(0, 0, 0), 12)
-      currentY -= lineHeight
-
       drawText(
         page,
-        `Après-midi: ${afternoon === 0 ? "Oui" : "Non"}`,
+        `Matin: ${morning === 0 ? "Non" : morning.toString()}`,
         x,
         currentY,
         rgb(0, 0, 0),
@@ -53,7 +50,24 @@ export default async function generateInvoicePDF(ordonnance) {
       )
       currentY -= lineHeight
 
-      drawText(page, `Soir: ${evening === 0 ? "Oui" : "Non"}`, x, currentY, rgb(0, 0, 0), 12)
+      drawText(
+        page,
+        `Après-midi: ${afternoon === 0 ? "Non" : afternoon.toString()}`,
+        x,
+        currentY,
+        rgb(0, 0, 0),
+        12
+      )
+      currentY -= lineHeight
+
+      drawText(
+        page,
+        `Soir: ${evening === 0 ? "Non" : evening.toString()}`,
+        x,
+        currentY,
+        rgb(0, 0, 0),
+        12
+      )
       currentY -= lineHeight
 
       currentY -= lineHeight
@@ -100,6 +114,11 @@ export default async function generateInvoicePDF(ordonnance) {
 
   const pdfBytes = await pdfDoc.save()
   const fileName = "ordonnance.pdf"
-  //fs.writeFileSync(fileName, pdfBytes)
+  const downloadLink = document.createElement("a")
+  downloadLink.href = URL.createObjectURL(new Blob([pdfBytes], { type: "application/pdf" }))
+  downloadLink.download = fileName
+
   console.log(`Le fichier ${fileName} a été généré avec succès.`)
+
+  downloadLink.click()
 }

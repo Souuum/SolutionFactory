@@ -67,7 +67,7 @@ export default function OrdonnanceView(data: any) {
     try {
       console.log(ordonnance)
       console.log("Clic sur l'icône de téléchargement :", ordonnance)
-      const pdf = generateInvoicePDF(ordonnance)
+      const pdf = await generateInvoicePDF(ordonnance)
     } catch (error) {
       // Gestion des erreurs ici
       console.error(error)
