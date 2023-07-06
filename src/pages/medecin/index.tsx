@@ -50,7 +50,7 @@ const ProfilDoc: BlitzPage = () => {
   return (
     <div>
       <NavBar setCurrentUser={setCurrentUser} />
-      <div>
+      <div className="mt-5">
         <DocInfo currentUser={currentUser} setCurrentUser={setCurrentUser} />
       </div>
     </div>
