@@ -161,7 +161,7 @@ const FormPrescription = (props: PrescriptionProps) => {
   return (
     <div>
       <Form
-        submitText="Créer l'ordonnance"
+        submitText=<span className="text-white">Créer l'ordonnance</span>
         schema={prescription}
         initialValues={{
           ordonnanceId: 0,
@@ -178,9 +178,9 @@ const FormPrescription = (props: PrescriptionProps) => {
       >
         <div className="grid grid-cols-3">
           {prescriptions.map((prescription, index) => (
-            <div key={index} className="flex flex-col bg-sky-200/20 p-4 m-1 rounded-lg ">
+            <div key={index} className="flex flex-col p-4 m-1 rounded-lg ">
               <LabeledTextField
-                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 max-w-xs border-solid appearance-none mt-2"
+                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 w-1/2 max-w-xs border-solid appearance-none mt-2"
                 name={`drug-${index}`}
                 label="médicament"
                 placeholder="médicament"
@@ -188,7 +188,7 @@ const FormPrescription = (props: PrescriptionProps) => {
                 onChange={(e) => handlePrescriptionChange(index, "drug", e.target.value)}
               />
               <LabeledTextField
-                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 max-w-xs border-solid appearance-none mt-2"
+                className="w-96 text-base py-1 px-2 rounded border-b border-b-cyan-700 w-1/2 max-w-xs border-solid appearance-none mt-2"
                 name={`description-${index}`}
                 label="description"
                 placeholder="description"
@@ -197,25 +197,25 @@ const FormPrescription = (props: PrescriptionProps) => {
               />
               <div className="flex flex-row justify-between">
                 <LabeledTextField
-                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12  border-solid appearance-none mt-2"
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 w-12  border-solid appearance-none mt-2"
                   name={`morning-${index}`}
-                  label="morning"
+                  label="matin"
                   placeholder="morning"
                   value={prescription.morning}
                   onChange={(e) => handlePrescriptionChange(index, "morning", e.target.value)}
                 />
                 <LabeledTextField
-                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12 border-solid appearance-none mt-2"
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 w-12 border-solid appearance-none mt-2"
                   name={`afternoon-${index}`}
-                  label="afternoon"
+                  label="après-midi"
                   placeholder="afternoon"
                   value={prescription.afternoon}
                   onChange={(e) => handlePrescriptionChange(index, "afternoon", e.target.value)}
                 />
                 <LabeledTextField
-                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12 border-solid appearance-none mt-2"
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700  w-12 border-solid appearance-none mt-2"
                   name={`evening-${index}`}
-                  label="evening"
+                  label="soir"
                   placeholder="evening"
                   value={prescription.evening}
                   onChange={(e) => handlePrescriptionChange(index, "evening", e.target.value)}
@@ -223,7 +223,7 @@ const FormPrescription = (props: PrescriptionProps) => {
               </div>
               <div className="flex flex-row justify-between">
                 <LabeledTextField
-                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-12 border-solid appearance-none mt-2"
+                  className="w-12 text-base py-1 px-2 rounded border-b border-b-cyan-700  w-12 border-solid appearance-none mt-2"
                   name={`expiration-${index}`}
                   label="Durée du traitement en jour"
                   placeholder="expiration"

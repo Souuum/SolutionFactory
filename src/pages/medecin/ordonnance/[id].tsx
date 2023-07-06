@@ -62,25 +62,28 @@ const StatusWrapper = () => {
           </button>
         </div>
         <div className="flex flex-col justify-center items-center w-screen">
+          <h1 className="text-[#172048] text-3xl mb-5 font-bold "> Nouvelle ordonnance</h1>
+          <h1 className="text-[#172048] text-lg mb-5 font-bold ">
+            {" "}
+            {patient?.user.lastName + " " + patient?.user.firstName}{" "}
+          </h1>
           <div>
-            <h1>Current Patient : {patient?.user.lastName + " " + patient?.user.firstName} </h1>
+            <h1 className="pb-4"> Sélectionnez le type d'ordonnance </h1>
+            <select
+              value={selectedOrdonnanceType}
+              onChange={(e) => setSelectedOrdonnanceType(e.target.value)}
+            >
+              <option value="">Select Ordonnance Type</option>
+              {ordonnanceTypes.map((type) => (
+                <option key={type.value} value={type.value}>
+                  {type.label}
+                </option>
+              ))}
+            </select>
           </div>
           <div className="flex justify-center w-screen">
-            <div className="">
-              <h1> Sélectionnez le type d'ordonnance </h1>
-              <select
-                value={selectedOrdonnanceType}
-                onChange={(e) => setSelectedOrdonnanceType(e.target.value)}
-              >
-                <option value="">Select Ordonnance Type</option>
-                {ordonnanceTypes.map((type) => (
-                  <option key={type.value} value={type.value}>
-                    {type.label}
-                  </option>
-                ))}
-              </select>
-              <FormPrescription {...{ patientId, patientAge, createdBy, selectedOrdonnanceType }} />
-            </div>
+            <FormPrescription {...{ patientId, patientAge, createdBy, selectedOrdonnanceType }} />
+
             <br />
           </div>
         </div>
