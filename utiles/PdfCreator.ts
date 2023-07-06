@@ -1,13 +1,6 @@
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib"
-import fs from "fs"
 
-export default async function generateInvoicePDF(
-  patientName,
-  purchaseDate,
-  medecin,
-  patient,
-  prescription
-) {
+export default async function generateInvoicePDF(ordonnance) {
   const pdfDoc = await PDFDocument.create()
   const font = await pdfDoc.embedFont(StandardFonts.Helvetica)
 
@@ -20,7 +13,10 @@ export default async function generateInvoicePDF(
     let currentY = y
     drawText(page, title, x, currentY, rgb(0, 0, 0), 15)
     currentY -= lineHeight
+    console.log(fields)
     fields.forEach(({ label, value }) => {
+      console.log(value)
+      console.log(typeof value)
       drawText(page, label, x, currentY)
       drawText(page, value.toString(), x + 120, currentY)
       currentY -= lineHeight
@@ -34,9 +30,9 @@ export default async function generateInvoicePDF(
 
     drawText(page, "Prescription", 50, currentY, rgb(0, 0.5, 0.9), 18)
     currentY -= 40
-
-    products.forEach(({ drugs, description, morning, afternoon, evening }) => {
-      drawText(page, drugs.toString(), x, currentY, rgb(0, 0, 0), 14)
+    console.log(products)
+    products.forEach(({ drug, description, morning, afternoon, evening }) => {
+      drawText(page, drug.toString(), x, currentY, rgb(0, 0, 0), 14)
       currentY -= lineHeight
       currentY -= lineHeight
 
@@ -44,12 +40,9 @@ export default async function generateInvoicePDF(
       currentY -= lineHeight
       currentY -= lineHeight
 
-      drawText(page, `Matin: ${morning === 0 ? "Oui" : "Non"}`, x, currentY, rgb(0, 0, 0), 12)
-      currentY -= lineHeight
-
       drawText(
         page,
-        `Après-midi: ${afternoon === 0 ? "Oui" : "Non"}`,
+        `Matin: ${morning === 0 ? "Non" : morning.toString()}`,
         x,
         currentY,
         rgb(0, 0, 0),
@@ -57,7 +50,24 @@ export default async function generateInvoicePDF(
       )
       currentY -= lineHeight
 
-      drawText(page, `Soir: ${evening === 0 ? "Oui" : "Non"}`, x, currentY, rgb(0, 0, 0), 12)
+      drawText(
+        page,
+        `Après-midi: ${afternoon === 0 ? "Non" : afternoon.toString()}`,
+        x,
+        currentY,
+        rgb(0, 0, 0),
+        12
+      )
+      currentY -= lineHeight
+
+      drawText(
+        page,
+        `Soir: ${evening === 0 ? "Non" : evening.toString()}`,
+        x,
+        currentY,
+        rgb(0, 0, 0),
+        12
+      )
       currentY -= lineHeight
 
       currentY -= lineHeight
@@ -68,19 +78,19 @@ export default async function generateInvoicePDF(
   const page = pdfDoc.addPage()
 
   // Affichage du nom du patient
-  drawText(page, patientName, 50, 750, rgb(0, 0, 0), 16)
+  drawText(page, ordonnance.patient.user.lastName, 50, 750, rgb(0, 0, 0), 16)
 
   // Affichage de la date de prescription
-  drawText(page, `Date: ${purchaseDate.toLocaleDateString("fr-FR")}`, 50, 720)
+  drawText(page, `Date: ${ordonnance.createdAt.toLocaleDateString("fr-FR")}`, 50, 720)
 
   // Affichage des informations du médecin
   drawSection(
     page,
     "Médecin",
     [
-      { label: "Docteur:", value: medecin.name },
-      { label: "Cabinet:", value: medecin.cabinet },
-      { label: "Spécialité:", value: medecin.speciality },
+      { label: "Docteur:", value: ordonnance.medecin.user.lastName },
+      { label: "Cabinet:", value: ordonnance.medecin.cabinet },
+      { label: "Spécialité:", value: ordonnance.medecin.specialty },
     ],
     50,
     680
@@ -91,19 +101,24 @@ export default async function generateInvoicePDF(
     page,
     "Patient",
     [
-      { label: "Nom:", value: patient.name },
-      { label: "Date de naissance:", value: patient.birthDate },
-      { label: "Sécurité sociale:", value: patient.securityNumber },
+      { label: "Nom:", value: ordonnance.patient.user.lastName },
+      { label: "Date de naissance:", value: ordonnance.patient.user.birthDate },
+      { label: "Sécurité sociale:", value: ordonnance.patient.securityNumber },
     ],
     50,
     600
   )
 
   // Affichage de la liste des prescriptions
-  drawProductList(page, prescription, 50, 450)
+  drawProductList(page, ordonnance.prescriptions, 50, 450)
 
   const pdfBytes = await pdfDoc.save()
   const fileName = "ordonnance.pdf"
-  fs.writeFileSync(fileName, pdfBytes)
+  const downloadLink = document.createElement("a")
+  downloadLink.href = URL.createObjectURL(new Blob([pdfBytes], { type: "application/pdf" }))
+  downloadLink.download = fileName
+
   console.log(`Le fichier ${fileName} a été généré avec succès.`)
+
+  downloadLink.click()
 }

@@ -14,6 +14,7 @@ import { useSpecificOrdonnance } from "src/ordonnances/hooks/useSpecificOrdonnan
 import OrdonnanceDetails from "src/ordonnances/components/OrdonnanceDetails"
 import getSpecificOrdonnance from "src/ordonnances/queries/getSpecificOrdonnance"
 import { useQuery } from "@blitzjs/rpc"
+import TableDrugs from "src/drug/components/TableDrugs"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -33,25 +34,24 @@ const StatusWrapper = () => {
   if (currentUser) {
     return (
       <>
-        <div className=" mt-8 pt-8 flex flex-col   items-center h-screen ">
-          <h1 className="text-[#172048] text-3xl mb-8 font-bold "> Lire une ordonnance</h1>
-          <div>
-            <input
-              type="text"
-              value={token}
-              onChange={(e) => setToken(e.target.value)}
-              placeholder="Entrer le code"
-              className="p-2 border border-gray-400 rounded"
-            />
-            <button
-              onClick={handleClick}
-              className="ml-2 px-4 py-2 drop-shadow-lg hidden lg:inline-block bg-[#188CA5]  text-white font-Poppins text-base"
-            >
-              Voir l'ordonnance
-            </button>
-            {showOrdonnanceDetails && <OrdonnanceDetails token={token} />}
-          </div>
+        <div className="flex flex-col"></div>
+        <div className="flex flex-row justify-center space-x-3">
+          <input
+            type="text"
+            value={token}
+            onChange={(e) => setToken(e.target.value)}
+            placeholder="Token"
+            className="ml-10 rounded-lg border-transparent appearance-none border border-gray-300 w-[240px] py-2 px-4 bg-white text-gray-700 placeholder-gray-400 text-base focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent"
+          />
+          <button
+            onClick={handleClick}
+            className="flex-shrink-0 px-4 py-2 text-base font-semibold text-white bg-indigo-500 rounded-lg hover:bg-indigo-700 focus:outline-none"
+          >
+            Récupérer l'ordonnance
+          </button>
+          {showOrdonnanceDetails && <OrdonnanceDetails token={token} />}
         </div>
+        <TableDrugs />
       </>
     )
   } else {

@@ -10,6 +10,7 @@ import DownloadIcon from "@mui/icons-material/Download"
 import CloseIcon from "@mui/icons-material/Close"
 import OrdonnanceDetails from "./OrdonnanceDetails"
 import createTokenOrdonnance from "src/tokenOrdonnance/mutations/createTokenOrdonnance"
+import generateInvoicePDF from "utiles/PdfCreator"
 import { set } from "zod"
 interface Ordonnance {
   id: number
@@ -64,7 +65,9 @@ export default function OrdonnanceView(data: any) {
     event.stopPropagation()
     // Arrêter la propagation de l'événement
     try {
+      console.log(ordonnance)
       console.log("Clic sur l'icône de téléchargement :", ordonnance)
+      const pdf = await generateInvoicePDF(ordonnance)
     } catch (error) {
       // Gestion des erreurs ici
       console.error(error)
