@@ -38,9 +38,9 @@ const NavBarComponent = ({ setCurrentUser }: NavBarCompProps) => {
   } else if (currentUserQuerie?.role == "PHARMACIST") {
     navList = (
       <ul className="mb-4 mt-2 flex flex-col lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6 text-[#CACBCB]">
-        <Link href={Routes.DrugPage()}>
+        <Link href={Routes.ReadOrdonnance()}>
           <Typography as="li" variant="small" className="p-1 font-normal text-base mr-12">
-            <div className="flex items-center ">Médicaments</div>
+            <div className="flex items-center ">Gestion des médicaments</div>
           </Typography>
         </Link>
         <Link href={Routes.ProfilPharmacist()}>
