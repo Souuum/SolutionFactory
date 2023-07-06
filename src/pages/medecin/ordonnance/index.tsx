@@ -12,6 +12,7 @@ import { PatientTable } from "src/patient/components/PatientTable"
 import TablePatient from "src/patient/components/TablePatient"
 import { useEffect, useState } from "react"
 import NavBar from "src/core/components/NavBar"
+import { Button } from "@material-tailwind/react"
 /*
  * This file is just for a pleasant getting started page for your new app.
  * You can delete everything in here and start from scratch if you like.
@@ -36,9 +37,13 @@ const StatusWrapper = () => {
         <h1 className="text-dark text-3xl">
           Vous devez être connecté pour avoir accès à cette section
         </h1>
-        <Link href={Routes.LoginPage()} className={styles.loginButton}>
-          <strong>Login</strong>
-        </Link>
+        <Button
+          variant="gradient"
+          size="sm"
+          className="drop-shadow-lg hidden lg:inline-block bg-[#188CA5] rounded-full text-white font-Poppins text-2xl"
+        >
+          <span>Se connecter</span>
+        </Button>
       </>
     )
   }

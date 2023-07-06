@@ -33,20 +33,25 @@ const StatusWrapper = () => {
   if (currentUser) {
     return (
       <>
-        <div className="top-0 left-0 fixed"></div>
-
-        <input
-          type="text"
-          value={token}
-          onChange={(e) => setToken(e.target.value)}
-          placeholder="Enter the token value"
-          className="p-2 border border-gray-400 rounded"
-        />
-        <button onClick={handleClick} className="ml-2 px-4 py-2 bg-blue-500 text-white rounded">
-          Fetch Ordonnance
-        </button>
-        {showOrdonnanceDetails && <OrdonnanceDetails token={token} />}
-        <div className="flex max-w-80 justify-center "></div>
+        <div className=" mt-8 pt-8 flex flex-col   items-center h-screen ">
+          <h1 className="text-[#172048] text-3xl mb-8 font-bold "> Lire une ordonnance</h1>
+          <div>
+            <input
+              type="text"
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+              placeholder="Entrer le code"
+              className="p-2 border border-gray-400 rounded"
+            />
+            <button
+              onClick={handleClick}
+              className="ml-2 px-4 py-2 drop-shadow-lg hidden lg:inline-block bg-[#188CA5]  text-white font-Poppins text-base"
+            >
+              Voir l'ordonnance
+            </button>
+            {showOrdonnanceDetails && <OrdonnanceDetails token={token} />}
+          </div>
+        </div>
       </>
     )
   } else {

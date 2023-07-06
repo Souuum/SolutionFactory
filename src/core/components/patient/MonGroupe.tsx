@@ -192,7 +192,7 @@ const GroupeComponents = ({ getCurrentUser, currentUser }: GroupeComponentProps)
                     Ajouter un membre
                   </Typography>
                   <LabeledTextField
-                    className="w-auto text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
+                    className="w-3/4 text-base py-1 px-2 rounded border-b border-b-cyan-700 bg-sky-100 w-1/2 border-solid appearance-none mt-2"
                     name="email"
                     label="Email"
                     placeholder="Email"

@@ -56,10 +56,16 @@ const HomePatient: BlitzPage = () => {
   return (
     <div>
       <NavBar setCurrentUser={setCurrentUser} />
-      <div>
-        <MesPrescriptions setCurrentUser={setCurrentUser} currentUser={currentUser} />
-        <MesOrdonnances setCurrentUser={setCurrentUser} currentUser={currentUser} />
-        <MonGroupe setCurrentUser={setCurrentUser} currentUser={currentUser} />
+      <div className=" mt-12 ml-12">
+        <div className="mb-8">
+          <MesPrescriptions setCurrentUser={setCurrentUser} currentUser={currentUser} />
+        </div>
+        <div className="mb-8">
+          <MesOrdonnances setCurrentUser={setCurrentUser} currentUser={currentUser} />
+        </div>
+        <div>
+          <MonGroupe setCurrentUser={setCurrentUser} currentUser={currentUser} />
+        </div>
       </div>
     </div>
   )

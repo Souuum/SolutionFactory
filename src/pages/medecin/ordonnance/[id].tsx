@@ -13,6 +13,7 @@ import { useEffect, useState } from "react"
 import FormPrescription from "src/prescription/components/FormPrescription"
 import { useCurrentMedecin } from "src/medecin/hooks/useCurrentMedecin"
 import NavBar from "src/core/components/NavBar"
+import { Button } from "@material-tailwind/react"
 
 const StatusWrapper = () => {
   const currentUser = useCurrentUser()
@@ -51,16 +52,6 @@ const StatusWrapper = () => {
   if (currentUser) {
     return (
       <>
-        <div className="top-0 left-0 fixed">
-          <button
-            className={styles.button}
-            onClick={async () => {
-              await logoutMutation()
-            }}
-          >
-            Logout
-          </button>
-        </div>
         <div className="flex flex-col justify-center items-center w-screen">
           <h1 className="text-[#172048] text-3xl mb-5 font-bold "> Nouvelle ordonnance</h1>
           <h1 className="text-[#172048] text-lg mb-5 font-bold ">
@@ -91,14 +82,20 @@ const StatusWrapper = () => {
     )
   } else {
     return (
-      <>
+      <div className="justify-center items-center">
         <h1 className="text-dark text-3xl">
           Vous devez être connecté pour avoir accès à cette section
         </h1>
-        <Link href={Routes.LoginPage()} className={styles.loginButton}>
-          <strong>Login</strong>
+        <Link href={Routes.LoginPage()}>
+          <Button
+            variant="gradient"
+            size="sm"
+            className="drop-shadow-lg hidden lg:inline-block bg-[#188CA5] rounded-full text-white font-Poppins text-2xl"
+          >
+            <span>Se connecter</span>
+          </Button>
         </Link>
-      </>
+      </div>
     )
   }
 }

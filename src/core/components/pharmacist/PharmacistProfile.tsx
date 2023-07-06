@@ -64,7 +64,7 @@ const PharmacistProfile = ({ setCurrentUser, currentUser }: PharmacistProfilePro
 
   return (
     <div>
-      <Card className="w-96 bg-transparent absolute ml-40 m5">
+      <Card className="w-96 bg-transparent mt-8 pt-8 shadow-none absolute ml-40 m5">
         <Typography className="text-[#172048] text-3xl mb-5 font-bold ">Mon compte</Typography>
         <List>
           <ListItem className="mb-4">
