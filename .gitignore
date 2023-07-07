@@ -21,7 +21,7 @@ blitz-log.
 ./db/migrations/
 # misc
 .DS_Store
-
+.mp4
 # local env files
 
 .envrc

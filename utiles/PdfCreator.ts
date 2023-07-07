@@ -78,7 +78,17 @@ export default async function generateInvoicePDF(ordonnance) {
   const page = pdfDoc.addPage()
 
   // Affichage du nom du patient
-  drawText(page, ordonnance.patient.user.lastName, 50, 750, rgb(0, 0, 0), 16)
+  drawText(
+    page,
+    "Ordonnnance pour " +
+      ordonnance.patient.user.lastName +
+      " " +
+      ordonnance.patient.user.firstName,
+    50,
+    750,
+    rgb(0, 0, 0),
+    16
+  )
 
   // Affichage de la date de prescription
   drawText(page, `Date: ${ordonnance.createdAt.toLocaleDateString("fr-FR")}`, 50, 720)
@@ -88,7 +98,10 @@ export default async function generateInvoicePDF(ordonnance) {
     page,
     "Médecin",
     [
-      { label: "Docteur:", value: ordonnance.medecin.user.lastName },
+      {
+        label: "Docteur:",
+        value: ordonnance.medecin.user.lastName + " " + ordonnance.medecin.user.firstName,
+      },
       { label: "Cabinet:", value: ordonnance.medecin.cabinet },
       { label: "Spécialité:", value: ordonnance.medecin.specialty },
     ],
@@ -101,8 +114,14 @@ export default async function generateInvoicePDF(ordonnance) {
     page,
     "Patient",
     [
-      { label: "Nom:", value: ordonnance.patient.user.lastName },
-      { label: "Date de naissance:", value: ordonnance.patient.user.birthDate },
+      {
+        label: "Nom:",
+        value: ordonnance.patient.user.lastName + " " + ordonnance.patient.user.firstName,
+      },
+      {
+        label: "Date de naissance:",
+        value: ordonnance.patient.user.birthDate.toLocaleDateString("fr-FR"),
+      },
       { label: "Sécurité sociale:", value: ordonnance.patient.securityNumber },
     ],
     50,

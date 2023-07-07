@@ -107,6 +107,7 @@ const FormPrescription = (props: PrescriptionProps) => {
     const createdPrescriptions = []
     try {
       if (prescriptions.some((prescription) => isEmptyPrescription(prescription))) {
+        console.log(prescriptions)
         console.error("One or more prescriptions are empty or prescription type is missing")
         return // Don't proceed with API call if any prescription is empty
       }
@@ -153,6 +154,7 @@ const FormPrescription = (props: PrescriptionProps) => {
       }
 
       console.log(createdPrescriptions)
+      alert("L'ordonnance a été créée")
     } catch (error) {
       console.error(error)
     }

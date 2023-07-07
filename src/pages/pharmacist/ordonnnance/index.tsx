@@ -49,6 +49,8 @@ const StatusWrapper = () => {
           >
             Récupérer l'ordonnance
           </button>
+        </div>
+        <div className=" mx-auto mb-10   w-[480px]">
           {showOrdonnanceDetails && <OrdonnanceDetails token={token} />}
         </div>
         <TableDrugs />
